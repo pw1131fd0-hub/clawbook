@@ -76,6 +76,30 @@ services:
     networks:
       - lobster-net
 
+  # ─── Smoke Test (optional, run with --profile smoke-test) ───────────────
+  smoke-test:
+    image: curlimages/curl:latest
+    container_name: lobster-smoke-test
+    depends_on:
+      backend:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    environment:
+      BACKEND_URL: http://backend:8000
+      AI_ENGINE_URL: http://ai-engine:8001
+      FRONTEND_URL: http://frontend:80
+    volumes:
+      - ./scripts/smoke_test.sh:/smoke_test.sh:ro
+    entrypoint: ["/bin/sh", "/smoke_test.sh"]
+    restart: "no"
+    profiles:
+      - smoke-test
+    networks:
+      - lobster-net
+
   # ─── Ollama (Optional Local LLM) ─────────────────────────────────────────
   ollama:
     image: ollama/ollama:latest
