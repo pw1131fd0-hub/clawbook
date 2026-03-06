@@ -1,7 +1,12 @@
 """Service layer for Kubernetes pod listing and context collection."""
+import logging
 from typing import Optional
 from kubernetes import client
+from kubernetes.client.exceptions import ApiException
+from urllib3.exceptions import MaxRetryError, ReadTimeoutError
 from backend.models.schemas import PodInfo, PodListResponse
+
+logger = logging.getLogger(__name__)
 
 _K8S_LIST_TIMEOUT = 30   # seconds – used for pod/event list calls
 _K8S_READ_TIMEOUT = 15   # seconds – used for single-object reads
@@ -71,9 +76,19 @@ class PodService:
                 _request_timeout=_K8S_LIST_TIMEOUT,
             )
             event_lines = [f"{e.reason}: {e.message}" for e in events.items[-10:]]
-            context["describe"] = f"Phase: {phase}\nContainerStatuses: {container_statuses}\nEvents:\n" + "\n".join(event_lines)
+            context["describe"] = (
+                f"Phase: {phase}\nContainerStatuses: {container_statuses}\nEvents:\n"
+                + "\n".join(event_lines)
+            )
 
+        except (ReadTimeoutError, MaxRetryError) as e:
+            logger.warning("K8s API timed out describing pod %s/%s: %s", namespace, pod_name, e)
+            context["describe"] = f"K8s API timed out while describing pod (limit={_K8S_READ_TIMEOUT}s): {e}"
+        except ApiException as e:
+            logger.warning("K8s API error describing pod %s/%s: HTTP %s", namespace, pod_name, e.status)
+            context["describe"] = f"K8s API error ({e.status}): {e.reason}"
         except Exception as e:
+            logger.error("Unexpected error describing pod %s/%s: %s", namespace, pod_name, e)
             context["describe"] = f"Could not describe pod: {e}"
 
         try:
@@ -81,7 +96,14 @@ class PodService:
                 name=pod_name, namespace=namespace, tail_lines=100, _request_timeout=_K8S_LOG_TIMEOUT
             )
             context["logs"] = logs
+        except (ReadTimeoutError, MaxRetryError) as e:
+            logger.warning("K8s API timed out fetching logs for %s/%s: %s", namespace, pod_name, e)
+            context["logs"] = f"K8s API timed out fetching logs (limit={_K8S_LOG_TIMEOUT}s): {e}"
+        except ApiException as e:
+            logger.warning("K8s API error fetching logs for %s/%s: HTTP %s", namespace, pod_name, e.status)
+            context["logs"] = f"K8s API error fetching logs ({e.status}): {e.reason}"
         except Exception as e:
+            logger.error("Unexpected error fetching logs for %s/%s: %s", namespace, pod_name, e)
             context["logs"] = f"Could not retrieve logs: {e}"
 
         return context
