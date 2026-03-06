@@ -1,6 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional, List
 from datetime import datetime
+import re
+
+_POD_NAME_RE = re.compile(r'^[a-z0-9]([a-z0-9\-]{0,251}[a-z0-9])?$')
+_YAML_MAX_BYTES = 512 * 1024  # 512 KB
 
 
 class PodInfo(BaseModel):
@@ -20,6 +24,13 @@ class DiagnoseRequest(BaseModel):
     namespace: str = "default"
     force: bool = False
 
+    @field_validator("namespace")
+    @classmethod
+    def validate_namespace(cls, v: str) -> str:
+        if not re.match(r'^[a-z0-9]([a-z0-9\-]{0,251}[a-z0-9])?$', v):
+            raise ValueError("namespace must be a valid Kubernetes name (lowercase alphanumeric and hyphens)")
+        return v
+
 
 class DiagnoseResponse(BaseModel):
     pod_name: str
@@ -34,6 +45,13 @@ class DiagnoseResponse(BaseModel):
 class YamlScanRequest(BaseModel):
     yaml_content: str
     filename: Optional[str] = "manifest.yaml"
+
+    @field_validator("yaml_content")
+    @classmethod
+    def validate_yaml_size(cls, v: str) -> str:
+        if len(v.encode("utf-8")) > _YAML_MAX_BYTES:
+            raise ValueError(f"yaml_content exceeds maximum allowed size of {_YAML_MAX_BYTES // 1024} KB")
+        return v
 
 
 class YamlIssue(BaseModel):

@@ -8,6 +8,8 @@ class GeminiAnalyzer(BaseAnalyzer):
 
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY", "")
+        if not api_key:
+            raise EnvironmentError("GEMINI_API_KEY environment variable is not set or is empty")
         genai.configure(api_key=api_key)
         self._model_id = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
         self._model = genai.GenerativeModel(self._model_id)

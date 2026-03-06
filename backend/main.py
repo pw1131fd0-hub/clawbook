@@ -31,12 +31,23 @@ app = FastAPI(title='Lobster K8s Copilot API', version='1.0.0', lifespan=lifespa
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)  # type: ignore[arg-type]
 
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "")
+_allow_origins = [o.strip() for o in _raw_origins.split(",") if o.strip()] if _raw_origins else []
+_is_wildcard = not _allow_origins
+
+if _is_wildcard:
+    import logging
+    logging.getLogger(__name__).warning(
+        "ALLOWED_ORIGINS is not set — CORS is restricted to same-origin only. "
+        "Set ALLOWED_ORIGINS to a comma-separated list of trusted origins for cross-origin access."
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=_allow_origins if not _is_wildcard else [],
+    allow_credentials=not _is_wildcard,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 app.include_router(v1_router, prefix="/api/v1")
@@ -53,8 +64,8 @@ async def get_cluster_status(request: Request):
         v1 = client.CoreV1Api()
         v1.list_namespace(limit=1)
         return {"status": "connected"}
-    except Exception as e:
-        return {"status": "disconnected", "error": str(e)}
+    except Exception:
+        return {"status": "disconnected"}
 
 
 if __name__ == '__main__':
