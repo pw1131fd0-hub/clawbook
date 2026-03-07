@@ -139,3 +139,20 @@ def test_diagnose_pod_history_invalid_name_returns_422(client):
     """GET /api/v1/diagnose/history/{pod_name} with an invalid pod name should return 422."""
     response = client.get('/api/v1/diagnose/history/Invalid_Pod_Name!')
     assert response.status_code == 422
+
+
+def test_diagnose_pod_not_found_returns_404(client):
+    """POST /api/v1/diagnose/{pod_name} should return 404 when the pod does not exist."""
+    from kubernetes.client.exceptions import ApiException
+    from backend.controllers.diagnose_controller import _svc
+
+    mock_v1 = MagicMock()
+    mock_v1.read_namespaced_pod.side_effect = ApiException(status=404, reason="Not Found")
+    _svc._pod_service._v1 = mock_v1
+    try:
+        response = client.post('/api/v1/diagnose/missing-pod', json={'namespace': 'default'})
+    finally:
+        _svc._pod_service._v1 = None
+
+    assert response.status_code == 404
+    assert 'not found' in response.json()['detail'].lower()
