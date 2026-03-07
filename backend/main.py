@@ -23,6 +23,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
+    """Initialise the database and load Kubernetes configuration on application startup."""
     init_db()
     try:
         if os.getenv('KUBERNETES_SERVICE_HOST'):
@@ -64,7 +65,10 @@ app.include_router(v1_router, prefix="/api/v1")
 # both in local dev (frontend/build/) and inside a container image where the
 # build artefacts are copied alongside the backend.
 _FRONTEND_BUILD = pathlib.Path(
-    os.getenv("FRONTEND_BUILD_DIR", str(pathlib.Path(__file__).parent.parent / "frontend" / "build"))
+    os.getenv(
+        "FRONTEND_BUILD_DIR",
+        str(pathlib.Path(__file__).parent.parent / "frontend" / "build"),
+    )
 )
 if _FRONTEND_BUILD.is_dir():
     _STATIC_DIR = _FRONTEND_BUILD / "static"

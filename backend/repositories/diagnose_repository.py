@@ -9,7 +9,12 @@ class DiagnoseRepository:
 
     def get_history(self, db: Session, limit: int = 50) -> list[DiagnoseHistoryRecord]:
         """Return the most recent diagnosis records, ordered by creation time descending."""
-        records = db.query(DiagnoseHistory).order_by(DiagnoseHistory.created_at.desc()).limit(limit).all()
+        records = (
+            db.query(DiagnoseHistory)
+            .order_by(DiagnoseHistory.created_at.desc())
+            .limit(limit)
+            .all()
+        )
         return [DiagnoseHistoryRecord.model_validate(r) for r in records]
 
     def get_by_pod(self, db: Session, pod_name: str) -> list[DiagnoseHistoryRecord]:

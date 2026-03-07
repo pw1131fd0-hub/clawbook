@@ -4,8 +4,8 @@ import os
 from typing import Any
 import httpx
 import yaml
-from backend.models.schemas import YamlIssue, YamlScanResponse
 from deepdiff import DeepDiff
+from backend.models.schemas import YamlIssue, YamlScanResponse
 
 logger = logging.getLogger(__name__)
 
@@ -17,43 +17,64 @@ ANTI_PATTERN_RULES: list[dict[str, Any]] = [
     {
         "id": "no-resource-limits",
         "severity": "ERROR",
-        "message": "Container '{container}' is missing CPU/Memory resource limits. Set resources.limits to prevent OOM.",
+        "message": (
+            "Container '{container}' is missing CPU/Memory resource limits."
+            " Set resources.limits to prevent OOM."
+        ),
         "check": lambda c: not (c.get("resources", {}).get("limits")),
     },
     {
         "id": "no-resource-requests",
         "severity": "WARNING",
-        "message": "Container '{container}' is missing resource requests. Set resources.requests for proper scheduling.",
+        "message": (
+            "Container '{container}' is missing resource requests."
+            " Set resources.requests for proper scheduling."
+        ),
         "check": lambda c: not (c.get("resources", {}).get("requests")),
     },
     {
         "id": "privileged-container",
         "severity": "ERROR",
-        "message": "Container '{container}' is running in privileged mode. Remove securityContext.privileged or set to false.",
+        "message": (
+            "Container '{container}' is running in privileged mode."
+            " Remove securityContext.privileged or set to false."
+        ),
         "check": lambda c: c.get("securityContext", {}).get("privileged") is True,
     },
     {
         "id": "run-as-root",
         "severity": "ERROR",
-        "message": "Container '{container}' may run as root. Set securityContext.runAsNonRoot: true.",
+        "message": (
+            "Container '{container}' may run as root."
+            " Set securityContext.runAsNonRoot: true."
+        ),
         "check": lambda c: not c.get("securityContext", {}).get("runAsNonRoot"),
     },
     {
         "id": "no-liveness-probe",
         "severity": "WARNING",
-        "message": "Container '{container}' has no livenessProbe. Add a livenessProbe for automatic recovery.",
+        "message": (
+            "Container '{container}' has no livenessProbe."
+            " Add a livenessProbe for automatic recovery."
+        ),
         "check": lambda c: not c.get("livenessProbe"),
     },
     {
         "id": "no-readiness-probe",
         "severity": "WARNING",
-        "message": "Container '{container}' has no readinessProbe. Add a readinessProbe to control traffic routing.",
+        "message": (
+            "Container '{container}' has no readinessProbe."
+            " Add a readinessProbe to control traffic routing."
+        ),
         "check": lambda c: not c.get("readinessProbe"),
     },
     {
         "id": "latest-image-tag",
         "severity": "WARNING",
-        "message": "Container '{container}' uses 'latest' image tag. Pin to a specific version for reproducibility.",
+        "message": (
+            "Container '{container}' uses 'latest' image tag."
+            " Pin to a specific version for reproducibility."
+        ),
         "check": lambda c: c.get("image", "").endswith(":latest") or ":" not in c.get("image", ""),
     },
 ]

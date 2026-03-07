@@ -1,3 +1,4 @@
+"""Multi-model AI diagnosis engine with local-first (Ollama → OpenAI → Gemini) routing."""
 import os
 import json
 import logging

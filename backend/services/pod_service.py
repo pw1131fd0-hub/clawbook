@@ -10,9 +10,10 @@ from backend.utils import PodNotFoundError
 
 logger = logging.getLogger(__name__)
 
-_K8S_LIST_TIMEOUT = int(os.getenv("K8S_LIST_TIMEOUT", "30"))   # seconds – used for pod/event list calls
-_K8S_READ_TIMEOUT = int(os.getenv("K8S_READ_TIMEOUT", "15"))   # seconds – used for single-object reads
-_K8S_LOG_TIMEOUT = int(os.getenv("K8S_LOG_TIMEOUT", "20"))     # seconds – used for log streaming
+# Kubernetes API request timeouts (seconds)
+_K8S_LIST_TIMEOUT = int(os.getenv("K8S_LIST_TIMEOUT", "30"))   # pod/event list calls
+_K8S_READ_TIMEOUT = int(os.getenv("K8S_READ_TIMEOUT", "15"))   # single-object reads
+_K8S_LOG_TIMEOUT = int(os.getenv("K8S_LOG_TIMEOUT", "20"))     # log streaming
 
 
 class PodContext(TypedDict):
@@ -100,7 +101,7 @@ class PodService:
                 if cs.state.waiting:
                     error_type = cs.state.waiting.reason or "Waiting"
                     break
-                elif cs.state.terminated and cs.state.terminated.reason not in (None, "Completed"):
+                if cs.state.terminated and cs.state.terminated.reason not in (None, "Completed"):
                     error_type = cs.state.terminated.reason or "Terminated"
                     break
             if error_type == "Unknown" and phase == "Pending":
@@ -122,11 +123,15 @@ class PodService:
 
         except (ReadTimeoutError, MaxRetryError) as e:
             logger.warning("K8s API timed out describing pod %s/%s: %s", namespace, pod_name, e)
-            context["describe"] = f"K8s API timed out while describing pod (limit={_K8S_READ_TIMEOUT}s): {e}"
+            context["describe"] = (
+                f"K8s API timed out while describing pod (limit={_K8S_READ_TIMEOUT}s): {e}"
+            )
         except ApiException as e:
             if e.status == 404:
                 raise PodNotFoundError(pod_name, namespace) from e
-            logger.warning("K8s API error describing pod %s/%s: HTTP %s", namespace, pod_name, e.status)
+            logger.warning(
+                "K8s API error describing pod %s/%s: HTTP %s", namespace, pod_name, e.status
+            )
             context["describe"] = f"K8s API error ({e.status}): {e.reason}"
         except Exception as e:
             logger.error("Unexpected error describing pod %s/%s: %s", namespace, pod_name, e)
@@ -134,14 +139,21 @@ class PodService:
 
         try:
             logs = v1.read_namespaced_pod_log(
-                name=pod_name, namespace=namespace, tail_lines=100, _request_timeout=_K8S_LOG_TIMEOUT
+                name=pod_name,
+                namespace=namespace,
+                tail_lines=100,
+                _request_timeout=_K8S_LOG_TIMEOUT,
             )
             context["logs"] = logs
         except (ReadTimeoutError, MaxRetryError) as e:
             logger.warning("K8s API timed out fetching logs for %s/%s: %s", namespace, pod_name, e)
-            context["logs"] = f"K8s API timed out fetching logs (limit={_K8S_LOG_TIMEOUT}s): {e}"
+            context["logs"] = (
+                f"K8s API timed out fetching logs (limit={_K8S_LOG_TIMEOUT}s): {e}"
+            )
         except ApiException as e:
-            logger.warning("K8s API error fetching logs for %s/%s: HTTP %s", namespace, pod_name, e.status)
+            logger.warning(
+                "K8s API error fetching logs for %s/%s: HTTP %s", namespace, pod_name, e.status
+            )
             context["logs"] = f"K8s API error fetching logs ({e.status}): {e.reason}"
         except Exception as e:
             logger.error("Unexpected error fetching logs for %s/%s: %s", namespace, pod_name, e)

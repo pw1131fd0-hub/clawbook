@@ -1,3 +1,4 @@
+"""Prompt templates for Kubernetes pod diagnosis and YAML scanning via LLM."""
 DIAGNOSE_PROMPT_TEMPLATE = """You are a Senior Kubernetes SRE Expert.
 
 ## Task

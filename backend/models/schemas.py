@@ -34,6 +34,7 @@ class DiagnoseRequest(BaseModel):
     @field_validator("namespace")
     @classmethod
     def validate_namespace(cls, v: str) -> str:
+        """Ensure namespace follows Kubernetes DNS-subdomain naming rules."""
         if not K8S_NAME_RE.match(v):
             raise ValueError(
                 "namespace must be a valid Kubernetes name (lowercase alphanumeric and hyphens)"
@@ -63,6 +64,7 @@ class YamlScanRequest(BaseModel):
     @field_validator("yaml_content")
     @classmethod
     def validate_yaml_size(cls, v: str) -> str:
+        """Reject YAML payloads exceeding the maximum allowed byte size."""
         if len(v.encode("utf-8")) > _YAML_MAX_BYTES:
             raise ValueError(
                 f"yaml_content exceeds maximum allowed size of {_YAML_MAX_BYTES // 1024} KB"

@@ -1,3 +1,4 @@
+"""Alembic migration environment – configures online and offline migration modes."""
 import os
 from logging.config import fileConfig
 from sqlalchemy import create_engine, pool
@@ -17,6 +18,7 @@ config.set_main_option("sqlalchemy.url", database_url)
 
 
 def run_migrations_offline() -> None:
+    """Run schema migrations without a live database connection (offline mode)."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -29,6 +31,7 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
+    """Run schema migrations with a live database connection (online mode)."""
     url = config.get_main_option("sqlalchemy.url")
     assert url is not None, "sqlalchemy.url must be configured in Alembic config"
     connect_args = {"check_same_thread": False} if url.startswith("sqlite") else {}

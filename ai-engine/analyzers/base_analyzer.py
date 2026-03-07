@@ -1,3 +1,4 @@
+"""Abstract base class defining the interface for all LLM analyzer implementations."""
 from abc import ABC, abstractmethod
 
 

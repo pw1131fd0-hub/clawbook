@@ -29,5 +29,8 @@ def get_db() -> Generator[Session, None, None]:
 
 def init_db() -> None:
     """Create all database tables from SQLAlchemy ORM models."""
-    from backend.models.orm_models import Project, DiagnoseHistory  # noqa: F401 – imported for side-effect (table registration)
+    from backend.models.orm_models import (  # noqa: F401 – side-effect: table registration
+        Project,
+        DiagnoseHistory,
+    )
     Base.metadata.create_all(bind=engine)

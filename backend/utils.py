@@ -5,7 +5,11 @@ import re
 K8S_NAME_RE = re.compile(r'^[a-z0-9]([a-z0-9\-]{0,251}[a-z0-9])?$')
 
 SENSITIVE_PATTERNS = [
-    (r'(?i)(password|passwd|token|secret|key|auth|api[_-]?key|credential)\s*[:=]\s*["\']?([\w\-\.\/\+\=]{4,})["\']?', r'\1: [MASKED]'),
+    (
+        r'(?i)(password|passwd|token|secret|key|auth|api[_-]?key|credential)'
+        r'\s*[:=]\s*["\']?([\w\-\.\/\+\=]{4,})["\']?',
+        r'\1: [MASKED]',
+    ),
     (r'(?i)(bearer\s+)([\w\-\.]{10,})', r'\1[MASKED]'),
     (r'(?i)(basic\s+)([\w\+\/\=]{10,})', r'\1[MASKED]'),
 ]
