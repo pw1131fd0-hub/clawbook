@@ -1,6 +1,5 @@
 """Pydantic request/response schemas for the Lobster K8s Copilot API."""
 from pydantic import BaseModel, field_validator
-from typing import Optional, List
 from datetime import datetime
 
 from backend.utils import K8S_NAME_RE
@@ -13,15 +12,15 @@ class PodInfo(BaseModel):
 
     name: str
     namespace: str
-    status: Optional[str]
-    ip: Optional[str]
-    conditions: Optional[List[dict]] = []
+    status: str | None
+    ip: str | None
+    conditions: list[dict] | None = []
 
 
 class PodListResponse(BaseModel):
     """Response model for pod listing endpoints."""
 
-    pods: List[PodInfo]
+    pods: list[PodInfo]
     total: int
 
 
@@ -44,7 +43,7 @@ class DiagnoseResponse(BaseModel):
 
     pod_name: str
     namespace: str
-    error_type: Optional[str]
+    error_type: str | None
     root_cause: str
     remediation: str
     raw_analysis: str
@@ -55,7 +54,7 @@ class YamlScanRequest(BaseModel):
     """Request body for YAML manifest scanning."""
 
     yaml_content: str
-    filename: Optional[str] = "manifest.yaml"
+    filename: str | None = "manifest.yaml"
 
     @field_validator("yaml_content")
     @classmethod
@@ -71,17 +70,17 @@ class YamlIssue(BaseModel):
     severity: str  # ERROR | WARNING | INFO
     rule: str
     message: str
-    line: Optional[int] = None
+    line: int | None = None
 
 
 class YamlScanResponse(BaseModel):
     """Response model for YAML scan results, including all detected issues."""
 
     filename: str
-    issues: List[YamlIssue]
+    issues: list[YamlIssue]
     total_issues: int
     has_errors: bool
-    ai_suggestions: Optional[str] = None
+    ai_suggestions: str | None = None
 
 
 class DiagnoseHistoryRecord(BaseModel):
@@ -90,8 +89,8 @@ class DiagnoseHistoryRecord(BaseModel):
     id: str
     pod_name: str
     namespace: str
-    error_type: Optional[str]
-    ai_analysis: Optional[str]
+    error_type: str | None
+    ai_analysis: str | None
     created_at: datetime
 
     model_config = {"from_attributes": True}

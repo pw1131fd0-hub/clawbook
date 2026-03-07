@@ -54,7 +54,7 @@ class AIDiagnoser:
             return analyzer.analyze(prompt)
         except RuntimeError:
             return ""
-        except Exception as e:
+        except Exception:
             logger.exception("Unexpected error during AI suggestion")
             return ""
 

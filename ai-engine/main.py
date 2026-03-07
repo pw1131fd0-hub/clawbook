@@ -9,10 +9,10 @@ load_dotenv()
 app = FastAPI(title="Lobster AI Engine", version="1.0.0")
 
 # Module-level singleton – avoids repeated Ollama is_available() probes per request.
-_diagnoser = None
+_diagnoser: "AIDiagnoser | None" = None
 
 
-def _get_diagnoser():
+def _get_diagnoser() -> "AIDiagnoser":
     """Return the shared AIDiagnoser singleton, creating it on first use."""
     global _diagnoser
     if _diagnoser is None:
@@ -22,6 +22,8 @@ def _get_diagnoser():
 
 
 class DiagnoseRequest(BaseModel):
+    """Request body for AI-powered pod diagnosis."""
+
     pod_name: str
     namespace: str
     describe: str
@@ -30,6 +32,8 @@ class DiagnoseRequest(BaseModel):
 
 
 class DiagnoseResponse(BaseModel):
+    """Response model for AI diagnosis results."""
+
     root_cause: str
     remediation: str
     raw_analysis: str
@@ -37,12 +41,14 @@ class DiagnoseResponse(BaseModel):
 
 
 @app.get("/health")
-async def health():
+async def health() -> dict[str, str]:
+    """Return a simple health status for the AI Engine service."""
     return {"status": "ok"}
 
 
 @app.post("/diagnose", response_model=DiagnoseResponse)
-async def diagnose(req: DiagnoseRequest):
+async def diagnose(req: DiagnoseRequest) -> DiagnoseResponse:
+    """Run AI-powered pod diagnosis and return structured root cause analysis."""
     diagnoser = _get_diagnoser()
     result = diagnoser.diagnose({
         "pod_name": req.pod_name,
@@ -60,15 +66,19 @@ async def diagnose(req: DiagnoseRequest):
 
 
 class SuggestRequest(BaseModel):
+    """Request body for a raw prompt suggestion."""
+
     prompt: str
 
 
 class SuggestResponse(BaseModel):
+    """Response model for raw prompt suggestions."""
+
     suggestion: str
 
 
 @app.post("/suggest", response_model=SuggestResponse)
-async def suggest(req: SuggestRequest):
+async def suggest(req: SuggestRequest) -> SuggestResponse:
     """Run a raw prompt through the AI provider and return the response text."""
     diagnoser = _get_diagnoser()
     return SuggestResponse(suggestion=diagnoser.suggest(req.prompt))

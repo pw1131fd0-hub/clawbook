@@ -1,7 +1,6 @@
 """Service layer for Kubernetes pod listing and context collection."""
 import logging
 import os
-from typing import Optional
 from kubernetes import client
 from kubernetes.client.exceptions import ApiException
 from urllib3.exceptions import MaxRetryError, ReadTimeoutError
@@ -18,7 +17,7 @@ class PodService:
     """Provides high-level operations for querying Kubernetes pod data."""
 
     def __init__(self) -> None:
-        self._v1: Optional[client.CoreV1Api] = None
+        self._v1: client.CoreV1Api | None = None
 
     def _get_v1(self) -> client.CoreV1Api:
         """Return a cached CoreV1Api client, creating it on first use."""
@@ -26,7 +25,7 @@ class PodService:
             self._v1 = client.CoreV1Api()
         return self._v1
 
-    def list_pods(self, namespace: Optional[str] = None) -> PodListResponse:
+    def list_pods(self, namespace: str | None = None) -> PodListResponse:
         """List all pods, optionally filtered by namespace."""
         v1 = self._get_v1()
         try:

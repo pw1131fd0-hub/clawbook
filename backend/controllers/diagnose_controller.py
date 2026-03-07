@@ -7,7 +7,6 @@ from backend.models.schemas import DiagnoseRequest, DiagnoseResponse, DiagnoseHi
 from backend.services.diagnose_service import DiagnoseService
 from backend.repositories.diagnose_repository import DiagnoseRepository
 from backend.utils import K8S_NAME_RE
-from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -32,17 +31,17 @@ async def diagnose_pod(
         raise HTTPException(status_code=500, detail="Diagnosis failed. Check server logs for details.")
 
 
-@router.get("/history", response_model=List[DiagnoseHistoryRecord])
-async def get_diagnose_history(db: Session = Depends(get_db)) -> List[DiagnoseHistoryRecord]:
+@router.get("/history", response_model=list[DiagnoseHistoryRecord])
+async def get_diagnose_history(db: Session = Depends(get_db)) -> list[DiagnoseHistoryRecord]:
     """Return the 50 most recent diagnosis records across all pods."""
     return _repo.get_history(db)
 
 
-@router.get("/history/{pod_name}", response_model=List[DiagnoseHistoryRecord])
+@router.get("/history/{pod_name}", response_model=list[DiagnoseHistoryRecord])
 async def get_pod_diagnose_history(
     pod_name: str = Path(..., description="Kubernetes pod name"),
     db: Session = Depends(get_db),
-) -> List[DiagnoseHistoryRecord]:
+) -> list[DiagnoseHistoryRecord]:
     """Return diagnosis history for a specific pod, newest first."""
     if not K8S_NAME_RE.match(pod_name):
         raise HTTPException(status_code=422, detail="Invalid pod name format")

@@ -1,7 +1,7 @@
 """Service layer for Kubernetes YAML manifest scanning and diff operations."""
 import logging
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
 import httpx
 import yaml
 from backend.models.schemas import YamlIssue, YamlScanResponse
@@ -10,7 +10,7 @@ from deepdiff import DeepDiff
 logger = logging.getLogger(__name__)
 
 
-ANTI_PATTERN_RULES: List[Dict[str, Any]] = [
+ANTI_PATTERN_RULES: list[dict[str, Any]] = [
     {
         "id": "no-resource-limits",
         "severity": "ERROR",
@@ -61,7 +61,7 @@ class YamlService:
 
     def scan(self, yaml_content: str, filename: str = "manifest.yaml") -> YamlScanResponse:
         """Parse and analyse a multi-document YAML manifest, returning all detected issues."""
-        issues: List[YamlIssue] = []
+        issues: list[YamlIssue] = []
 
         try:
             docs = list(yaml.safe_load_all(yaml_content))
@@ -112,7 +112,7 @@ class YamlService:
             ai_suggestions=ai_suggestions,
         )
 
-    def _get_ai_suggestions(self, issues: List[YamlIssue], yaml_content: str) -> Optional[str]:
+    def _get_ai_suggestions(self, issues: list[YamlIssue], yaml_content: str) -> str | None:
         """Call AI engine for human-friendly remediation advice on detected issues (best-effort)."""
         ai_engine_url = os.getenv("AI_ENGINE_URL", "").rstrip("/")
         if ai_engine_url:
@@ -120,8 +120,8 @@ class YamlService:
         return self._get_ai_suggestions_local(issues, yaml_content)
 
     def _get_ai_suggestions_via_http(
-        self, issues: List[YamlIssue], yaml_content: str, ai_engine_url: str
-    ) -> Optional[str]:
+        self, issues: list[YamlIssue], yaml_content: str, ai_engine_url: str
+    ) -> str | None:
         """Fetch AI suggestions from the AI Engine microservice via HTTP."""
         from ai_engine.prompts.k8s_prompts import YAML_SCAN_PROMPT_TEMPLATE
         issues_text = "\n".join(f"- [{i.severity}] {i.rule}: {i.message}" for i in issues)
@@ -139,8 +139,8 @@ class YamlService:
             return None
 
     def _get_ai_suggestions_local(
-        self, issues: List[YamlIssue], yaml_content: str
-    ) -> Optional[str]:
+        self, issues: list[YamlIssue], yaml_content: str
+    ) -> str | None:
         """Fetch AI suggestions using the local AIDiagnoser import (development mode)."""
         try:
             from ai_engine.diagnoser import AIDiagnoser
