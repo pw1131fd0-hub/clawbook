@@ -1,30 +1,31 @@
-import sys
-import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+"""Endpoint integration tests for the Lobster K8s Copilot API."""
+# pylint: disable=redefined-outer-name
+from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import patch, MagicMock
 from kubernetes.client.exceptions import ApiException
 
 
 @pytest.fixture
 def client():
-    # Use TestClient as a context manager to trigger the app lifespan (which calls init_db).
+    """Return a TestClient wired to the FastAPI app with K8s config mocked out."""
     with patch('kubernetes.config.load_kube_config'), \
          patch('kubernetes.config.load_incluster_config'):
-        from backend.main import app
+        from backend.main import app  # pylint: disable=import-outside-toplevel
         with TestClient(app) as c:
             yield c
 
 
 def test_root_endpoint(client):
+    """GET / should return HTTP 200 with the API running message."""
     response = client.get('/')
     assert response.status_code == 200
     assert response.json()['message'] == 'Lobster K8s Copilot API is running'
 
 
 def test_cluster_status_endpoint(client):
+    """GET /api/v1/cluster/status should return HTTP 200 with a 'status' field."""
     with patch('kubernetes.client.CoreV1Api') as mock_v1:
         mock_v1.return_value.list_namespace.return_value = MagicMock(items=[])
         response = client.get('/api/v1/cluster/status')
@@ -33,6 +34,7 @@ def test_cluster_status_endpoint(client):
 
 
 def test_list_pods_endpoint(client):
+    """GET /api/v1/cluster/pods should return a list containing the mocked pod."""
     mock_pod = MagicMock()
     mock_pod.metadata.name = 'test-pod'
     mock_pod.metadata.namespace = 'default'
@@ -52,14 +54,14 @@ def test_list_pods_endpoint(client):
 
 def test_list_pods_endpoint_k8s_api_error_returns_empty(client):
     """list_pods should gracefully return an empty list on K8s API failures."""
-    from backend.controllers.pod_controller import _svc
+    from backend.controllers.pod_controller import _svc  # pylint: disable=import-outside-toplevel
     mock_v1 = MagicMock()
     mock_v1.list_pod_for_all_namespaces.side_effect = ApiException(status=403, reason="Forbidden")
-    _svc._v1 = mock_v1
+    _svc._v1 = mock_v1  # pylint: disable=protected-access
     try:
         response = client.get('/api/v1/cluster/pods')
     finally:
-        _svc._v1 = None  # reset cached client
+        _svc._v1 = None  # pylint: disable=protected-access
 
     assert response.status_code == 200
     data = response.json()
@@ -68,7 +70,8 @@ def test_list_pods_endpoint_k8s_api_error_returns_empty(client):
 
 
 def test_list_pods_endpoint_namespace_filter(client):
-    from backend.controllers.pod_controller import _svc
+    """GET /api/v1/cluster/pods?namespace=X should filter pods by namespace."""
+    from backend.controllers.pod_controller import _svc  # pylint: disable=import-outside-toplevel
     mock_pod = MagicMock()
     mock_pod.metadata.name = 'ns-pod'
     mock_pod.metadata.namespace = 'kube-system'
@@ -78,11 +81,11 @@ def test_list_pods_endpoint_namespace_filter(client):
 
     mock_v1 = MagicMock()
     mock_v1.list_namespaced_pod.return_value = MagicMock(items=[mock_pod])
-    _svc._v1 = mock_v1
+    _svc._v1 = mock_v1  # pylint: disable=protected-access
     try:
         response = client.get('/api/v1/cluster/pods?namespace=kube-system')
     finally:
-        _svc._v1 = None  # reset cached client
+        _svc._v1 = None  # pylint: disable=protected-access
 
     assert response.status_code == 200
     data = response.json()
@@ -90,6 +93,7 @@ def test_list_pods_endpoint_namespace_filter(client):
 
 
 def test_yaml_scan_endpoint_detects_issues(client):
+    """POST /api/v1/yaml/scan should detect issues in a non-compliant manifest."""
     yaml_content = """
 apiVersion: v1
 kind: Pod
@@ -108,6 +112,7 @@ spec:
 
 
 def test_yaml_scan_endpoint_invalid_yaml(client):
+    """POST /api/v1/yaml/scan with unparseable YAML should return has_errors: true."""
     response = client.post('/api/v1/yaml/scan', json={'yaml_content': 'this: is: bad: yaml: :::'})
     assert response.status_code == 200
     data = response.json()
@@ -171,16 +176,15 @@ def test_diagnose_pod_history_invalid_name_returns_422(client):
 
 def test_diagnose_pod_not_found_returns_404(client):
     """POST /api/v1/diagnose/{pod_name} should return 404 when the pod does not exist."""
-    from kubernetes.client.exceptions import ApiException
-    from backend.controllers.diagnose_controller import _svc
+    from backend.controllers.diagnose_controller import _svc  # pylint: disable=import-outside-toplevel
 
     mock_v1 = MagicMock()
     mock_v1.read_namespaced_pod.side_effect = ApiException(status=404, reason="Not Found")
-    _svc._pod_service._v1 = mock_v1
+    _svc._pod_service._v1 = mock_v1  # pylint: disable=protected-access
     try:
         response = client.post('/api/v1/diagnose/missing-pod', json={'namespace': 'default'})
     finally:
-        _svc._pod_service._v1 = None
+        _svc._pod_service._v1 = None  # pylint: disable=protected-access
 
     assert response.status_code == 404
     assert 'not found' in response.json()['detail'].lower()

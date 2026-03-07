@@ -1,10 +1,12 @@
 """Shared pytest fixtures for Lobster K8s Copilot tests."""
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import sys
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import patch
+
+# Add the project root to sys.path so test modules can import project packages.
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 
 @pytest.fixture(autouse=True)
