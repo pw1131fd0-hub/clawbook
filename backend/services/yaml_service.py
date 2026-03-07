@@ -2,7 +2,7 @@
 import logging
 import os
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 import httpx
 import yaml
 from deepdiff import DeepDiff
@@ -19,9 +19,9 @@ class AntiPatternRule:
     """A single YAML anti-pattern rule with a predicate and a human-readable message."""
 
     id: str
-    severity: str
+    severity: Literal["ERROR", "WARNING", "INFO"]
     message: str
-    check: Callable[[dict], bool]
+    check: Callable[[dict[str, Any]], bool]
 
 
 ANTI_PATTERN_RULES: list[AntiPatternRule] = [
