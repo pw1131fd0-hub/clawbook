@@ -9,6 +9,9 @@ from deepdiff import DeepDiff
 
 logger = logging.getLogger(__name__)
 
+# Maximum characters of YAML content sent to the AI engine to keep prompts within token limits.
+_YAML_AI_TRUNCATE_CHARS = 3000
+
 
 ANTI_PATTERN_RULES: list[dict[str, Any]] = [
     {
@@ -127,7 +130,7 @@ class YamlService:
         issues_text = "\n".join(f"- [{i.severity}] {i.rule}: {i.message}" for i in issues)
         prompt = YAML_SCAN_PROMPT_TEMPLATE.format(
             issues=issues_text,
-            yaml_content=yaml_content[:3000],
+            yaml_content=yaml_content[:_YAML_AI_TRUNCATE_CHARS],
         )
         try:
             with httpx.Client(timeout=30.0) as http:
@@ -148,7 +151,7 @@ class YamlService:
             issues_text = "\n".join(f"- [{i.severity}] {i.rule}: {i.message}" for i in issues)
             prompt = YAML_SCAN_PROMPT_TEMPLATE.format(
                 issues=issues_text,
-                yaml_content=yaml_content[:3000],
+                yaml_content=yaml_content[:_YAML_AI_TRUNCATE_CHARS],
             )
             result = AIDiagnoser().suggest(prompt)
             return result or None

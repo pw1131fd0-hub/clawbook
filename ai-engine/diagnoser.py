@@ -2,7 +2,6 @@ import os
 import json
 import logging
 import re
-from typing import Optional
 from ai_engine.prompts.k8s_prompts import DIAGNOSE_PROMPT_TEMPLATE
 from ai_engine.analyzers.base_analyzer import BaseAnalyzer
 
@@ -17,7 +16,7 @@ class AIDiagnoser:
     """
 
     def __init__(self) -> None:
-        self._analyzer: Optional[BaseAnalyzer] = None
+        self._analyzer: BaseAnalyzer | None = None
 
     def _get_analyzer(self) -> BaseAnalyzer:
         if self._analyzer:

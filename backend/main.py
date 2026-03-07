@@ -4,7 +4,7 @@ import os
 import pathlib
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -94,12 +94,10 @@ async def get_cluster_status(request: Request) -> dict[str, str]:
 async def spa_catch_all(full_path: str) -> FileResponse:
     """Forward all non-API, non-static routes to the React SPA index.html."""
     if full_path.startswith("api/") or full_path.startswith("static/"):
-        from fastapi import HTTPException
         raise HTTPException(status_code=404)
     index_html = _FRONTEND_BUILD / "index.html"
     if index_html.is_file():
         return FileResponse(str(index_html))
-    from fastapi import HTTPException
     raise HTTPException(status_code=404)
 
 
