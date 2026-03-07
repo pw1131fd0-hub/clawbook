@@ -15,7 +15,7 @@ class PodInfo(BaseModel):
     namespace: str
     status: str | None
     ip: str | None
-    conditions: list[dict] | None = []
+    conditions: list[dict] = []
 
 
 class PodListResponse(BaseModel):

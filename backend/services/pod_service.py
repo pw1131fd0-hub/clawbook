@@ -26,6 +26,25 @@ class PodContext(TypedDict):
     error_type: str
 
 
+def _format_container_statuses(container_statuses: list) -> str:
+    """Format a list of V1ContainerStatus objects into a human-readable string for LLM context."""
+    if not container_statuses:
+        return "  (none)"
+    lines = []
+    for cs in container_statuses:
+        if cs.state.waiting:
+            state_str = cs.state.waiting.reason or "Waiting"
+        elif cs.state.running:
+            state_str = "Running"
+        else:
+            state_str = "Terminated"
+        lines.append(
+            f"  {cs.name}: ready={cs.ready},"
+            f" restartCount={cs.restart_count}, state={state_str}"
+        )
+    return "\n".join(lines)
+
+
 class PodService:
     """Provides high-level operations for querying Kubernetes pod data."""
 
@@ -117,7 +136,9 @@ class PodService:
             )
             event_lines = [f"{e.reason}: {e.message}" for e in events.items[-10:]]
             context["describe"] = (
-                f"Phase: {phase}\nContainerStatuses: {container_statuses}\nEvents:\n"
+                f"Phase: {phase}\nContainerStatuses:\n"
+                + _format_container_statuses(container_statuses)
+                + "\nEvents:\n"
                 + "\n".join(event_lines)
             )
 

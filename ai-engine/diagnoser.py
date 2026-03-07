@@ -33,9 +33,11 @@ class AIDiagnoser:
     """
 
     def __init__(self) -> None:
+        """Initialise the diagnoser with no provider selected (lazy initialisation)."""
         self._analyzer: BaseAnalyzer | None = None
 
     def _get_analyzer(self) -> BaseAnalyzer:
+        """Return a cached AI provider, selecting one on first call via local-first routing."""
         if self._analyzer:
             return self._analyzer
 
