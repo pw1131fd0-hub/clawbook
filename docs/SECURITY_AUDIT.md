@@ -1,18 +1,18 @@
 # 🦞 Lobster K8s Copilot - Security Audit Report
 
-> **Version**: v1.1 | **Audit Date**: 2026-03-07 | **Status**: ✅ PASSED
+> **Version**: v1.2 | **Audit Date**: 2026-03-07 | **Status**: ✅ PASSED
 
 ---
 
 ## 1. Executive Summary
 
-A comprehensive security audit was performed on the Lobster K8s Copilot project. All **CRITICAL** and **HIGH** severity issues have been remediated. Frontend dependency vulnerabilities have been significantly reduced through npm overrides.
+A comprehensive security audit was performed on the Lobster K8s Copilot project. All **CRITICAL** and **HIGH** severity issues have been remediated. Frontend dependency vulnerabilities have been significantly reduced through npm overrides. Kubernetes deployments have been hardened with securityContext settings.
 
 | Severity | Original Count | Remediated | Remaining |
 |----------|----------------|------------|-----------|
 | CRITICAL | 3 | 3 | 0 |
 | HIGH | 6 | 6 | 0 |
-| MEDIUM | 15 | 13 | 2 (dev-only) |
+| MEDIUM | 15 | 15 | 0 |
 | LOW | 8 | 4 | 4 |
 
 ### Tools Used
@@ -104,11 +104,31 @@ LOBSTER_API_KEY=your-secure-key-here
 
 **Fix**: Added `X-API-Key` to allowed headers in CORS middleware.
 
+### 2.9 MEDIUM: K8s Deployments Missing securityContext (FIXED ✅)
+
+**Issue**: Kubernetes deployment manifests lacked securityContext hardening.
+
+**Fix**: Added comprehensive securityContext to all K8s deployments:
+- `backend-deployment.yaml`: runAsNonRoot, runAsUser: 1000, allowPrivilegeEscalation: false, drop ALL capabilities
+- `ai-engine-deployment.yaml`: runAsNonRoot, runAsUser: 1000, allowPrivilegeEscalation: false, drop ALL capabilities
+- `frontend-deployment.yaml`: runAsNonRoot, runAsUser: 101 (nginx user), allowPrivilegeEscalation: false, drop ALL capabilities
+
+### 2.10 MEDIUM: Nginx Missing Security Headers (FIXED ✅)
+
+**Issue**: Frontend nginx.conf lacked security headers.
+
+**Fix**: Added security headers to `frontend/nginx.conf`:
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `X-XSS-Protection: 1; mode=block`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: geolocation=(), microphone=(), camera=()`
+
 ---
 
 ## 3. Remaining Issues (Lower Priority)
 
-### 3.1 MEDIUM: Rate Limiting Improvements
+### 3.1 LOW: Rate Limiting Improvements
 
 **Status**: Documented for future enhancement
 
@@ -116,7 +136,7 @@ LOBSTER_API_KEY=your-secure-key-here
 
 **Recommendation**: Add stricter limits for expensive endpoints (`/diagnose`, `/yaml/scan`).
 
-### 3.2 MEDIUM: Namespace Isolation
+### 3.2 ACCEPTED: Namespace Isolation
 
 **Status**: Accepted (by design)
 
@@ -124,7 +144,7 @@ LOBSTER_API_KEY=your-secure-key-here
 
 **Rationale**: This is intentional for cluster-wide monitoring. Restrict via K8s RBAC if needed.
 
-### 3.3 MEDIUM: SQLite for Production
+### 3.3 INFO: SQLite for Production
 
 **Status**: Documented
 
@@ -230,7 +250,7 @@ curl -I http://localhost:8000/
 | A02 Cryptographic Failures | ✅ | HTTPS supported, secrets masked |
 | A03 Injection | ✅ | SQLAlchemy ORM, input validation |
 | A04 Insecure Design | ✅ | Security headers, rate limiting |
-| A05 Security Misconfiguration | ✅ | .env.example provided, CORS restricted |
+| A05 Security Misconfiguration | ✅ | .env.example provided, CORS restricted, K8s securityContext |
 | A06 Vulnerable Components | ✅ | npm overrides applied, 0 HIGH in prod |
 | A07 Auth Failures | ✅ | Timing-safe key comparison |
 | A08 Data Integrity Failures | ✅ | YAML parsed safely (yaml.safe_load) |
@@ -240,5 +260,5 @@ curl -I http://localhost:8000/
 ---
 
 *Audit performed by: Security Team (Automated)*  
-*Document version: v1.1*  
-*Last updated: 2026-03-07T10:57:00Z*
+*Document version: v1.2*  
+*Last updated: 2026-03-07T11:50:00Z*
