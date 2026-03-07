@@ -35,6 +35,7 @@ class DiagnoseResponse(BaseModel):
     """Response model for AI diagnosis results."""
 
     root_cause: str
+    detailed_analysis: str | None = None
     remediation: str
     raw_analysis: str
     model_used: str
@@ -59,6 +60,7 @@ async def diagnose(req: DiagnoseRequest) -> DiagnoseResponse:
     })
     return DiagnoseResponse(
         root_cause=result.get("root_cause", ""),
+        detailed_analysis=result.get("detailed_analysis") or None,
         remediation=result.get("remediation", ""),
         raw_analysis=result.get("raw_analysis", ""),
         model_used=result.get("model_used", "unknown"),

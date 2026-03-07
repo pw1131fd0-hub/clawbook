@@ -110,12 +110,14 @@ class AIDiagnoser:
             data = json.loads(raw)
             return {
                 "root_cause": data.get("root_cause", ""),
+                "detailed_analysis": data.get("detailed_analysis", "") or "",
                 "remediation": data.get("remediation", ""),
             }
         except json.JSONDecodeError:
             # Graceful degradation: return raw text as root_cause
             return {
                 "root_cause": raw[:500] if raw else "No analysis available",
+                "detailed_analysis": None,
                 "remediation": "Review the raw analysis above for remediation steps.",
             }
 

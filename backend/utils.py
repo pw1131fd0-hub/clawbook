@@ -11,6 +11,15 @@ SENSITIVE_PATTERNS = [
 ]
 
 
+class PodNotFoundError(Exception):
+    """Raised when a Kubernetes pod cannot be found (HTTP 404 from the K8s API)."""
+
+    def __init__(self, pod_name: str, namespace: str) -> None:
+        self.pod_name = pod_name
+        self.namespace = namespace
+        super().__init__(f"Pod '{pod_name}' not found in namespace '{namespace}'")
+
+
 def mask_sensitive_data(text: str) -> str:
     """Masks common sensitive patterns like passwords, tokens, and API keys."""
     masked_text = text

@@ -45,6 +45,7 @@ class DiagnoseResponse(BaseModel):
     namespace: str
     error_type: str | None
     root_cause: str
+    detailed_analysis: str | None = None
     remediation: str
     raw_analysis: str
     model_used: str

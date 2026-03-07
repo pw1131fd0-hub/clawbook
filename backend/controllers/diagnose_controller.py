@@ -6,7 +6,7 @@ from backend.database import get_db
 from backend.models.schemas import DiagnoseRequest, DiagnoseResponse, DiagnoseHistoryRecord
 from backend.services.diagnose_service import DiagnoseService
 from backend.repositories.diagnose_repository import DiagnoseRepository
-from backend.utils import K8S_NAME_RE
+from backend.utils import K8S_NAME_RE, PodNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +26,8 @@ async def diagnose_pod(
         raise HTTPException(status_code=422, detail="Invalid pod name format")
     try:
         return _svc.diagnose(pod_name=pod_name, namespace=request.namespace, db=db)
+    except PodNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         logger.error("Diagnosis failed for pod %s: %s", pod_name, e)
         raise HTTPException(status_code=500, detail="Diagnosis failed. Check server logs for details.")

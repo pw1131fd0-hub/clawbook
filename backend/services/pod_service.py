@@ -5,6 +5,7 @@ from kubernetes import client
 from kubernetes.client.exceptions import ApiException
 from urllib3.exceptions import MaxRetryError, ReadTimeoutError
 from backend.models.schemas import PodInfo, PodListResponse
+from backend.utils import PodNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -106,6 +107,8 @@ class PodService:
             logger.warning("K8s API timed out describing pod %s/%s: %s", namespace, pod_name, e)
             context["describe"] = f"K8s API timed out while describing pod (limit={_K8S_READ_TIMEOUT}s): {e}"
         except ApiException as e:
+            if e.status == 404:
+                raise PodNotFoundError(pod_name, namespace) from e
             logger.warning("K8s API error describing pod %s/%s: HTTP %s", namespace, pod_name, e.status)
             context["describe"] = f"K8s API error ({e.status}): {e.reason}"
         except Exception as e:

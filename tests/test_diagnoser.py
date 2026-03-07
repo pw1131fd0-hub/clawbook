@@ -60,6 +60,19 @@ class TestAIDiagnoserWithMock:
         assert result['root_cause'] == 'OOM'
         assert result['remediation'] == 'Increase limits'
 
+    def test_parse_response_extracts_detailed_analysis(self):
+        """_parse_response should surface detailed_analysis when the LLM includes it."""
+        diagnoser = AIDiagnoser()
+        raw = '{"root_cause": "OOM kill", "detailed_analysis": "The container exceeded its memory limit.", "remediation": "Increase memory limits"}'
+        result = diagnoser._parse_response(raw)
+        assert result['detailed_analysis'] == 'The container exceeded its memory limit.'
+
+    def test_parse_response_detailed_analysis_none_on_malformed(self):
+        """_parse_response should return None for detailed_analysis when JSON is malformed."""
+        diagnoser = AIDiagnoser()
+        result = diagnoser._parse_response("This is not JSON")
+        assert result.get('detailed_analysis') is None
+
 
 class TestAIDiagnoserGeminiFallback:
     def test_falls_back_to_gemini_when_openai_absent(self):
