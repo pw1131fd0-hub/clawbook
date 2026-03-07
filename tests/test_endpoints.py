@@ -10,11 +10,12 @@ from kubernetes.client.exceptions import ApiException
 
 @pytest.fixture
 def client():
-    # Patch K8s config loading to avoid requiring a real cluster
+    # Use TestClient as a context manager to trigger the app lifespan (which calls init_db).
     with patch('kubernetes.config.load_kube_config'), \
          patch('kubernetes.config.load_incluster_config'):
         from backend.main import app
-        return TestClient(app)
+        with TestClient(app) as c:
+            yield c
 
 
 def test_root_endpoint(client):
@@ -117,4 +118,24 @@ def test_yaml_scan_payload_too_large_returns_422(client):
     """yaml_content exceeding 512 KB should be rejected with HTTP 422."""
     oversized = "a: b\n" * (512 * 1024 // 5 + 1)
     response = client.post('/api/v1/yaml/scan', json={'yaml_content': oversized})
+    assert response.status_code == 422
+
+
+def test_diagnose_history_endpoint_returns_list(client):
+    """GET /api/v1/diagnose/history should return a list (empty is valid)."""
+    response = client.get('/api/v1/diagnose/history')
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+
+def test_diagnose_pod_history_endpoint_returns_list(client):
+    """GET /api/v1/diagnose/history/{pod_name} should return a list for a known-good pod name."""
+    response = client.get('/api/v1/diagnose/history/my-pod')
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+
+def test_diagnose_pod_history_invalid_name_returns_422(client):
+    """GET /api/v1/diagnose/history/{pod_name} with an invalid pod name should return 422."""
+    response = client.get('/api/v1/diagnose/history/Invalid_Pod_Name!')
     assert response.status_code == 422

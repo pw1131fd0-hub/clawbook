@@ -8,6 +8,18 @@ load_dotenv()
 
 app = FastAPI(title="Lobster AI Engine", version="1.0.0")
 
+# Module-level singleton – avoids repeated Ollama is_available() probes per request.
+_diagnoser = None
+
+
+def _get_diagnoser():
+    """Return the shared AIDiagnoser singleton, creating it on first use."""
+    global _diagnoser
+    if _diagnoser is None:
+        from ai_engine.diagnoser import AIDiagnoser
+        _diagnoser = AIDiagnoser()
+    return _diagnoser
+
 
 class DiagnoseRequest(BaseModel):
     pod_name: str
@@ -31,8 +43,7 @@ async def health():
 
 @app.post("/diagnose", response_model=DiagnoseResponse)
 async def diagnose(req: DiagnoseRequest):
-    from ai_engine.diagnoser import AIDiagnoser
-    diagnoser = AIDiagnoser()
+    diagnoser = _get_diagnoser()
     result = diagnoser.diagnose({
         "pod_name": req.pod_name,
         "namespace": req.namespace,
@@ -46,6 +57,21 @@ async def diagnose(req: DiagnoseRequest):
         raw_analysis=result.get("raw_analysis", ""),
         model_used=result.get("model_used", "unknown"),
     )
+
+
+class SuggestRequest(BaseModel):
+    prompt: str
+
+
+class SuggestResponse(BaseModel):
+    suggestion: str
+
+
+@app.post("/suggest", response_model=SuggestResponse)
+async def suggest(req: SuggestRequest):
+    """Run a raw prompt through the AI provider and return the response text."""
+    diagnoser = _get_diagnoser()
+    return SuggestResponse(suggestion=diagnoser.suggest(req.prompt))
 
 
 if __name__ == "__main__":

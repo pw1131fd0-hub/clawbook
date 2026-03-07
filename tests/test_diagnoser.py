@@ -59,3 +59,27 @@ class TestAIDiagnoserWithMock:
         result = diagnoser._parse_response(raw)
         assert result['root_cause'] == 'OOM'
         assert result['remediation'] == 'Increase limits'
+
+
+class TestAIDiagnoserGeminiFallback:
+    def test_falls_back_to_gemini_when_openai_absent(self):
+        """Should use Gemini when OPENAI_API_KEY is absent and GEMINI_API_KEY is set."""
+        mock_response = '{"root_cause": "Config error", "remediation": "Fix config"}'
+        env = {'OPENAI_API_KEY': '', 'GEMINI_API_KEY': 'test-gemini-key', 'OLLAMA_BASE_URL': ''}
+        with patch.dict(os.environ, env):
+            with patch('ai_engine.analyzers.gemini_analyzer.genai') as mock_genai:
+                mock_client = MagicMock()
+                mock_genai.Client.return_value = mock_client
+                mock_client.models.generate_content.return_value = MagicMock(text=mock_response)
+                diagnoser = AIDiagnoser()
+                result = diagnoser.diagnose(SAMPLE_CONTEXT)
+        assert result['root_cause'] == 'Config error'
+        assert result['model_used'].startswith('gemini/')
+
+    def test_suggest_returns_empty_string_without_provider(self):
+        """suggest() should return empty string gracefully when no AI provider is available."""
+        env = {'OPENAI_API_KEY': '', 'GEMINI_API_KEY': '', 'OLLAMA_BASE_URL': ''}
+        with patch.dict(os.environ, env):
+            diagnoser = AIDiagnoser()
+            result = diagnoser.suggest("Explain this Kubernetes issue")
+        assert isinstance(result, str)

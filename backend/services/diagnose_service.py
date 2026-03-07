@@ -41,8 +41,12 @@ class DiagnoseService:
             error_type=context["error_type"],
             ai_analysis=result.get("raw_analysis", ""),
         )
-        db.add(record)
-        db.commit()
+        try:
+            db.add(record)
+            db.commit()
+        except Exception as db_err:
+            db.rollback()
+            logger.error("Failed to persist diagnosis for pod %s/%s: %s", namespace, pod_name, db_err)
 
         return DiagnoseResponse(
             pod_name=pod_name,

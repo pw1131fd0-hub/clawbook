@@ -48,6 +48,17 @@ class AIDiagnoser:
             "No AI provider available. Set OPENAI_API_KEY, GEMINI_API_KEY, or start Ollama locally."
         )
 
+    def suggest(self, prompt: str) -> str:
+        """Send a raw prompt to the configured AI provider and return the response text."""
+        try:
+            analyzer = self._get_analyzer()
+            return analyzer.analyze(prompt)
+        except RuntimeError:
+            return ""
+        except Exception as e:
+            logger.exception("Unexpected error during AI suggestion")
+            return ""
+
     def diagnose(self, context: dict) -> dict:
         """
         Run AI diagnosis on a pod context dict.

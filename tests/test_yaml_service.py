@@ -144,6 +144,39 @@ spec:
       restartPolicy: Never
 """
 
+CRONJOB_YAML = """
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup-job
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cleanup
+            image: cleanup:latest
+          restartPolicy: Never
+"""
+
+RUN_AS_ROOT_YAML = """
+apiVersion: v1
+kind: Pod
+metadata:
+  name: root-pod
+spec:
+  containers:
+  - name: app
+    image: myapp:1.0
+    resources:
+      requests:
+        cpu: "100m"
+      limits:
+        cpu: "200m"
+"""
+
 
 class TestYamlServiceJobKind:
     def test_job_containers_are_scanned(self, svc):
@@ -155,3 +188,43 @@ class TestYamlServiceJobKind:
     def test_job_issues_flagged_as_errors(self, svc):
         result = svc.scan(JOB_YAML)
         assert result.has_errors is True
+
+
+class TestYamlServiceCronJobKind:
+    def test_cronjob_containers_are_scanned(self, svc):
+        """CronJob containers should be extracted and scanned for anti-patterns."""
+        result = svc.scan(CRONJOB_YAML)
+        rules = [i.rule for i in result.issues]
+        assert 'no-resource-limits' in rules
+        assert 'latest-image-tag' in rules
+
+    def test_cronjob_has_errors(self, svc):
+        result = svc.scan(CRONJOB_YAML)
+        assert result.has_errors is True
+
+
+class TestYamlServiceSecurityRules:
+    def test_run_as_root_detected(self, svc):
+        """Containers without runAsNonRoot: true should trigger the run-as-root rule."""
+        result = svc.scan(RUN_AS_ROOT_YAML)
+        rules = [i.rule for i in result.issues]
+        assert 'run-as-root' in rules
+
+    def test_no_liveness_probe_detected(self, svc):
+        """Containers without a livenessProbe should trigger the no-liveness-probe rule."""
+        result = svc.scan(RUN_AS_ROOT_YAML)
+        rules = [i.rule for i in result.issues]
+        assert 'no-liveness-probe' in rules
+
+    def test_no_readiness_probe_detected(self, svc):
+        """Containers without a readinessProbe should trigger the no-readiness-probe rule."""
+        result = svc.scan(RUN_AS_ROOT_YAML)
+        rules = [i.rule for i in result.issues]
+        assert 'no-readiness-probe' in rules
+
+    def test_privileged_false_not_flagged(self, svc):
+        """A container with privileged: false should NOT trigger the privileged-container rule."""
+        yaml_ok = VALID_DEPLOYMENT
+        result = svc.scan(yaml_ok)
+        rules = [i.rule for i in result.issues]
+        assert 'privileged-container' not in rules

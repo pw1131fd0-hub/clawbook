@@ -82,9 +82,11 @@ class PodService:
             for cs in container_statuses:
                 if cs.state.waiting:
                     error_type = cs.state.waiting.reason or "Waiting"
-                elif cs.state.terminated:
+                    break
+                elif cs.state.terminated and cs.state.terminated.reason not in (None, "Completed"):
                     error_type = cs.state.terminated.reason or "Terminated"
-            if phase == "Pending":
+                    break
+            if error_type == "Unknown" and phase == "Pending":
                 error_type = "Pending"
 
             context["error_type"] = error_type

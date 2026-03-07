@@ -1,8 +1,13 @@
 """Service layer for Kubernetes YAML manifest scanning and diff operations."""
-from typing import Any, Dict, List
+import logging
+import os
+from typing import Any, Dict, List, Optional
+import httpx
 import yaml
 from backend.models.schemas import YamlIssue, YamlScanResponse
 from deepdiff import DeepDiff
+
+logger = logging.getLogger(__name__)
 
 
 ANTI_PATTERN_RULES: List[Dict[str, Any]] = [
@@ -98,12 +103,58 @@ class YamlService:
                         ))
 
         has_errors = any(i.severity == "ERROR" for i in issues)
+        ai_suggestions = self._get_ai_suggestions(issues, yaml_content) if issues else None
         return YamlScanResponse(
             filename=filename,
             issues=issues,
             total_issues=len(issues),
             has_errors=has_errors,
+            ai_suggestions=ai_suggestions,
         )
+
+    def _get_ai_suggestions(self, issues: List[YamlIssue], yaml_content: str) -> Optional[str]:
+        """Call AI engine for human-friendly remediation advice on detected issues (best-effort)."""
+        ai_engine_url = os.getenv("AI_ENGINE_URL", "").rstrip("/")
+        if ai_engine_url:
+            return self._get_ai_suggestions_via_http(issues, yaml_content, ai_engine_url)
+        return self._get_ai_suggestions_local(issues, yaml_content)
+
+    def _get_ai_suggestions_via_http(
+        self, issues: List[YamlIssue], yaml_content: str, ai_engine_url: str
+    ) -> Optional[str]:
+        """Fetch AI suggestions from the AI Engine microservice via HTTP."""
+        from ai_engine.prompts.k8s_prompts import YAML_SCAN_PROMPT_TEMPLATE
+        issues_text = "\n".join(f"- [{i.severity}] {i.rule}: {i.message}" for i in issues)
+        prompt = YAML_SCAN_PROMPT_TEMPLATE.format(
+            issues=issues_text,
+            yaml_content=yaml_content[:3000],
+        )
+        try:
+            with httpx.Client(timeout=30.0) as http:
+                resp = http.post(f"{ai_engine_url}/suggest", json={"prompt": prompt})
+                resp.raise_for_status()
+                return resp.json().get("suggestion") or None
+        except Exception as e:
+            logger.debug("AI suggestions via HTTP failed: %s", e)
+            return None
+
+    def _get_ai_suggestions_local(
+        self, issues: List[YamlIssue], yaml_content: str
+    ) -> Optional[str]:
+        """Fetch AI suggestions using the local AIDiagnoser import (development mode)."""
+        try:
+            from ai_engine.diagnoser import AIDiagnoser
+            from ai_engine.prompts.k8s_prompts import YAML_SCAN_PROMPT_TEMPLATE
+            issues_text = "\n".join(f"- [{i.severity}] {i.rule}: {i.message}" for i in issues)
+            prompt = YAML_SCAN_PROMPT_TEMPLATE.format(
+                issues=issues_text,
+                yaml_content=yaml_content[:3000],
+            )
+            result = AIDiagnoser().suggest(prompt)
+            return result or None
+        except Exception as e:
+            logger.debug("AI suggestions via local import failed: %s", e)
+            return None
 
     def diff(self, yaml_a: str, yaml_b: str) -> dict:
         """Compare two YAML strings and return their differences."""
