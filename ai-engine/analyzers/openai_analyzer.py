@@ -7,7 +7,7 @@ from ai_engine.analyzers.base_analyzer import BaseAnalyzer
 class OpenAIAnalyzer(BaseAnalyzer):
     """Analyzer using OpenAI's GPT models (cloud, requires API key)."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self._model = os.getenv("OPENAI_MODEL", "gpt-4o")
 

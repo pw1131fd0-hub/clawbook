@@ -1,7 +1,8 @@
 """Database engine and session management for Lobster K8s Copilot."""
 import os
+from typing import Generator
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import Session, sessionmaker, DeclarativeBase
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./lobster.db")
 
@@ -16,7 +17,7 @@ class Base(DeclarativeBase):
     pass
 
 
-def get_db():
+def get_db() -> Generator[Session, None, None]:
     """Yield a database session, closing it when the request completes."""
     db = SessionLocal()
     try:
@@ -25,7 +26,7 @@ def get_db():
         db.close()
 
 
-def init_db():
+def init_db() -> None:
     """Create all database tables from SQLAlchemy ORM models."""
     from backend.models.orm_models import Project, DiagnoseHistory  # noqa: F401
     Base.metadata.create_all(bind=engine)

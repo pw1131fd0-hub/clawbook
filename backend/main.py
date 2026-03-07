@@ -2,6 +2,7 @@
 import logging
 import os
 import pathlib
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,7 +22,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     init_db()
     try:
         if os.getenv('KUBERNETES_SERVICE_HOST'):
@@ -72,13 +73,13 @@ if _FRONTEND_BUILD.is_dir():
 
 
 @app.get("/")
-async def root():
+async def root() -> dict[str, str]:
     """Return API health check and version information."""
     return {"message": "Lobster K8s Copilot API is running", "version": "1.0.0"}
 
 
 @app.get("/api/v1/cluster/status")
-async def get_cluster_status(request: Request):
+async def get_cluster_status(request: Request) -> dict[str, str]:
     """Return whether the backend can reach the Kubernetes API server."""
     try:
         v1 = client.CoreV1Api()
@@ -90,7 +91,7 @@ async def get_cluster_status(request: Request):
 
 
 @app.get("/{full_path:path}")
-async def spa_catch_all(full_path: str):
+async def spa_catch_all(full_path: str) -> FileResponse:
     """Forward all non-API, non-static routes to the React SPA index.html."""
     if full_path.startswith("api/") or full_path.startswith("static/"):
         from fastapi import HTTPException

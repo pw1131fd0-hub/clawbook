@@ -16,8 +16,7 @@ class AIDiagnoser:
     2. Falls back to OpenAI or Gemini (cloud) if local is unavailable.
     """
 
-    def __init__(self):
-        self.mode = "Active"
+    def __init__(self) -> None:
         self._analyzer: Optional[BaseAnalyzer] = None
 
     def _get_analyzer(self) -> BaseAnalyzer:
@@ -102,8 +101,8 @@ class AIDiagnoser:
 
     def _parse_response(self, raw: str) -> dict:
         """Extract structured fields from LLM JSON response."""
-        # Try to extract JSON block from markdown code fences
-        json_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+        # Use greedy matching to capture complete nested JSON objects
+        json_match = re.search(r"```(?:json)?\s*(\{.*\})\s*```", raw, re.DOTALL)
         if json_match:
             raw = json_match.group(1)
 

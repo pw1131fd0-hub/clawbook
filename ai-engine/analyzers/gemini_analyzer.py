@@ -8,7 +8,7 @@ from ai_engine.analyzers.base_analyzer import BaseAnalyzer
 class GeminiAnalyzer(BaseAnalyzer):
     """Analyzer using Google's Gemini models (cloud, requires API key)."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         api_key = os.getenv("GEMINI_API_KEY", "")
         if not api_key:
             raise EnvironmentError("GEMINI_API_KEY environment variable is not set or is empty")

@@ -1,4 +1,5 @@
 """Service layer orchestrating pod context collection and AI diagnosis."""
+import logging
 import os
 import httpx
 from sqlalchemy.orm import Session
@@ -6,6 +7,8 @@ from backend.models.schemas import DiagnoseResponse
 from backend.models.orm_models import DiagnoseHistory
 from backend.utils import mask_sensitive_data
 from backend.services.pod_service import PodService
+
+logger = logging.getLogger(__name__)
 
 
 class DiagnoseService:

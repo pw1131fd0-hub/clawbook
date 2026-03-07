@@ -7,8 +7,7 @@ from ai_engine.analyzers.base_analyzer import BaseAnalyzer
 class OllamaAnalyzer(BaseAnalyzer):
     """Analyzer using a locally running Ollama instance (local-first, privacy-safe)."""
 
-    def __init__(self):
-        self._base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    def __init__(self) -> None:
         self._model = os.getenv("OLLAMA_MODEL", "llama3")
 
     @property
