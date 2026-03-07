@@ -1,7 +1,7 @@
 {
-  "stage": "dev",
+  "stage": "test",
   "completeness": 100,
-  "summary": "完成 dev 階段：新增 DiagnoseHistory 和 YamlDiff 前端元件，更新 API (limit param, version/message)，所有 80 個測試通過",
-  "next_action": "進入 test 階段，增加測試覆蓋率至 80%+，確保所有功能有單元/整合測試",
-  "updated_at": "2026-03-07T10:20:17.003Z"
+  "summary": "完成 test 階段：新增 66 個測試（後端 147 通過，前端 29 通過），後端覆蓋率 86%，超過 80% 目標",
+  "next_action": "進入 security 階段，檢查 OWASP Top 10、依賴漏洞、敏感資料處理",
+  "updated_at": "2026-03-07T10:30:15.058Z"
 }

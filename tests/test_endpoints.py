@@ -55,6 +55,8 @@ def test_cluster_status_disconnected(client):
 
 def test_list_pods_endpoint(client):
     """GET /api/v1/cluster/pods should return a list containing the mocked pod."""
+    from backend.controllers.pod_controller import _svc  # pylint: disable=import-outside-toplevel
+    
     mock_pod = MagicMock()
     mock_pod.metadata.name = 'test-pod'
     mock_pod.metadata.namespace = 'default'
@@ -62,9 +64,13 @@ def test_list_pods_endpoint(client):
     mock_pod.status.pod_ip = '10.0.0.1'
     mock_pod.status.conditions = []
 
-    with patch('kubernetes.client.CoreV1Api') as mock_v1:
-        mock_v1.return_value.list_pod_for_all_namespaces.return_value = MagicMock(items=[mock_pod])
+    mock_v1 = MagicMock()
+    mock_v1.list_pod_for_all_namespaces.return_value = MagicMock(items=[mock_pod])
+    _svc._v1 = mock_v1  # pylint: disable=protected-access
+    try:
         response = client.get('/api/v1/cluster/pods')
+    finally:
+        _svc._v1 = None  # pylint: disable=protected-access
 
     assert response.status_code == 200
     data = response.json()
