@@ -25,12 +25,26 @@ def test_root_endpoint(client):
 
 
 def test_cluster_status_endpoint(client):
-    """GET /api/v1/cluster/status should return HTTP 200 with a 'status' field."""
+    """GET /api/v1/cluster/status should return HTTP 200 with status and error fields."""
     with patch('kubernetes.client.CoreV1Api') as mock_v1:
         mock_v1.return_value.list_namespace.return_value = MagicMock(items=[])
         response = client.get('/api/v1/cluster/status')
     assert response.status_code == 200
-    assert 'status' in response.json()
+    data = response.json()
+    assert data['status'] == 'connected'
+    assert data['error'] is None
+
+
+def test_cluster_status_disconnected(client):
+    """GET /api/v1/cluster/status should return disconnected with error when K8s unreachable."""
+    with patch('kubernetes.client.CoreV1Api') as mock_v1:
+        mock_v1.return_value.list_namespace.side_effect = Exception("Connection refused")
+        response = client.get('/api/v1/cluster/status')
+    assert response.status_code == 200
+    data = response.json()
+    assert data['status'] == 'disconnected'
+    assert data['error'] is not None
+    assert 'Connection refused' in data['error']
 
 
 def test_list_pods_endpoint(client):

@@ -83,15 +83,15 @@ async def root() -> dict[str, str]:
 
 
 @app.get("/api/v1/cluster/status")
-async def get_cluster_status() -> dict[str, str]:
+async def get_cluster_status() -> dict[str, str | None]:
     """Return whether the backend can reach the Kubernetes API server."""
     try:
         v1 = client.CoreV1Api()
         v1.list_namespace(limit=1, _request_timeout=10)
-        return {"status": "connected"}
+        return {"status": "connected", "error": None}
     except Exception as e:  # pylint: disable=broad-exception-caught
         logger.debug("K8s cluster unreachable: %s", e)
-        return {"status": "disconnected"}
+        return {"status": "disconnected", "error": str(e)}
 
 
 @app.get("/{full_path:path}")
