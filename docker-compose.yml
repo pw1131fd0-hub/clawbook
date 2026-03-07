@@ -5,7 +5,7 @@ services:
   ai-engine:
     build:
       context: .
-      dockerfile: ai-engine/Dockerfile
+      dockerfile: ai_engine/Dockerfile
     image: lobster-k8s-copilot/ai-engine:latest
     container_name: lobster-ai-engine
     restart: unless-stopped

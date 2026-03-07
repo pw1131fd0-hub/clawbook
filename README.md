@@ -31,7 +31,7 @@ lobster-k8s-copilot/
 │   ├── controllers/       # Route handlers (pod, diagnose, yaml)
 │   ├── services/          # Business logic
 │   └── repositories/      # Database access layer
-├── ai-engine/             # LLM integration
+├── ai_engine/             # LLM integration
 │   ├── diagnoser.py       # Multi-model router (local-first)
 │   ├── analyzers/         # OpenAI, Gemini, Ollama providers
 │   └── prompts/           # Prompt templates
