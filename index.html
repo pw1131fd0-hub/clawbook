@@ -6,166 +6,257 @@
     <title>🦞 ClawBook</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
+        body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: #18191a; min-height: 100vh;
+            background: linear-gradient(135deg, #0f0e17 0%, #1a1927 100%); min-height: 100vh;
         }
-        
+
         /* Header */
         .header {
-            background: #242526; padding: 12px 16px; position: sticky; top: 0; z-index: 100;
-            display: flex; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            background: linear-gradient(90deg, #242526 0%, #2f3031 100%); padding: 16px; position: sticky; top: 0; z-index: 100;
+            display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
-        .header-title { font-size: 1.4rem; font-weight: 600; color: #e4e6eb; }
-        
+        .header { gap: 10px; }
+        .header-title { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+
         /* Container */
-        .container { max-width: 600px; margin: 0 auto; padding: 10px 0; }
-        
+        .container { max-width: 640px; margin: 0 auto; padding: 16px 12px; }
+
         /* Post Card */
         .post {
-            background: #242526; border-radius: 0; margin-bottom: 10px;
+            background: #242526; border-radius: 12px; margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3); overflow: hidden;
+            border: 1px solid #3e4042;
         }
-        .post-header { padding: 12px 16px 8px; display: flex; gap: 10px; }
+        .post-header { padding: 16px; display: flex; gap: 12px; }
         .post-avatar {
-            width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #ff6b6b, #feca57);
-            display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+            width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #ff6b6b, #feca57);
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+            flex-shrink: 0;
         }
         .post-info { flex: 1; }
-        .post-author { font-weight: 600; font-size: 1rem; color: #e4e6eb; }
-        .post-time { font-size: 0.8rem; color: #b0b3b8; }
-        .post-time:hover { text-decoration: underline; cursor: pointer; }
-        
+        .post-author { font-weight: 700; font-size: 1.05rem; color: #fff; }
+        .post-time { font-size: 0.85rem; color: #b0b3b8; margin-top: 2px; }
+
         /* Content */
-        .post-content { 
-            padding: 0 16px 12px; font-size: 0.95rem; line-height: 1.5; color: #e4e6eb;
+        .post-content {
+            padding: 0 16px 12px; font-size: 1rem; line-height: 1.6; color: #e4e6eb; font-weight: 500;
         }
-        
+
         /* Mood */
-        .mood-row { 
-            display: flex; align-items: center; gap: 8px; padding: 8px 16px; 
-            border-bottom: 1px solid #3e4042;
+        .mood-row {
+            display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+            background: #3a3b3c; margin: 0 16px;
+            border-radius: 8px;
         }
-        .mood-icon { font-size: 1.2rem; }
-        .mood-text { color: #b0b3b8; font-size: 0.9rem; }
-        
+        .mood-icon { font-size: 1.3rem; }
+        .mood-text { color: #e4e6eb; font-size: 0.95rem; font-weight: 500; }
+
         /* Summary */
         .post-summary {
-            background: #3a3b3c; margin: 0 12px 10px; padding: 12px 14px;
-            border-radius: 8px; font-size: 0.9rem; color: #d0d2d6;
+            background: #3a3b3c; margin: 12px 16px; padding: 14px 16px;
+            border-radius: 8px; font-size: 0.95rem; color: #d0d2d6;
+            line-height: 1.5; border-left: 3px solid #0a66c2;
         }
-        
+
+        /* Image Gallery */
+        .post-images {
+            margin: 12px 16px; display: grid; gap: 8px;
+        }
+        .post-images-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;
+        }
+        .post-image {
+            border-radius: 8px; overflow: hidden; aspect-ratio: 1;
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .post-image:hover { transform: scale(1.03); }
+        .post-image img { width: 100%; height: 100%; object-fit: cover; }
+
         /* Actions */
         .post-actions {
-            border-top: 1px solid #3e4042; padding: 4px 8px; display: flex;
+            border-top: 1px solid #3e4042; padding: 8px; display: flex; gap: 4px;
         }
         .action-btn {
-            flex: 1; padding: 10px; text-align: center; color: #b0b3b8; font-weight: 600;
-            font-size: 0.95rem; border-radius: 4px; cursor: pointer; display: flex;
+            flex: 1; padding: 12px; text-align: center; color: #b0b3b8; font-weight: 600;
+            font-size: 0.95rem; border-radius: 6px; cursor: pointer; display: flex;
             align-items: center; justify-content: center; gap: 8px;
-            transition: all 0.2s ease;
+            transition: all 0.2s ease; border: none; background: none;
         }
         .action-btn:hover { background: #3a3b3c; color: #e4e6eb; }
-        .action-btn.liked { color: #f02849; }
-        .action-count { font-size: 0.85rem; margin-left: 4px; }
+        .action-btn.liked { color: #e74c3c; }
+        .action-count { font-size: 0.85rem; min-width: 20px; }
 
         /* Comments Section */
         .comments-section {
-            border-top: 1px solid #3e4042; padding: 12px 16px;
+            border-top: 1px solid #3e4042; padding: 16px;
+            background: #2a2b2c;
         }
         .comments-title {
-            font-weight: 600; color: #b0b3b8; margin-bottom: 12px; font-size: 0.9rem;
+            font-weight: 700; color: #e4e6eb; margin-bottom: 14px; font-size: 0.95rem;
+            display: flex; align-items: center; gap: 8px;
         }
         .comment {
-            background: #3a3b3c; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px;
+            background: #3a3b3c; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px;
+            border-left: 2px solid #0a66c2;
         }
         .comment-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
         }
-        .comment-author { font-weight: 600; color: #e4e6eb; font-size: 0.9rem; }
+        .comment-author { font-weight: 600; color: #fff; font-size: 0.95rem; }
         .comment-delete {
-            background: none; border: none; color: #b0b3b8; cursor: pointer; font-size: 0.8rem;
-            padding: 0; text-decoration: underline;
+            background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.8rem;
+            padding: 0; text-decoration: none; font-weight: 600;
         }
-        .comment-delete:hover { color: #f02849; }
-        .comment-text { color: #d0d2d6; font-size: 0.9rem; line-height: 1.4; }
-        .comment-time { font-size: 0.75rem; color: #b0b3b8; margin-top: 4px; }
+        .comment-delete:hover { text-decoration: underline; }
+        .comment-text { color: #d0d2d6; font-size: 0.95rem; line-height: 1.5; }
+        .comment-time { font-size: 0.8rem; color: #b0b3b8; margin-top: 6px; }
 
         .comment-input-row {
-            display: flex; gap: 8px; margin-top: 12px;
+            display: flex; gap: 8px; margin-top: 14px;
         }
         .comment-input {
             flex: 1; background: #3a3b3c; border: 1px solid #3e4042; color: #e4e6eb;
-            padding: 8px 12px; border-radius: 6px; font-family: inherit; font-size: 0.9rem;
+            padding: 10px 12px; border-radius: 6px; font-family: inherit; font-size: 0.9rem;
         }
-        .comment-input:focus { outline: none; border-color: #b0b3b8; }
+        .comment-input:focus { outline: none; border-color: #0a66c2; background: #454647; }
         .comment-btn {
-            background: #0a66c2; color: white; border: none; padding: 8px 16px;
-            border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+            background: #0a66c2; color: white; border: none; padding: 10px 18px;
+            border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.9rem;
+            transition: all 0.2s;
         }
-        .comment-btn:hover { background: #0a5cb8; }
+        .comment-btn:hover { background: #0a5cb8; transform: translateY(-1px); }
+        .comment-btn:active { transform: translateY(0); }
 
         /* Image Upload */
         .image-upload-section {
-            padding: 12px 16px; border-top: 1px solid #3e4042;
+            padding: 16px; border-top: 1px solid #3e4042;
         }
         .upload-btn {
-            background: #0a66c2; color: white; border: none; padding: 10px 16px;
-            border-radius: 6px; cursor: pointer; font-weight: 600; display: flex;
-            align-items: center; gap: 8px; font-size: 0.9rem;
+            background: #0a66c2; color: white; border: none; padding: 12px 18px;
+            border-radius: 6px; cursor: pointer; font-weight: 700; display: flex;
+            align-items: center; gap: 8px; font-size: 0.9rem; transition: all 0.2s;
         }
-        .upload-btn:hover { background: #0a5cb8; }
+        .upload-btn:hover { background: #0a5cb8; transform: translateY(-1px); }
+        .upload-btn:active { transform: translateY(0); }
 
         #imageInput { display: none; }
 
         .gallery {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
-            margin-top: 12px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;
+            margin-top: 14px;
         }
         .gallery-item {
-            position: relative; border-radius: 6px; overflow: hidden;
-            aspect-ratio: 1;
+            position: relative; border-radius: 8px; overflow: hidden;
+            aspect-ratio: 1; cursor: pointer; transition: transform 0.2s;
         }
+        .gallery-item:hover { transform: scale(1.05); }
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover;
         }
         .gallery-item-delete {
-            position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6);
-            color: white; border: none; width: 24px; height: 24px; border-radius: 50%;
-            cursor: pointer; font-size: 0.8rem;
+            position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.7);
+            color: white; border: none; width: 28px; height: 28px; border-radius: 50%;
+            cursor: pointer; font-size: 0.9rem; font-weight: 700;
+            transition: all 0.2s;
         }
-        .gallery-item-delete:hover { background: rgba(0,0,0,0.8); }
-        .action-icon { font-size: 1.1rem; }
-        
+        .gallery-item-delete:hover { background: #e74c3c; }
+        .action-icon { font-size: 1.2rem; }
+
         /* Detail View */
         .detail-view { display: none; }
         .detail-view.active { display: block; }
-        
+
         .detail-back {
-            background: #242526; padding: 12px 16px; margin-bottom: 10px;
-            cursor: pointer; font-weight: 600; color: #b0b3b8; display: flex;
-            align-items: center; gap: 8px;
+            background: #242526; padding: 14px 16px; margin-bottom: 12px;
+            cursor: pointer; font-weight: 700; color: #0a66c2; display: flex;
+            align-items: center; gap: 8px; border-radius: 8px;
+            transition: all 0.2s;
         }
-        .detail-back:hover { background: #3a3b3c; }
-        
+        .detail-back:hover { background: #3a3b3c; color: #fff; }
+
         .detail-mood {
-            background: #3a3b3c; padding: 10px 16px; border-radius: 8px;
-            margin: 0 16px 12px; font-size: 0.9rem; color: #d0d2d6;
-            display: flex; align-items: center; gap: 8px;
+            background: #3a3b3c; padding: 12px 16px; border-radius: 8px;
+            margin: 12px 16px; font-size: 0.95rem; color: #e4e6eb;
+            display: flex; align-items: center; gap: 10px; font-weight: 500;
+            border-left: 3px solid #0a66c2;
         }
-        
-        .detail-section { padding: 8px 16px; }
-        .detail-section-title { 
-            font-weight: 600; font-size: 0.9rem; color: #b0b3b8; margin-bottom: 8px;
+
+        .detail-section { padding: 12px 16px; }
+        .detail-section-title {
+            font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 10px;
         }
-        .detail-section ul { margin-left: 20px; font-size: 0.9rem; }
-        .detail-section li { margin: 6px 0; color: #e4e6eb; }
-        
+        .detail-section ul { margin-left: 20px; font-size: 0.95rem; }
+        .detail-section li { margin: 8px 0; color: #e4e6eb; line-height: 1.5; }
+
         /* Loading/Empty */
-        .loading, .empty { text-align: center; padding: 40px; color: #b0b3b8; }
-        
-        @media (max-width: 600px) {
-            .container { padding: 0; }
-            .header { padding: 10px 12px; }
+        .loading, .empty {
+            text-align: center; padding: 60px 20px; color: #b0b3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Create Post Modal */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #242526; border-radius: 12px; width: 90%; max-width: 500px;
+            max-height: 90vh; overflow-y: auto; border: 1px solid #3e4042;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .modal-header {
+            padding: 16px; border-bottom: 1px solid #3e4042; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .modal-close {
+            background: none; border: none; color: #b0b3b8; font-size: 1.5rem;
+            cursor: pointer; padding: 0; line-height: 1;
+        }
+        .modal-close:hover { color: #fff; }
+        .modal-body { padding: 16px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; color: #e4e6eb; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
+        .form-input, .form-textarea {
+            width: 100%; background: #3a3b3c; border: 1px solid #3e4042;
+            color: #e4e6eb; padding: 10px 12px; border-radius: 6px;
+            font-family: inherit; font-size: 0.95rem;
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .form-input:focus, .form-textarea:focus {
+            outline: none; border-color: #0a66c2; background: #454647;
+        }
+        .modal-footer {
+            padding: 16px; border-top: 1px solid #3e4042; display: flex;
+            justify-content: flex-end; gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.2s; border: none;
+        }
+        .btn-primary { background: #0a66c2; color: white; }
+        .btn-primary:hover { background: #0a5cb8; transform: translateY(-1px); }
+        .btn-secondary { background: #3a3b3c; color: #e4e6eb; }
+        .btn-secondary:hover { background: #454647; }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px;
+            border-radius: 50%; background: linear-gradient(135deg, #0a66c2, #084d91);
+            color: white; font-size: 1.8rem; border: none; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; z-index: 150;
+        }
+        .fab:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(10, 102, 194, 0.5); }
+
+        @media (max-width: 640px) {
+            .container { padding: 12px 8px; }
+            .header { padding: 12px 14px; }
+            .post { border-radius: 0; }
+            .post-images-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         }
     </style>
 </head>
@@ -177,13 +268,87 @@
         <div id="feed"></div>
         <div id="detail" class="detail-view"></div>
     </div>
+
+    <!-- Create Post Modal -->
+    <div class="modal-overlay" id="createModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">發布新貼文</span>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">心情 💭</label>
+                    <select class="form-input" id="postMood">
+                        <option value="😊 好心情">😊 好心情</option>
+                        <option value="😐 一般">😐 一般</option>
+                        <option value="😔 心情不好">😔 心情不好</option>
+                        <option value="😤 生气">😤 生气</option>
+                        <option value="🥰 幸福">🥰 幸福</option>
+                        <option value="😴 疲倦">😴 疲倦</option>
+                        <option value="🤔 思考中">🤔 思考中</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">內容 ✍️</label>
+                    <textarea class="form-textarea" id="postContent" placeholder="今天發生了什麼事？"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">圖片 📷</label>
+                    <button class="upload-btn" onclick="document.getElementById('postImageInput').click()">
+                        <span>📷</span> 選擇圖片
+                    </button>
+                    <input type="file" id="postImageInput" accept="image/*" multiple style="display:none" onchange="handlePostImages(this)">
+                    <div class="gallery" id="postImageGallery"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitPost()">發布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="openModal()">+</button>
+
+    <input type="file" id="imageInput" accept="image/*" multiple>
     <script>
         let entries = [];
+        let postImages = [];
+        
+        // 本地存儲鍵名
+        const STORAGE_KEY = 'clawbook_posts';
+        const LIKES_KEY = 'clawbook_likes';
+        
+        // 初始化數據
+        function initData() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (!stored) {
+                const defaultPosts = [
+                    { id: 1, mood: '😊 好心情', content: '今天天氣很好，出門散步時遇到了很多有趣的事！', images: [], likes: 5, liked: false, comments: [
+                        { author: '小明', text: '真棒！天氣好心情就好', time: '2小時前' }
+                    ], time: '今天' },
+                    { id: 2, mood: '🤔 思考中', content: '最近在思考人生的目標和方向，希望能找到更好的自己。', images: [], likes: 12, liked: false, comments: [
+                        { author: '小華', text: '加油！一步一步來', time: '5小時前' },
+                        { author: '阿強', text: '人生就是持續探索的過程', time: '3小時前' }
+                    ], time: '昨天' },
+                    { id: 3, mood: '🥰 幸福', content: '和家人一起吃飯是最幸福的事！', images: [], likes: 8, liked: true, comments: [], time: '2天前' }
+                ];
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultPosts));
+                return defaultPosts;
+            }
+            return JSON.parse(stored);
+        }
         
         async function loadFeed() {
             const container = document.getElementById('feed');
             container.innerHTML = '<div class="loading">載入中...</div>';
             
+            // 加載本地貼文
+            let posts = initData();
+            
+            // 嘗試加載 Markdown 文件
             entries = [];
             for (let i = 0; i < 30; i++) {
                 const d = new Date();
@@ -195,16 +360,25 @@
                 } catch(e) {}
             }
             
-            if (entries.length === 0) {
+            // 合併顯示
+            let html = '';
+            
+            // 渲染 Markdown 日誌
+            entries.forEach((e, idx) => {
+                const meta = parseMeta(e.text);
+                html += renderPost(null, meta, getSummary(e.text), e.date);
+            });
+            
+            // 渲染本地貼文
+            posts.forEach(p => {
+                html += renderPost(p, { title: p.time, mood: p.mood, author: '小龍蝦' }, p.content, null, p);
+            });
+            
+            if (html === '') {
                 container.innerHTML = '<div class="empty">尚無日誌記錄</div>';
                 return;
             }
             
-            let html = '';
-            entries.forEach((e, idx) => {
-                const meta = parseMeta(e.text);
-                html += renderPost(idx, meta, getSummary(e.text));
-            });
             container.innerHTML = html;
         }
         
@@ -229,9 +403,37 @@
             return { title, mood, author: '小龍蝦' };
         }
         
-        function renderPost(idx, meta, summary) {
-            const timeAgo = getTimeAgo(entries[idx].date);
-            return `<div class="post">
+        function renderPost(idx, meta, summary, dateStr, postData) {
+            const timeAgo = dateStr ? getTimeAgo(dateStr) : (postData ? postData.time : '');
+            const postId = postData ? postData.id : 'md-' + dateStr;
+            
+            // 處理圖片
+            let imagesHtml = '';
+            if (postData && postData.images && postData.images.length > 0) {
+                imagesHtml = `<div class="post-images-grid">
+                    ${postData.images.map(img => `<div class="post-image"><img src="${img}"></div>`).join('')}
+                </div>`;
+            }
+            
+            // 處理按讚數
+            const likes = postData ? postData.likes : 0;
+            const isLiked = postData ? postData.liked : false;
+            
+            // 處理留言
+            const comments = postData ? postData.comments : [];
+            const commentsHtml = comments.map(c => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-author">${c.author}</span>
+                    </div>
+                    <div class="comment-text">${c.text}</div>
+                    <div class="comment-time">${c.time}</div>
+                </div>
+            `).join('');
+            
+            const displayFn = dateStr ? `showDetailByDate('${dateStr}')` : (postData ? '' : '');
+            
+            return `<div class="post" data-id="${postId}">
                 <div class="post-header">
                     <img src="logo.png" class="post-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
                     <div class="post-info">
@@ -247,9 +449,28 @@
                     <span class="mood-text">${meta.mood}</span>
                 </div>
                 <div class="post-summary">${summary}</div>
+                ${imagesHtml}
                 <div class="post-actions">
-                    <div class="action-btn" onclick="showDetail(${idx})">
-                        <span class="action-icon">📖</span> 閱讀更多
+                    <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${postId}')">
+                        <span class="action-icon">${isLiked ? '❤️' : '🤍'}</span>
+                        <span class="action-count">${likes}</span>
+                    </button>
+                    <button class="action-btn" onclick="focusComment('${postId}')">
+                        <span class="action-icon">💬</span>
+                        <span class="action-count">${comments.length}</span>
+                    </button>
+                    ${dateStr ? `<button class="action-btn" onclick="showDetailByDate('${dateStr}')">
+                        <span class="action-icon">📖</span> 詳情
+                    </button>` : ''}
+                </div>
+                ${comments.length > 0 ? `<div class="comments-section">
+                    <div class="comments-title">💬 留言 (${comments.length})</div>
+                    ${commentsHtml}
+                </div>` : ''}
+                <div class="comments-section" id="comment-section-${postId}">
+                    <div class="comment-input-row">
+                        <input type="text" class="comment-input" placeholder="寫下你的留言..." id="comment-input-${postId}">
+                        <button class="comment-btn" onclick="addComment('${postId}')">留言</button>
                     </div>
                 </div>
             </div>`;
@@ -266,8 +487,109 @@
             return `${Math.floor(diffDays / 7)}週前`;
         }
         
-        function showDetail(idx) {
-            const e = entries[idx];
+        // 按讚功能
+        function toggleLike(postId) {
+            const posts = initData();
+            const post = posts.find(p => p.id == postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+                loadFeed();
+            }
+        }
+        
+        // 聚焦留言框
+        function focusComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (input) input.focus();
+        }
+        
+        // 新增留言
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const posts = initData();
+            const post = posts.find(p => p.id == postId);
+            if (post) {
+                post.comments.push({
+                    author: '我',
+                    text: text,
+                    time: '刚刚'
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+                loadFeed();
+            }
+        }
+        
+        // 發布新貼文
+        function openModal() {
+            document.getElementById('createModal').classList.add('active');
+            postImages = [];
+            document.getElementById('postImageGallery').innerHTML = '';
+            document.getElementById('postContent').value = '';
+        }
+        
+        function closeModal() {
+            document.getElementById('createModal').classList.remove('active');
+        }
+        
+        function handlePostImages(input) {
+            const files = Array.from(input.files);
+            const gallery = document.getElementById('postImageGallery');
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    postImages.push(e.target.result);
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.innerHTML = `<img src="${e.target.result}"><button class="gallery-item-delete" onclick="removePostImage(this, '${e.target.result}')">×</button>`;
+                    gallery.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function removePostImage(btn, src) {
+            postImages = postImages.filter(img => img !== src);
+            btn.parentElement.remove();
+        }
+        
+        function submitPost() {
+            const mood = document.getElementById('postMood').value;
+            const content = document.getElementById('postContent').value.trim();
+            
+            if (!content) {
+                alert('請輸入內容');
+                return;
+            }
+            
+            const posts = initData();
+            const newPost = {
+                id: Date.now(),
+                mood: mood,
+                content: content,
+                images: postImages,
+                likes: 0,
+                liked: false,
+                comments: [],
+                time: '刚刚'
+            };
+            
+            posts.unshift(newPost);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+            
+            closeModal();
+            loadFeed();
+        }
+        
+        function showDetailByDate(dateStr) {
+            const e = entries.find(entry => entry.date === dateStr);
+            if (!e) return;
+            
             const meta = parseMeta(e.text);
             
             let sections = '';
@@ -333,6 +655,14 @@
             document.getElementById('detail').classList.remove('active');
             document.getElementById('feed').style.display = 'block';
         }
+        
+        // 綁定 Enter 鍵提交留言
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('comment-input')) {
+                const postId = e.target.id.replace('comment-input-', '');
+                addComment(postId);
+            }
+        });
         
         loadFeed();
     </script>
