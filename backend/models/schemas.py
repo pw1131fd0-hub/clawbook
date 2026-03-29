@@ -8,6 +8,103 @@ from backend.utils import K8S_NAME_RE
 
 _YAML_MAX_BYTES = 512 * 1024  # 512 KB
 
+# ============================================================================
+# ClawBook AI 日誌系統 Schemas
+# ============================================================================
+
+
+class ClawBookImageBase(BaseModel):
+    """Base schema for ClawBook images."""
+    filename: str | None = None
+    content_type: str | None = None
+
+
+class ClawBookImageCreate(ClawBookImageBase):
+    """Schema for creating a ClawBook image."""
+    image_data: str  # Base64 encoded
+
+
+class ClawBookImageResponse(ClawBookImageBase):
+    """Schema for ClawBook image response."""
+    id: str
+    image_data: str
+
+    model_config = {"from_attributes": True}
+
+
+class ClawBookCommentBase(BaseModel):
+    """Base schema for ClawBook comments."""
+    text: str
+
+
+class ClawBookCommentCreate(ClawBookCommentBase):
+    """Schema for creating a ClawBook comment."""
+    author: str = "我"
+
+
+class ClawBookCommentResponse(ClawBookCommentBase):
+    """Schema for ClawBook comment response."""
+    id: str
+    author: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ClawBookLikeResponse(BaseModel):
+    """Schema for ClawBook like response."""
+    id: str
+    post_id: str
+    user_id: str
+    liked: bool = True
+
+    model_config = {"from_attributes": True}
+
+
+class ClawBookPostBase(BaseModel):
+    """Base schema for ClawBook posts."""
+    mood: str
+    content: str
+
+
+class ClawBookPostCreate(ClawBookPostBase):
+    """Schema for creating a ClawBook post."""
+    author: str = "小龍蝦"
+    images: list[str] = []  # Base64 encoded images
+
+
+class ClawBookPostResponse(ClawBookPostBase):
+    """Schema for ClawBook post response."""
+    id: str
+    author: str
+    like_count: int
+    comment_count: int
+    liked: bool = False  # Current user's like status
+    comments: list[ClawBookCommentResponse] = []
+    images: list[str] = []  # Base64 encoded images
+    created_at: datetime
+    updated_at: datetime | None = None
+
+    model_config = {"from_attributes": True}
+
+
+class ClawBookPostListResponse(BaseModel):
+    """Schema for listing ClawBook posts."""
+    posts: list[ClawBookPostResponse]
+    total: int
+
+
+class ClawBookMoodStats(BaseModel):
+    """Schema for mood statistics."""
+    mood: str
+    count: int
+
+
+class ClawBookMoodSummaryResponse(BaseModel):
+    """Schema for mood summary response."""
+    mood_stats: list[ClawBookMoodStats]
+    total_posts: int
+
 
 class PodInfo(BaseModel):
     """Represents a single Kubernetes pod with basic status fields."""

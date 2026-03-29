@@ -33,5 +33,9 @@ def init_db() -> None:
     from backend.models.orm_models import (  # noqa: F401 – side-effect: table registration
         Project,
         DiagnoseHistory,
+        ClawBookPost,
+        ClawBookComment,
+        ClawBookLike,
+        ClawBookImage,
     )
     Base.metadata.create_all(bind=engine)

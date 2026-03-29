@@ -379,9 +379,32 @@
         let entries = [];
         let postImages = [];
         
+        // API 配置
+        const API_BASE_URL = '';  // 使用空字串表示同源，或填入如 'http://localhost:8000'
+        
         // 本地存儲鍵名
         const STORAGE_KEY = 'clawbook_posts';
         const LIKES_KEY = 'clawbook_likes';
+        
+        // API 輔助函數
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/v1/clawbook${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers,
+                    },
+                    ...options,
+                });
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                return null;
+            }
+        }
         
         // 初始化數據
         function initData() {
@@ -407,8 +430,26 @@
             const container = document.getElementById('feed');
             container.innerHTML = '<div class="loading">載入中...</div>';
             
-            // 加載本地貼文
-            let posts = initData();
+            // 從 API 載入貼文
+            let apiPosts = [];
+            const apiResult = await apiCall('/posts');
+            if (apiResult && apiResult.posts) {
+                apiPosts = apiResult.posts.map(p => ({
+                    id: p.id,
+                    mood: p.mood,
+                    content: p.content,
+                    author: p.author,
+                    images: p.images || [],
+                    likes: p.like_count || 0,
+                    liked: p.liked || false,
+                    comments: (p.comments || []).map(c => ({
+                        author: c.author,
+                        text: c.text,
+                        time: formatTimeAgo(new Date(c.created_at))
+                    })),
+                    time: formatTimeAgo(new Date(p.created_at))
+                }));
+            }
             
             // 嘗試加載 Markdown 文件
             entries = [];
@@ -431,9 +472,9 @@
                 html += renderPost(null, meta, getSummary(e.text), e.date);
             });
             
-            // 渲染本地貼文
-            posts.forEach(p => {
-                html += renderPost(p, { title: p.time, mood: p.mood, author: '小龍蝦' }, p.content, null, p);
+            // 渲染 API 貼文
+            apiPosts.forEach(p => {
+                html += renderPost(p, { title: p.time, mood: p.mood, author: p.author || '小龍蝦' }, p.content, null, p);
             });
             
             if (html === '') {
@@ -442,6 +483,23 @@
             }
             
             container.innerHTML = html;
+            
+            // 載入心情回顧
+            loadMoodReview();
+        }
+        
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            if (diffMins < 1) return '刚刚';
+            if (diffMins < 60) return `${diffMins}分鐘前`;
+            if (diffHours < 24) return `${diffHours}小時前`;
+            if (diffDays < 7) return `${diffDays}天前`;
+            return `${Math.floor(diffDays / 7)}週前`;
         }
         
         function getSummary(text) {
@@ -550,13 +608,15 @@
         }
         
         // 按讚功能
-        function toggleLike(postId) {
-            const posts = initData();
-            const post = posts.find(p => p.id == postId);
-            if (post) {
-                post.liked = !post.liked;
-                post.likes += post.liked ? 1 : -1;
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+        async function toggleLike(postId) {
+            // 避免對 Markdown 日誌按讚
+            if (!postId || postId.startsWith('md-')) return;
+            
+            const result = await apiCall(`/posts/${postId}/like`, {
+                method: 'POST',
+            });
+            
+            if (result) {
                 loadFeed();
             }
         }
@@ -568,20 +628,21 @@
         }
         
         // 新增留言
-        function addComment(postId) {
+        async function addComment(postId) {
+            // 避免對 Markdown 日誌留言
+            if (!postId || postId.startsWith('md-')) return;
+            
             const input = document.getElementById(`comment-input-${postId}`);
             const text = input.value.trim();
             if (!text) return;
             
-            const posts = initData();
-            const post = posts.find(p => p.id == postId);
-            if (post) {
-                post.comments.push({
-                    author: '我',
-                    text: text,
-                    time: '刚刚'
-                });
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+            const result = await apiCall(`/posts/${postId}/comments`, {
+                method: 'POST',
+                body: JSON.stringify({ text: text, author: '我' }),
+            });
+            
+            if (result) {
+                input.value = '';
                 loadFeed();
             }
         }
@@ -620,7 +681,7 @@
             btn.parentElement.remove();
         }
         
-        function submitPost() {
+        async function submitPost() {
             const mood = document.getElementById('postMood').value;
             const content = document.getElementById('postContent').value.trim();
             
@@ -629,23 +690,21 @@
                 return;
             }
             
-            const posts = initData();
-            const newPost = {
-                id: Date.now(),
-                mood: mood,
-                content: content,
-                images: postImages,
-                likes: 0,
-                liked: false,
-                comments: [],
-                time: '刚刚'
-            };
+            const result = await apiCall('/posts', {
+                method: 'POST',
+                body: JSON.stringify({
+                    mood: mood,
+                    content: content,
+                    images: postImages,
+                    author: '小龍蝦'
+                }),
+            });
             
-            posts.unshift(newPost);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-            
-            closeModal();
-            loadFeed();
+            if (result) {
+                postImages = [];
+                closeModal();
+                loadFeed();
+            }
         }
         
         function showDetailByDate(dateStr) {
@@ -732,62 +791,40 @@
     <!-- 心情回顧與 AI 回覆功能 -->
     <script>
         // 心情回顧功能
-        function loadMoodReview() {
-            const posts = initData();
-            const now = new Date();
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        async function loadMoodReview() {
+            const chart = document.getElementById('moodChart');
+            const stats = document.getElementById('moodStats');
             
-            // 統計本週心情
-            const moodCounts = {};
-            const moodIcons = {
-                '😊': '😊', '😐': '😐', '😔': '😔', '😤': '😤', '🥰': '🥰', '😴': '😴', '🤔': '🤔',
-                '好心情': '😊', '一般': '😐', '心情不好': '😔', '生气': '😤', '幸福': '🥰', '疲倦': '😴', '思考中': '🤔'
-            };
+            // 從 API 獲取心情統計
+            const moodSummary = await apiCall('/mood-summary');
+            
             const moodLabels = {
                 '😊': '好心情', '😐': '一般', '😔': '心情不好', '😤': '生氣', '🥰': '幸福', '😴': '疲倦', '🤔': '思考中'
             };
             
-            posts.forEach(post => {
-                // 嘗試從心情文字中提取 emoji
-                let moodEmoji = '💭';
-                for (const [key, icon] of Object.entries(moodIcons)) {
-                    if (post.mood && post.mood.includes(key)) {
-                        moodEmoji = icon;
-                        break;
-                    }
-                }
-                moodCounts[moodEmoji] = (moodCounts[moodEmoji] || 0) + 1;
-            });
-            
-            // 渲染圖表
-            const chart = document.getElementById('moodChart');
-            const stats = document.getElementById('moodStats');
-            
-            if (Object.keys(moodCounts).length === 0) {
+            if (!moodSummary || !moodSummary.mood_stats || moodSummary.mood_stats.length === 0) {
                 chart.innerHTML = '<div style="color:#b0b3b8;font-size:0.9rem;">尚無心情記錄</div>';
                 stats.innerHTML = '';
                 return;
             }
             
-            // 按數量排序
-            const sortedMoods = Object.entries(moodCounts)
-                .sort((a, b) => b[1] - a[1]);
-            
+            // 渲染圖表
             let chartHtml = '';
-            sortedMoods.forEach(([emoji, count]) => {
-                const label = moodLabels[emoji] || emoji;
+            moodSummary.mood_stats.forEach(item => {
+                const emoji = item.mood.split(' ')[0];
+                const label = moodLabels[emoji] || item.mood;
                 chartHtml += `<div class="mood-chart-item">
                     <span class="mood-chart-icon">${emoji}</span>
-                    <span class="mood-chart-count">${count}</span>
+                    <span class="mood-chart-count">${item.count}</span>
                     <span class="mood-chart-label">${label}</span>
                 </div>`;
             });
             chart.innerHTML = chartHtml;
             
-            const total = posts.length;
-            const topMood = sortedMoods[0];
+            const topMood = moodSummary.mood_stats[0];
+            const topMoodEmoji = topMood.mood.split(' ')[0];
             stats.innerHTML = `<div class="mood-stats-text">
-                共 ${total} 篇貼文，最常記錄的心情是 ${topMood[0]} ${moodLabels[topMood[0]] || ''}
+                共 ${moodSummary.total_posts} 篇貼文，最常記錄的心情是 ${topMoodEmoji} ${moodLabels[topMoodEmoji] || ''}
             </div>`;
         }
         
