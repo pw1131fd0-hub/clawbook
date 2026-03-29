@@ -306,6 +306,25 @@
         .ai-typing span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        
+        .connection-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .connection-dot.connected { background: #22c55e; }
+        .connection-dot.disconnected { background: #ef4444; }
+        .connection-dot.connecting { background: #f59e0b; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .post-delete-btn { background: none; border: none; color: #b0b3b8; cursor: pointer; padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; }
+        .post-delete-btn:hover { background: #3a3b3c; color: #ef4444; }
+        
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 14px; background: #3a3b3c; border: 1px solid #3e4042; color: #b0b3b8; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
+        .filter-btn:hover { background: #454647; color: #e4e6eb; }
+        .filter-btn.active { background: #0a66c2; border-color: #0a66c2; color: white; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; color: #b0b3b8; }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 16px; }
+        .empty-state-text { font-size: 1.1rem; margin-bottom: 8px; }
+        .empty-state-hint { font-size: 0.9rem; color: #64748b; }
 
         @media (max-width: 640px) {
             .container { padding: 12px 8px; }
@@ -318,6 +337,7 @@
 <body>
     <div class="header">
         <img src="logo.png" style="height:32px;vertical-align:middle;margin-right:8px;"> <span style="vertical-align:middle;">ClawBook</span>
+        <span id="connectionStatus" style="margin-left:auto;font-size:0.85rem;display:flex;align-items:center;gap:6px;"></span>
     </div>
     <div class="container">
         <!-- 心情回顧區塊 -->
@@ -327,6 +347,13 @@
             <div class="mood-stats" id="moodStats"></div>
         </div>
         
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-btn active" data-filter="all" onclick="filterPosts('all')">全部</button>
+            <button class="filter-btn" data-filter="😊" onclick="filterPosts('😊')">😊</button>
+            <button class="filter-btn" data-filter="😐" onclick="filterPosts('😐')">😐</button>
+            <button class="filter-btn" data-filter="😔" onclick="filterPosts('😔')">😔</button>
+            <button class="filter-btn" data-filter="🥰" onclick="filterPosts('🥰')">🥰</button>
+        </div>
         <div id="feed"></div>
         <div id="detail" class="detail-view"></div>
     </div>
@@ -378,6 +405,8 @@
     <script>
         let entries = [];
         let postImages = [];
+        let currentFilter = 'all';
+        let allPosts = []; // Store all posts for filtering
         
         // API 配置
         const API_BASE_URL = '';  // 使用空字串表示同源，或填入如 'http://localhost:8000'
@@ -406,6 +435,36 @@
             }
         }
         
+        // 檢查 API 連線狀態
+        async function checkConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.innerHTML = '<span class="connection-dot connecting"></span> 連線中...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/v1/clawbook/posts?limit=1`);
+                if (response.ok) {
+                    statusEl.innerHTML = '<span class="connection-dot connected"></span> 已連線';
+                } else {
+                    throw new Error('API Error');
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<span class="connection-dot disconnected"></span> 離線模式';
+            }
+        }
+        
+        // 刪除貼文
+        async function deletePost(postId) {
+            if (!postId || postId.startsWith('md-')) return;
+            if (!confirm('確定要刪除這篇貼文嗎？')) return;
+            
+            const result = await apiCall(`/posts/${postId}`, { method: 'DELETE' });
+            if (result) {
+                loadFeed();
+            } else {
+                alert('刪除失敗，請稍後再試');
+            }
+        }
+        
         // 初始化數據
         function initData() {
             const stored = localStorage.getItem(STORAGE_KEY);
@@ -429,6 +488,9 @@
         async function loadFeed() {
             const container = document.getElementById('feed');
             container.innerHTML = '<div class="loading">載入中...</div>';
+            
+            // 檢查連線狀態
+            checkConnection();
             
             // 從 API 載入貼文
             let apiPosts = [];
@@ -463,22 +525,32 @@
                 } catch(e) {}
             }
             
-            // 合併顯示
+            // 合併顯示（應用當前過濾器）
+            allPosts = apiPosts;
+            
             let html = '';
             
             // 渲染 Markdown 日誌
             entries.forEach((e, idx) => {
                 const meta = parseMeta(e.text);
-                html += renderPost(null, meta, getSummary(e.text), e.date);
+                if (currentFilter === 'all' || meta.mood.includes(currentFilter)) {
+                    html += renderPost(null, meta, getSummary(e.text), e.date);
+                }
             });
             
             // 渲染 API 貼文
             apiPosts.forEach(p => {
-                html += renderPost(p, { title: p.time, mood: p.mood, author: p.author || '小龍蝦' }, p.content, null, p);
+                if (currentFilter === 'all' || p.mood.includes(currentFilter)) {
+                    html += renderPost(p, { title: p.time, mood: p.mood, author: p.author || '小龍蝦' }, p.content, null, p);
+                }
             });
             
             if (html === '') {
-                container.innerHTML = '<div class="empty">尚無日誌記錄</div>';
+                container.innerHTML = `<div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <div class="empty-state-text">尚無日誌記錄</div>
+                    <div class="empty-state-hint">點擊右下角 + 按鈕發布第一篇日誌</div>
+                </div>`;
                 return;
             }
             
@@ -556,10 +628,11 @@
             return `<div class="post" data-id="${postId}">
                 <div class="post-header">
                     <img src="logo.png" class="post-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
-                    <div class="post-info">
+                    <div class="post-info" style="flex:1;">
                         <div class="post-author">${meta.author}</div>
                         <div class="post-time">${timeAgo}</div>
                     </div>
+                    ${postData ? `<button class="post-delete-btn" onclick="deletePost('${postId}')" title="刪除">🗑️</button>` : ''}
                 </div>
                 <div class="post-content">
                     ${meta.title}
@@ -627,7 +700,7 @@
             if (input) input.focus();
         }
         
-        // 新增留言
+        // 新增留言 (API-based with AI reply)
         async function addComment(postId) {
             // 避免對 Markdown 日誌留言
             if (!postId || postId.startsWith('md-')) return;
@@ -636,6 +709,12 @@
             const text = input.value.trim();
             if (!text) return;
             
+            // Disable button temporarily
+            const btn = input.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.textContent = '...';
+            btn.disabled = true;
+            
             const result = await apiCall(`/posts/${postId}/comments`, {
                 method: 'POST',
                 body: JSON.stringify({ text: text, author: '我' }),
@@ -643,8 +722,19 @@
             
             if (result) {
                 input.value = '';
-                loadFeed();
+                // 先重新載入 feed
+                await loadFeed();
+                // 再顯示 AI 回覆（因為 loadFeed 會重建 DOM）
+                setTimeout(() => {
+                    const aiReply = generateAIReply(text);
+                    showAIReply(postId, aiReply);
+                }, 500);
+            } else {
+                alert('留言失敗，請稍後再試');
             }
+            
+            btn.textContent = originalText;
+            btn.disabled = false;
         }
         
         // 發布新貼文
@@ -912,34 +1002,44 @@
             }, 1500 + Math.random() * 1000); // 1.5-2.5 秒延遲
         }
         
-        // 修改 addComment 函數，加入 AI 回覆
-        const originalAddComment = addComment;
-        addComment = function(postId) {
-            const input = document.getElementById(`comment-input-${postId}`);
-            const text = input.value.trim();
-            if (!text) return;
+        // 過濾貼文
+        function filterPosts(filter) {
+            currentFilter = filter;
             
-            const posts = initData();
-            const post = posts.find(p => p.id == postId);
-            if (post) {
-                // 新增用戶留言
-                post.comments.push({
-                    author: '我',
-                    text: text,
-                    time: '刚刚'
-                });
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-                
-                // 重新渲染以顯示新留言
-                loadFeed();
-                
-                // AI 自動回覆
-                setTimeout(() => {
-                    const aiReply = generateAIReply(text);
-                    showAIReply(postId, aiReply);
-                }, 500);
+            // 更新 filter button 狀態
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            
+            // 過濾並重新渲染
+            const container = document.getElementById('feed');
+            let html = '';
+            
+            // 過濾 Markdown entries
+            entries.forEach((e, idx) => {
+                const meta = parseMeta(e.text);
+                if (filter === 'all' || meta.mood.includes(filter)) {
+                    html += renderPost(null, meta, getSummary(e.text), e.date);
+                }
+            });
+            
+            // 過濾 API posts
+            allPosts.forEach(p => {
+                if (filter === 'all' || p.mood.includes(filter)) {
+                    html += renderPost(p, { title: p.time, mood: p.mood, author: p.author || '小龍蝦' }, p.content, null, p);
+                }
+            });
+            
+            if (html === '') {
+                container.innerHTML = `<div class="empty-state">
+                    <div class="empty-state-icon">🔍</div>
+                    <div class="empty-state-text">沒有符合的貼文</div>
+                    <div class="empty-state-hint">試試其他心情過濾條件</div>
+                </div>`;
+            } else {
+                container.innerHTML = html;
             }
-        };
+        }
         
         // 頁面載入時初始化心情回顧
         loadMoodReview();

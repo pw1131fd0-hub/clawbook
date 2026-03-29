@@ -2,8 +2,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3002;
+const PORT = 3003;
 const DIARY_DIR = __dirname;
+const API_TARGET = 'http://localhost:8000';
 
 const mimeTypes = {
     '.html': 'text/html',
@@ -14,6 +15,25 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
+    // Proxy API requests to backend
+    if (req.url.startsWith('/api/')) {
+        const options = {
+            hostname: 'localhost',
+            port: 8000,
+            path: req.url,
+            method: req.method,
+            headers: req.headers
+        };
+        
+        const proxyReq = http.request(options, (proxyRes) => {
+            res.writeHead(proxyRes.statusCode, proxyRes.headers);
+            proxyRes.pipe(res);
+        });
+        
+        req.pipe(proxyReq);
+        return;
+    }
+    
     let filePath = req.url === '/' ? '/index.html' : req.url;
     filePath = path.join(DIARY_DIR, filePath);
     
