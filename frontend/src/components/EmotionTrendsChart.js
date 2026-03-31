@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPosts } from '../utils/api';
+import { fetchPosts } from '../utils/api';
 
 const MOOD_COLORS = {
   '😊': '#10b981', // green
@@ -33,13 +33,13 @@ export default function EmotionTrendsChart() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPostsData();
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchPostsData = async () => {
     try {
       setLoading(true);
-      const response = await getPosts({ limit: 100, skip: 0 });
+      const response = await fetchPosts(100, 0);
       setPosts(response.posts || []);
     } catch (err) {
       setError('Failed to load emotion data');

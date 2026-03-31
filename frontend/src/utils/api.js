@@ -90,3 +90,8 @@ export async function fetchDecisionPathsHistory(limit = 20, offset = 0) {
   if (!response.ok) throw new Error('Failed to fetch decision paths history');
   return response.json();
 }
+
+// API client object for backward compatibility
+export const api = {
+  baseURL: API_URL,
+};

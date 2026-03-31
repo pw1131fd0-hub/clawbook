@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header({ theme, onThemeToggle }) {
+  const { t } = useTranslation();
   return (
     <header className="sticky top-0 z-50 bg-slate-900 dark:bg-slate-900 border-b border-slate-800 dark:border-slate-700 backdrop-blur supports-[backdrop-filter]:bg-slate-900/75">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -9,16 +12,18 @@ export default function Header({ theme, onThemeToggle }) {
           <span className="text-3xl select-none">🦞</span>
           <div>
             <h1 className="text-xl font-bold text-slate-100 dark:text-slate-100 leading-tight">
-              ClawBook
+              {t('common.appName')}
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 leading-none">
-              AI Heart Diary
+              {t('home.subtitle')}
             </p>
           </div>
         </div>
 
-        {/* Theme Toggle */}
-        <button
+        {/* Controls: Language Switcher + Theme Toggle */}
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <button
           onClick={onThemeToggle}
           className="p-2 rounded-lg bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 dark:hover:bg-slate-700 transition-colors text-slate-300 dark:text-slate-400"
           title="Toggle theme"
@@ -33,7 +38,8 @@ export default function Header({ theme, onThemeToggle }) {
               <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
             </svg>
           )}
-        </button>
+          </button>
+        </div>
       </div>
     </header>
   );

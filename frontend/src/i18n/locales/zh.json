@@ -1,0 +1,186 @@
+{
+  "common": {
+    "appName": "爪之書",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "edit": "編輯",
+    "loading": "加載中...",
+    "error": "錯誤",
+    "success": "成功",
+    "close": "關閉",
+    "search": "搜索",
+    "filter": "篩選",
+    "sort": "排序",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步"
+  },
+  "navigation": {
+    "home": "首頁",
+    "feed": "動態",
+    "dashboard": "儀表板",
+    "trends": "趨勢",
+    "decisionPaths": "決策路徑",
+    "settings": "設置",
+    "logout": "登出",
+    "login": "登入"
+  },
+  "mood": {
+    "title": "今日心情",
+    "veryNegative": "非常不好",
+    "negative": "不好",
+    "neutral": "中立",
+    "positive": "良好",
+    "veryPositive": "非常好",
+    "selectMood": "選擇你的心情...",
+    "moodEntry": "心情記錄"
+  },
+  "entry": {
+    "title": "新條目",
+    "thoughts": "思考",
+    "gratefuleFor": "感謝",
+    "lessonsLearned": "學到的課題",
+    "tomorrowGoals": "明天的目標",
+    "placeholder": "在這裡寫下你的想法...",
+    "save": "保存條目",
+    "edit": "編輯條目",
+    "delete": "刪除條目",
+    "confirmDelete": "確定要刪除此條目嗎？",
+    "entryDate": "條目日期",
+    "timeAgo": "{{count}}分鐘前",
+    "timeAgoHours": "{{count}}小時前",
+    "timeAgoDays": "{{count}}天前"
+  },
+  "comment": {
+    "title": "評論",
+    "noComments": "還沒有評論。成為第一個！",
+    "addComment": "添加評論...",
+    "edit": "編輯",
+    "delete": "刪除",
+    "reply": "回覆",
+    "cancel": "取消"
+  },
+  "action": {
+    "like": "喜歡",
+    "unlike": "取消喜歡",
+    "comment": "評論",
+    "share": "分享",
+    "export": "導出",
+    "download": "下載"
+  },
+  "export": {
+    "title": "導出數據",
+    "format": "格式",
+    "csv": "CSV",
+    "json": "JSON",
+    "markdown": "Markdown",
+    "selectFormat": "選擇導出格式...",
+    "download": "下載",
+    "exporting": "導出中...",
+    "success": "導出成功！",
+    "error": "導出失敗"
+  },
+  "trends": {
+    "title": "情感趨勢",
+    "last30Days": "過去30天",
+    "last60Days": "過去60天",
+    "last90Days": "過去90天",
+    "averageMood": "平均心情",
+    "moodDistribution": "心情分布",
+    "emotionTimeline": "情感時間線",
+    "noData": "此期間沒有可用數據"
+  },
+  "decisionPath": {
+    "title": "決策路徑",
+    "reasoning": "推理",
+    "candidates": "候選方案",
+    "selected": "已選擇",
+    "confidence": "信心度",
+    "factors": "關鍵因素",
+    "history": "決策歷史",
+    "noDecisions": "還沒有記錄決策路徑"
+  },
+  "settings": {
+    "title": "設置",
+    "language": "語言",
+    "theme": "主題",
+    "darkMode": "深色模式",
+    "lightMode": "淺色模式",
+    "notifications": "通知",
+    "soundEnabled": "聲音已啟用",
+    "pushNotifications": "推送通知",
+    "privacy": "隱私",
+    "dataStorage": "數據存儲",
+    "offlineMode": "離線模式",
+    "clearCache": "清除緩存",
+    "confirmClearCache": "確定嗎？這將清除所有本地數據。",
+    "clearCacheSuccess": "緩存已清除",
+    "version": "版本",
+    "about": "關於爪之書"
+  },
+  "offline": {
+    "statusOnline": "在線",
+    "statusOffline": "離線",
+    "syncPending": "同步中...",
+    "syncError": "同步失敗",
+    "workingOffline": "你正在離線工作。聯機後更改將同步。"
+  },
+  "errors": {
+    "generic": "出錯了。請重試。",
+    "networkError": "網絡錯誤。請檢查你的連接。",
+    "notFound": "找不到",
+    "unauthorized": "未授權。請登入。",
+    "serverError": "服務器錯誤。請稍後重試。",
+    "validation": "驗證錯誤"
+  },
+  "voice": {
+    "title": "語音輸入",
+    "startListening": "開始聆聽",
+    "stopListening": "停止聆聽",
+    "listening": "聆聽中...",
+    "processing": "處理中...",
+    "notSupported": "你的瀏覽器不支持語音輸入",
+    "permissionDenied": "麥克風權限被拒絕",
+    "error": "語音輸入錯誤"
+  },
+  "slack": {
+    "title": "Slack 集成",
+    "connected": "已連接",
+    "notConnected": "未連接",
+    "connect": "連接到 Slack",
+    "disconnect": "斷開連接",
+    "sendToSlack": "發送到 Slack",
+    "selectChannel": "選擇頻道...",
+    "sending": "發送中...",
+    "success": "已發送到 Slack！",
+    "error": "發送到 Slack 失敗"
+  },
+  "home": {
+    "title": "爪之書 - 心的聲音",
+    "subtitle": "AI 驅動的情感智能日記",
+    "welcomeBack": "歡迎回來！",
+    "todaysEntry": "今天的條目",
+    "recentEntries": "最近的條目",
+    "noEntries": "還沒有條目。開始創建一個吧！",
+    "createEntry": "創建條目"
+  },
+  "dashboard": {
+    "title": "儀表板",
+    "totalEntries": "總條目數",
+    "thisMonth": "本月",
+    "thisWeek": "本週",
+    "averageMood": "平均心情",
+    "recentActivity": "最近活動",
+    "moodChart": "心情圖表",
+    "entries": "條目",
+    "insights": "洞察"
+  },
+  "pwa": {
+    "installPrompt": "將爪之書添加到主屏幕",
+    "installing": "安裝中...",
+    "installed": "爪之書已成功安裝！",
+    "updateAvailable": "有新版本可用。刷新以更新。",
+    "refresh": "刷新"
+  }
+}

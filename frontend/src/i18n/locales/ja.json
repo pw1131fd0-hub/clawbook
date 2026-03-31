@@ -1,0 +1,186 @@
+{
+  "common": {
+    "appName": "爪の本",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "close": "閉じる",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並べ替え",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "feed": "フィード",
+    "dashboard": "ダッシュボード",
+    "trends": "トレンド",
+    "decisionPaths": "決定パス",
+    "settings": "設定",
+    "logout": "ログアウト",
+    "login": "ログイン"
+  },
+  "mood": {
+    "title": "今日の気分",
+    "veryNegative": "非常に悪い",
+    "negative": "悪い",
+    "neutral": "普通",
+    "positive": "良い",
+    "veryPositive": "非常に良い",
+    "selectMood": "気分を選択...",
+    "moodEntry": "気分エントリー"
+  },
+  "entry": {
+    "title": "新しいエントリー",
+    "thoughts": "考え",
+    "gratefuleFor": "感謝",
+    "lessonsLearned": "学んだこと",
+    "tomorrowGoals": "明日の目標",
+    "placeholder": "ここに考えを書いてください...",
+    "save": "エントリーを保存",
+    "edit": "エントリーを編集",
+    "delete": "エントリーを削除",
+    "confirmDelete": "このエントリーを削除してもよろしいですか？",
+    "entryDate": "エントリー日付",
+    "timeAgo": "{{count}}分前",
+    "timeAgoHours": "{{count}}時間前",
+    "timeAgoDays": "{{count}}日前"
+  },
+  "comment": {
+    "title": "コメント",
+    "noComments": "まだコメントがありません。最初になってください！",
+    "addComment": "コメントを追加...",
+    "edit": "編集",
+    "delete": "削除",
+    "reply": "返信",
+    "cancel": "キャンセル"
+  },
+  "action": {
+    "like": "いいね",
+    "unlike": "いいね解除",
+    "comment": "コメント",
+    "share": "共有",
+    "export": "エクスポート",
+    "download": "ダウンロード"
+  },
+  "export": {
+    "title": "データをエクスポート",
+    "format": "形式",
+    "csv": "CSV",
+    "json": "JSON",
+    "markdown": "Markdown",
+    "selectFormat": "エクスポート形式を選択...",
+    "download": "ダウンロード",
+    "exporting": "エクスポート中...",
+    "success": "エクスポートに成功しました！",
+    "error": "エクスポートに失敗しました"
+  },
+  "trends": {
+    "title": "感情トレンド",
+    "last30Days": "過去30日",
+    "last60Days": "過去60日",
+    "last90Days": "過去90日",
+    "averageMood": "平均気分",
+    "moodDistribution": "気分の分布",
+    "emotionTimeline": "感情タイムライン",
+    "noData": "この期間のデータはありません"
+  },
+  "decisionPath": {
+    "title": "決定パス",
+    "reasoning": "推論",
+    "candidates": "候補",
+    "selected": "選択済み",
+    "confidence": "確信度",
+    "factors": "主要因子",
+    "history": "決定履歴",
+    "noDecisions": "記録された決定パスはまだありません"
+  },
+  "settings": {
+    "title": "設定",
+    "language": "言語",
+    "theme": "テーマ",
+    "darkMode": "ダークモード",
+    "lightMode": "ライトモード",
+    "notifications": "通知",
+    "soundEnabled": "サウンド有効",
+    "pushNotifications": "プッシュ通知",
+    "privacy": "プライバシー",
+    "dataStorage": "データストレージ",
+    "offlineMode": "オフラインモード",
+    "clearCache": "キャッシュをクリア",
+    "confirmClearCache": "確認しますか？すべてのローカルデータが削除されます。",
+    "clearCacheSuccess": "キャッシュがクリアされました",
+    "version": "バージョン",
+    "about": "爪の本について"
+  },
+  "offline": {
+    "statusOnline": "オンライン",
+    "statusOffline": "オフライン",
+    "syncPending": "同期中...",
+    "syncError": "同期に失敗しました",
+    "workingOffline": "オフラインで作業しています。オンラインになると変更が同期されます。"
+  },
+  "errors": {
+    "generic": "何か問題が発生しました。もう一度お試しください。",
+    "networkError": "ネットワークエラー。接続を確認してください。",
+    "notFound": "見つかりません",
+    "unauthorized": "権限がありません。ログインしてください。",
+    "serverError": "サーバーエラー。後でもう一度お試しください。",
+    "validation": "検証エラー"
+  },
+  "voice": {
+    "title": "音声入力",
+    "startListening": "リスニング開始",
+    "stopListening": "リスニング停止",
+    "listening": "リスニング中...",
+    "processing": "処理中...",
+    "notSupported": "あなたのブラウザは音声入力をサポートしていません",
+    "permissionDenied": "マイク権限が拒否されました",
+    "error": "音声入力エラー"
+  },
+  "slack": {
+    "title": "Slack統合",
+    "connected": "接続されました",
+    "notConnected": "接続されていません",
+    "connect": "Slackに接続",
+    "disconnect": "切断",
+    "sendToSlack": "Slackに送信",
+    "selectChannel": "チャネルを選択...",
+    "sending": "送信中...",
+    "success": "Slackに送信しました！",
+    "error": "Slackへの送信に失敗しました"
+  },
+  "home": {
+    "title": "爪の本 - 心の声",
+    "subtitle": "AI駆動の感情知能日記",
+    "welcomeBack": "おかえりなさい！",
+    "todaysEntry": "今日のエントリー",
+    "recentEntries": "最近のエントリー",
+    "noEntries": "まだエントリーがありません。作成しましょう！",
+    "createEntry": "エントリーを作成"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "totalEntries": "総エントリー数",
+    "thisMonth": "今月",
+    "thisWeek": "今週",
+    "averageMood": "平均気分",
+    "recentActivity": "最近の活動",
+    "moodChart": "気分チャート",
+    "entries": "エントリー",
+    "insights": "インサイト"
+  },
+  "pwa": {
+    "installPrompt": "爪の本をホーム画面に追加",
+    "installing": "インストール中...",
+    "installed": "爪の本が正常にインストールされました！",
+    "updateAvailable": "新しいバージョンが利用可能です。更新するには更新してください。",
+    "refresh": "更新"
+  }
+}

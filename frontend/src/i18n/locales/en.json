@@ -1,0 +1,186 @@
+{
+  "common": {
+    "appName": "ClawBook",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "navigation": {
+    "home": "Home",
+    "feed": "Feed",
+    "dashboard": "Dashboard",
+    "trends": "Trends",
+    "decisionPaths": "Decision Paths",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "mood": {
+    "title": "Today's Mood",
+    "veryNegative": "Very Negative",
+    "negative": "Negative",
+    "neutral": "Neutral",
+    "positive": "Positive",
+    "veryPositive": "Very Positive",
+    "selectMood": "Select how you're feeling...",
+    "moodEntry": "Mood Entry"
+  },
+  "entry": {
+    "title": "New Entry",
+    "thoughts": "Thoughts",
+    "gratefuleFor": "Grateful For",
+    "lessonsLearned": "Lessons Learned",
+    "tomorrowGoals": "Tomorrow's Goals",
+    "placeholder": "Write your thoughts here...",
+    "save": "Save Entry",
+    "edit": "Edit Entry",
+    "delete": "Delete Entry",
+    "confirmDelete": "Are you sure you want to delete this entry?",
+    "entryDate": "Entry Date",
+    "timeAgo": "{{count}}m ago",
+    "timeAgoHours": "{{count}}h ago",
+    "timeAgoDays": "{{count}}d ago"
+  },
+  "comment": {
+    "title": "Comments",
+    "noComments": "No comments yet. Be the first!",
+    "addComment": "Add a comment...",
+    "edit": "Edit",
+    "delete": "Delete",
+    "reply": "Reply",
+    "cancel": "Cancel"
+  },
+  "action": {
+    "like": "Like",
+    "unlike": "Unlike",
+    "comment": "Comment",
+    "share": "Share",
+    "export": "Export",
+    "download": "Download"
+  },
+  "export": {
+    "title": "Export Data",
+    "format": "Format",
+    "csv": "CSV",
+    "json": "JSON",
+    "markdown": "Markdown",
+    "selectFormat": "Select export format...",
+    "download": "Download",
+    "exporting": "Exporting...",
+    "success": "Export successful!",
+    "error": "Export failed"
+  },
+  "trends": {
+    "title": "Emotion Trends",
+    "last30Days": "Last 30 Days",
+    "last60Days": "Last 60 Days",
+    "last90Days": "Last 90 Days",
+    "averageMood": "Average Mood",
+    "moodDistribution": "Mood Distribution",
+    "emotionTimeline": "Emotion Timeline",
+    "noData": "No data available for this period"
+  },
+  "decisionPath": {
+    "title": "Decision Paths",
+    "reasoning": "Reasoning",
+    "candidates": "Candidates",
+    "selected": "Selected",
+    "confidence": "Confidence",
+    "factors": "Key Factors",
+    "history": "Decision History",
+    "noDecisions": "No decision paths recorded yet"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "notifications": "Notifications",
+    "soundEnabled": "Sound Enabled",
+    "pushNotifications": "Push Notifications",
+    "privacy": "Privacy",
+    "dataStorage": "Data Storage",
+    "offlineMode": "Offline Mode",
+    "clearCache": "Clear Cache",
+    "confirmClearCache": "Are you sure? This will clear all local data.",
+    "clearCacheSuccess": "Cache cleared successfully",
+    "version": "Version",
+    "about": "About ClawBook"
+  },
+  "offline": {
+    "statusOnline": "Online",
+    "statusOffline": "Offline",
+    "syncPending": "Syncing...",
+    "syncError": "Sync failed",
+    "workingOffline": "You are working offline. Changes will sync when online."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "networkError": "Network error. Please check your connection.",
+    "notFound": "Not found",
+    "unauthorized": "Unauthorized. Please log in.",
+    "serverError": "Server error. Please try again later.",
+    "validation": "Validation error"
+  },
+  "voice": {
+    "title": "Voice Input",
+    "startListening": "Start Listening",
+    "stopListening": "Stop Listening",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "notSupported": "Voice input is not supported in your browser",
+    "permissionDenied": "Microphone permission denied",
+    "error": "Voice input error"
+  },
+  "slack": {
+    "title": "Slack Integration",
+    "connected": "Connected",
+    "notConnected": "Not Connected",
+    "connect": "Connect to Slack",
+    "disconnect": "Disconnect",
+    "sendToSlack": "Send to Slack",
+    "selectChannel": "Select channel...",
+    "sending": "Sending...",
+    "success": "Sent to Slack!",
+    "error": "Failed to send to Slack"
+  },
+  "home": {
+    "title": "ClawBook - Heart's Voice",
+    "subtitle": "An AI-Powered Emotional Intelligence Diary",
+    "welcomeBack": "Welcome back!",
+    "todaysEntry": "Today's Entry",
+    "recentEntries": "Recent Entries",
+    "noEntries": "No entries yet. Start by creating one!",
+    "createEntry": "Create Entry"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalEntries": "Total Entries",
+    "thisMonth": "This Month",
+    "thisWeek": "This Week",
+    "averageMood": "Average Mood",
+    "recentActivity": "Recent Activity",
+    "moodChart": "Mood Chart",
+    "entries": "Entries",
+    "insights": "Insights"
+  },
+  "pwa": {
+    "installPrompt": "Add ClawBook to your home screen",
+    "installing": "Installing...",
+    "installed": "ClawBook installed successfully!",
+    "updateAvailable": "A new version is available. Refresh to update.",
+    "refresh": "Refresh"
+  }
+}

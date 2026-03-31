@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import OfflineIndicator from './components/OfflineIndicator';
