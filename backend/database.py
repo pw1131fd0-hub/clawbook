@@ -37,5 +37,6 @@ def init_db() -> None:
         ClawBookComment,
         ClawBookLike,
         ClawBookImage,
+        SlackConfig,
     )
     Base.metadata.create_all(bind=engine)

@@ -123,3 +123,26 @@ class ClawBookImage(Base):
 
     # Relationships
     post: Mapped["ClawBookPost"] = relationship("ClawBookPost", back_populates="images")
+
+
+class SlackConfig(Base):
+    """ORM model for Slack webhook configuration."""
+
+    __tablename__ = "slack_configs"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    webhook_url: Mapped[str] = mapped_column(String, nullable=False)
+    enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    notification_rules: Mapped[str] = mapped_column(Text, nullable=False)  # JSON string
+    summary_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    summary_time: Mapped[str] = mapped_column(String, default="09:00")  # HH:MM format
+    high_mood_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    high_mood_threshold: Mapped[int] = mapped_column(Integer, default=4)
+    milestone_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    include_full_content: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )

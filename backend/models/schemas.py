@@ -200,3 +200,46 @@ class DiagnoseHistoryRecord(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+# ============================================================================
+# Slack Integration Schemas
+# ============================================================================
+
+
+class SlackConfigBase(BaseModel):
+    """Base schema for Slack configuration."""
+    webhook_url: str
+    enabled: bool = True
+    summary_enabled: bool = True
+    summary_time: str = "09:00"
+    high_mood_enabled: bool = True
+    high_mood_threshold: int = 4
+    milestone_enabled: bool = True
+    include_full_content: bool = False
+
+
+class SlackConfigCreate(SlackConfigBase):
+    """Schema for creating Slack configuration."""
+    pass
+
+
+class SlackConfigUpdate(BaseModel):
+    """Schema for updating Slack configuration."""
+    webhook_url: str | None = None
+    enabled: bool | None = None
+    summary_enabled: bool | None = None
+    summary_time: str | None = None
+    high_mood_enabled: bool | None = None
+    high_mood_threshold: int | None = None
+    milestone_enabled: bool | None = None
+    include_full_content: bool | None = None
+
+
+class SlackConfigResponse(SlackConfigBase):
+    """Schema for Slack configuration response."""
+    id: str
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = {"from_attributes": True}
