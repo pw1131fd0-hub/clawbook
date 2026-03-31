@@ -610,26 +610,26 @@ function parseAnalysis(aiAnalysis) {
 &nbsp;
 function HistoryCard({ record, onSelect, isSelected }) {
   const errorTypeClass = record.error_type &amp;&amp; record.error_type !== 'Unknown'
-    ? 'bg-red-100 text-red-700'
-    : <span class="branch-1 cbranch-no" title="branch not covered" >'bg-gray-100 text-gray-600';</span>
+    ? 'bg-red-900/40 text-red-300 border border-red-700'
+    : <span class="branch-1 cbranch-no" title="branch not covered" >'bg-slate-700 text-slate-300';</span>
 &nbsp;
   return (
     &lt;div
       onClick={() =&gt; onSelect(record)}
       className={`cursor-pointer rounded-xl border p-4 transition-all hover:shadow-md ${
-        isSelected ? 'border-indigo-400 ring-2 ring-indigo-200 bg-indigo-50/50' : 'border-gray-200 bg-white'
+        isSelected ? 'border-indigo-500 ring-2 ring-indigo-500/30 bg-slate-800' : 'border-slate-700 bg-slate-800'
       }`}
     &gt;
       &lt;div className="flex items-start justify-between gap-2"&gt;
         &lt;div className="flex-1 min-w-0"&gt;
-          &lt;p className="font-mono text-sm font-medium text-gray-800 truncate"&gt;{record.pod_name}&lt;/p&gt;
-          &lt;p className="text-xs text-gray-500 mt-0.5"&gt;{record.namespace}&lt;/p&gt;
+          &lt;p className="font-mono text-sm font-medium text-slate-100 truncate"&gt;{record.pod_name}&lt;/p&gt;
+          &lt;p className="text-xs text-slate-400 mt-0.5"&gt;{record.namespace}&lt;/p&gt;
         &lt;/div&gt;
         &lt;span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${errorTypeClass}`}&gt;
           {record.error_type || <span class="branch-1 cbranch-no" title="branch not covered" >'N/A'}</span>
         &lt;/span&gt;
       &lt;/div&gt;
-      &lt;p className="text-xs text-gray-400 mt-2"&gt;{formatDate(record.created_at)}&lt;/p&gt;
+      &lt;p className="text-xs text-slate-500 mt-2"&gt;{formatDate(record.created_at)}&lt;/p&gt;
     &lt;/div&gt;
   );
 }
@@ -638,15 +638,15 @@ function DetailPanel({ record, onClose }) {
   const analysis = parseAnalysis(record.ai_analysis);
 &nbsp;
   return (
-    &lt;aside className="fixed right-0 top-0 h-full w-[28rem] bg-white shadow-2xl border-l border-gray-200 flex flex-col z-50"&gt;
-      &lt;div className="flex items-center justify-between px-5 py-4 border-b bg-gray-50"&gt;
+    &lt;aside className="fixed right-0 top-0 h-full w-[28rem] bg-slate-900 shadow-2xl border-l border-slate-700 flex flex-col z-50"&gt;
+      &lt;div className="flex items-center justify-between px-5 py-4 border-b border-slate-700 bg-slate-800"&gt;
         &lt;div&gt;
-          &lt;h2 className="text-base font-semibold text-gray-800"&gt;📜 Diagnosis Record&lt;/h2&gt;
-          &lt;p className="text-xs text-gray-500 mt-0.5 font-mono truncate max-w-[280px]"&gt;{record.pod_name}&lt;/p&gt;
+          &lt;h2 className="text-base font-semibold text-slate-100"&gt;📜 Diagnosis Record&lt;/h2&gt;
+          &lt;p className="text-xs text-slate-400 mt-0.5 font-mono truncate max-w-[280px]"&gt;{record.pod_name}&lt;/p&gt;
         &lt;/div&gt;
         &lt;button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-slate-500 hover:text-slate-300 transition-colors"
           aria-label="Close panel"
         &gt;
           &lt;svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
@@ -658,16 +658,16 @@ function DetailPanel({ record, onClose }) {
       &lt;div className="flex-1 overflow-y-auto px-5 py-4 space-y-5"&gt;
         &lt;div className="grid grid-cols-2 gap-3 text-sm"&gt;
           &lt;div&gt;
-            &lt;span className="text-xs text-gray-500 uppercase tracking-wide"&gt;Namespace&lt;/span&gt;
-            &lt;p className="font-medium text-gray-800"&gt;{record.namespace}&lt;/p&gt;
+            &lt;span className="text-xs text-slate-400 uppercase tracking-wide"&gt;Namespace&lt;/span&gt;
+            &lt;p className="font-medium text-slate-100"&gt;{record.namespace}&lt;/p&gt;
           &lt;/div&gt;
           &lt;div&gt;
-            &lt;span className="text-xs text-gray-500 uppercase tracking-wide"&gt;Error Type&lt;/span&gt;
-            &lt;p className="font-mono text-sm text-red-600"&gt;{record.error_type || <span class="branch-1 cbranch-no" title="branch not covered" >'Unknown'}</span>&lt;/p&gt;
+            &lt;span className="text-xs text-slate-400 uppercase tracking-wide"&gt;Error Type&lt;/span&gt;
+            &lt;p className="font-mono text-sm text-red-300"&gt;{record.error_type || <span class="branch-1 cbranch-no" title="branch not covered" >'Unknown'}</span>&lt;/p&gt;
           &lt;/div&gt;
           &lt;div className="col-span-2"&gt;
-            &lt;span className="text-xs text-gray-500 uppercase tracking-wide"&gt;Diagnosed At&lt;/span&gt;
-            &lt;p className="text-gray-700"&gt;{new Date(record.created_at).toLocaleString()}&lt;/p&gt;
+            &lt;span className="text-xs text-slate-400 uppercase tracking-wide"&gt;Diagnosed At&lt;/span&gt;
+            &lt;p className="text-slate-300"&gt;{new Date(record.created_at).toLocaleString()}&lt;/p&gt;
           &lt;/div&gt;
         &lt;/div&gt;
 &nbsp;
@@ -675,30 +675,30 @@ function DetailPanel({ record, onClose }) {
           &lt;&gt;
             {analysis.root_cause &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;🔍 Root Cause&lt;/h3&gt;
-                &lt;p className="text-sm text-gray-600 leading-relaxed"&gt;{analysis.root_cause}&lt;/p&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;🔍 Root Cause&lt;/h3&gt;
+                &lt;p className="text-sm text-slate-400 leading-relaxed"&gt;{analysis.root_cause}&lt;/p&gt;
               &lt;/section&gt;
             )}
             {analysis.detailed_analysis &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;📋 Detailed Analysis&lt;/h3&gt;
-                &lt;div className="prose prose-sm max-w-none text-gray-600"&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;📋 Detailed Analysis&lt;/h3&gt;
+                &lt;div className="prose prose-sm max-w-none text-slate-400"&gt;
                   &lt;ReactMarkdown&gt;{analysis.detailed_analysis}&lt;/ReactMarkdown&gt;
                 &lt;/div&gt;
               &lt;/section&gt;
             )}
             {analysis.remediation &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;🛠️ Remediation&lt;/h3&gt;
-                &lt;div className="prose prose-sm max-w-none"&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;🛠️ Remediation&lt;/h3&gt;
+                &lt;div className="prose prose-sm max-w-none text-slate-400"&gt;
                   &lt;ReactMarkdown&gt;{analysis.remediation}&lt;/ReactMarkdown&gt;
                 &lt;/div&gt;
               &lt;/section&gt;
             )}
             {analysis.raw &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;📄 Raw Output&lt;/h3&gt;
-                &lt;pre className="text-xs bg-gray-50 border rounded p-3 overflow-auto max-h-64 whitespace-pre-wrap"&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;📄 Raw Output&lt;/h3&gt;
+                &lt;pre className="text-xs bg-slate-800 border border-slate-700 rounded p-3 overflow-auto max-h-64 whitespace-pre-wrap text-slate-400"&gt;
                   {analysis.raw}
                 &lt;/pre&gt;
               &lt;/section&gt;
@@ -707,7 +707,7 @@ function DetailPanel({ record, onClose }) {
         )}
 &nbsp;
         {!analysis &amp;&amp; (
-          &lt;p className="text-sm text-gray-400 italic"&gt;No analysis data available.&lt;/p&gt;
+          &lt;p className="text-sm text-slate-500 italic"&gt;No analysis data available.&lt;/p&gt;
         )}
       &lt;/div&gt;
     &lt;/aside&gt;
@@ -853,7 +853,7 @@ export default function DiagnoseHistory() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T16:06:07.844Z
+                at 2026-03-31T17:37:44.439Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

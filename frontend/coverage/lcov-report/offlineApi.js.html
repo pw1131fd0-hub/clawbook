@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/pages/Feed.js</title>
+    <title>Code coverage report for offlineApi.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/pages</a> Feed.js</h1>
+        <h1><a href="index.html">All files</a> offlineApi.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">76.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>52/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/21</span>
+                <span class='fraction'>17/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">77.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>52/67</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -224,7 +224,228 @@
 <a name='L159'></a><a href='#L159'>159</a>
 <a name='L160'></a><a href='#L160'>160</a>
 <a name='L161'></a><a href='#L161'>161</a>
-<a name='L162'></a><a href='#L162'>162</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,317 +455,204 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useEffect } from 'react';
-import PostCard from '../components/PostCard';
-import PostComposer from '../components/PostComposer';
-import ExportModal from '../components/ExportModal';
-import { fetchPostsOfflineFirst, checkAndSync } from '../utils/offlineApi';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Offline-aware API wrapper
+ * Provides offline-first data access pattern
+ */
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >Feed(</span>) {
-  const [posts, setPosts] = <span class="cstat-no" title="statement not covered" >useState([]);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
-  const [total, setTotal] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [offset, setOffset] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [selectedMoodFilter, setSelectedMoodFilter] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
-  const [showExportModal, setShowExportModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+import { getOnlineStatus, cachePostsForOffline, syncPendingPosts } from './pwa';
+import { getOfflinePosts, addPendingPost } from './db';
+import { API_URL } from './api';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    loadPosts();</span>
-    // Check and sync pending posts when page loads
-<span class="cstat-no" title="statement not covered" >    checkAndSync().catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Sync error:', error);</span>
-    });
-  }, [offset]);
+/**
+ * Fetch posts with offline support
+ */
+export async function fetchPostsOfflineFirst(limit = <span class="branch-0 cbranch-no" title="branch not covered" >20,</span> offset = <span class="branch-0 cbranch-no" title="branch not covered" >0)</span> {
+  const isOnline = getOnlineStatus();
 &nbsp;
-  const loadPosts = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    setError(null);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const data = <span class="cstat-no" title="statement not covered" >await fetchPostsOfflineFirst(20, offset);</span>
-<span class="cstat-no" title="statement not covered" >      setPosts(offset === 0 ? data.posts : [...posts, ...data.posts]);</span>
-<span class="cstat-no" title="statement not covered" >      setTotal(data.total);</span>
-      // Show offline indicator if needed
-<span class="cstat-no" title="statement not covered" >      if (data.isOffline) {</span>
-<span class="cstat-no" title="statement not covered" >        console.log('Using offline data');</span>
+  try {
+    if (isOnline) {
+      // Try to fetch from server
+      const response = await fetch(
+        `${API_URL}/clawbook/posts?limit=${limit}&amp;offset=${offset}`
+      );
+&nbsp;
+      if (response.ok) {
+        const data = await response.json();
+        // Cache for offline use
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (data.posts) {
+          await cachePostsForOffline(data.posts);
+        }
+        return data;
+      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>if (response.status === 503) {</span>
+        // Server unavailable, use offline data
+<span class="cstat-no" title="statement not covered" >        console.log('Server unavailable, using offline data');</span>
+<span class="cstat-no" title="statement not covered" >        return getOfflineData();</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        throw new Error(`HTTP ${response.status}`);</span>
       }
-    } catch (err) {
-<span class="cstat-no" title="statement not covered" >      setError(err.message);</span>
-    } finally {
-<span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
+    } else {
+      // Device is offline
+      console.log('Device is offline, using cached data');
+      return getOfflineData();
     }
+  } catch (error) {
+    console.warn('Failed to fetch posts online, using offline data:', error);
+    return getOfflineData();
+  }
+}
+&nbsp;
+/**
+ * Get offline posts data
+ */
+async function getOfflineData() {
+  const posts = await getOfflinePosts();
+  return {
+    posts,
+    total: posts.length,
+    limit: 20,
+    offset: 0,
+    isOffline: true,
+    message: 'Using offline data',
   };
+}
 &nbsp;
-  const handlePostCreated = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewPost) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setPosts([newPost, ...posts]);</span>
-<span class="cstat-no" title="statement not covered" >    setTotal(total + 1);</span>
+/**
+ * Create post with offline support
+ */
+export async function createPostOfflineFirst(postData) {
+  const isOnline = getOnlineStatus();
+&nbsp;
+  if (isOnline) {
+    try {
+      const response = await fetch(`${API_URL}/clawbook/posts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData),
+      });
+&nbsp;
+      if (response.ok) {
+        const data = await response.json();
+        return { ...data, isOffline: false };
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>{
+<span class="cstat-no" title="statement not covered" >        throw new Error(`HTTP ${response.status}`);</span>
+      }
+    } catch (error) {
+      console.warn('Failed to create post online, saving for offline sync:', error);
+      // Save to pending queue
+      const pendingId = await addPendingPost(postData);
+      return {
+        id: `pending-${pendingId}`,
+        ...postData,
+        isOffline: true,
+        isPending: true,
+        pendingId,
+        message: 'Post will be synced when online',
+      };
+    }
+  } else {
+    // Device is offline
+    console.log('Device is offline, saving post for later sync');
+    const pendingId = await addPendingPost(postData);
+    return {
+      id: `pending-${pendingId}`,
+      ...postData,
+      isOffline: true,
+      isPending: true,
+      pendingId,
+      message: 'Post saved. Will sync when online',
+    };
+  }
+}
+&nbsp;
+/**
+ * Fetch single post
+ */
+export async function fetchPostOfflineFirst(postId) {
+  const isOnline = getOnlineStatus();
+&nbsp;
+  if (isOnline) {
+    try {
+      const response = await fetch(`${API_URL}/clawbook/posts/${postId}`);
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (response.ok) {
+        return await response.json();
+      }
+<span class="cstat-no" title="statement not covered" >      throw new Error(`HTTP ${response.status}`);</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.warn('Failed to fetch post online:', error);</span>
+<span class="cstat-no" title="statement not covered" >      return getOfflinePost(postId);</span>
+    }
+  } else {
+    return getOfflinePost(postId);
+  }
+}
+&nbsp;
+/**
+ * Get post from offline storage
+ */
+async function getOfflinePost(postId) {
+  const posts = await getOfflinePosts();
+  const post = posts.find(<span class="fstat-no" title="function not covered" >(p</span>) =&gt; <span class="cstat-no" title="statement not covered" >p.id === postId)</span>;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (post) {
+<span class="cstat-no" title="statement not covered" >    return { ...post, isOffline: true };</span>
+  }
+  throw new Error('Post not found in offline storage');
+}
+&nbsp;
+/**
+ * Get mood summary with offline support
+ */
+export async function getMoodSummaryOfflineFirst(days = <span class="branch-0 cbranch-no" title="branch not covered" >7)</span> {
+  const isOnline = getOnlineStatus();
+&nbsp;
+  if (isOnline) {
+    try {
+      const response = await fetch(
+        `${API_URL}/clawbook/mood-summary?days=${days}`
+      );
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (response.ok) {
+        return await response.json();
+      }
+<span class="cstat-no" title="statement not covered" >      throw new Error(`HTTP ${response.status}`);</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.warn('Failed to fetch mood summary online:', error);</span>
+<span class="cstat-no" title="statement not covered" >      return generateOfflineMoodSummary();</span>
+    }
+  } else {
+    return generateOfflineMoodSummary();
+  }
+}
+&nbsp;
+/**
+ * Generate mood summary from offline posts
+ */
+async function generateOfflineMoodSummary() {
+  const posts = await getOfflinePosts();
+  const moodData = {};
+&nbsp;
+  posts.forEach((post) =&gt; {
+    const mood = post.mood || <span class="branch-1 cbranch-no" title="branch not covered" >'neutral';</span>
+    moodData[mood] = (moodData[mood] || 0) + 1;
+  });
+&nbsp;
+  return {
+    summary: moodData,
+    total: posts.length,
+    isOffline: true,
+    message: 'Mood summary from offline data',
   };
+}
 &nbsp;
-  const handlePostDeleted = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>ostId) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setPosts(posts.filter(<span class="fstat-no" title="function not covered" >p </span>=&gt; <span class="cstat-no" title="statement not covered" >p.id !== postId)</span>);</span>
-<span class="cstat-no" title="statement not covered" >    setTotal(Math.max(0, total - 1));</span>
-  };
-&nbsp;
-  const filteredPosts = <span class="cstat-no" title="statement not covered" >selectedMoodFilter</span>
-    ? posts.filter(<span class="fstat-no" title="function not covered" >p </span>=&gt; <span class="cstat-no" title="statement not covered" >p.mood.includes(selectedMoodFilter))</span>
-    : posts;
-&nbsp;
-  const MOOD_FILTERS = <span class="cstat-no" title="statement not covered" >[</span>
-    { emoji: '😊', label: 'Happy' },
-    { emoji: '😐', label: 'Neutral' },
-    { emoji: '😔', label: 'Sad' },
-    { emoji: '🥰', label: 'Grateful' },
-    { emoji: '💭', label: 'Thoughtful' },
-    { emoji: '🎯', label: 'Ambitious' },
-  ];
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;main className="flex-1 max-w-2xl border-l border-r border-slate-800 dark:border-slate-700 min-h-screen"&gt;
-      {/* Sticky Composer */}
-      &lt;div className="sticky top-16 z-40 border-b border-slate-800 dark:border-slate-700 bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur"&gt;
-        &lt;PostComposer onPostCreated={handlePostCreated} /&gt;
-      &lt;/div&gt;
-&nbsp;
-      {/* Mood Filters and Export */}
-      &lt;div className="border-b border-slate-800 dark:border-slate-700 px-4 py-3"&gt;
-        &lt;div className="flex gap-2 overflow-x-auto justify-between items-center"&gt;
-          &lt;div className="flex gap-2 overflow-x-auto"&gt;
-            &lt;button
-              onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setSelectedMoodFilter(null)}</span>
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
-                selectedMoodFilter === null
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-800 dark:bg-slate-800 text-slate-300 dark:text-slate-300 hover:bg-slate-700'
-              }`}
-            &gt;
-              All
-            &lt;/button&gt;
-            {MOOD_FILTERS.map(<span class="fstat-no" title="function not covered" >(m</span>ood) =&gt; (
-<span class="cstat-no" title="statement not covered" >              &lt;button</span>
-                key={mood.emoji}
-                onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setSelectedMoodFilter(mood.emoji)}</span>
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
-                  selectedMoodFilter === mood.emoji
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-slate-800 dark:bg-slate-800 text-slate-300 dark:text-slate-300 hover:bg-slate-700'
-                }`}
-              &gt;
-                {mood.emoji} {mood.label}
-              &lt;/button&gt;
-            ))}
-          &lt;/div&gt;
-          &lt;button
-            onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShowExportModal(true)}</span>
-            className="px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap bg-slate-800 dark:bg-slate-800 text-slate-300 dark:text-slate-300 hover:bg-slate-700"
-            title="Export journal entries"
-          &gt;
-            📥 Export
-          &lt;/button&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-&nbsp;
-      {/* Posts Feed */}
-      &lt;div className="divide-y divide-slate-800 dark:divide-slate-700"&gt;
-        {error &amp;&amp; (
-          &lt;div className="p-4 text-center text-red-400"&gt;
-            &lt;p&gt;Error loading posts: {error}&lt;/p&gt;
-          &lt;/div&gt;
-        )}
-&nbsp;
-        {filteredPosts.length === 0 &amp;&amp; !loading ? (
-          &lt;div className="text-center py-12 text-slate-400"&gt;
-            &lt;p className="text-lg mb-2"&gt;No posts yet&lt;/p&gt;
-            &lt;p className="text-sm"&gt;Share your first thought with the world!&lt;/p&gt;
-          &lt;/div&gt;
-        ) : (
-          filteredPosts.map(<span class="fstat-no" title="function not covered" >(p</span>ost) =&gt; (
-<span class="cstat-no" title="statement not covered" >            &lt;PostCard</span>
-              key={post.id}
-              post={post}
-              onDeleted={handlePostDeleted}
-            /&gt;
-          ))
-        )}
-&nbsp;
-        {loading &amp;&amp; (
-          &lt;div className="p-4 text-center"&gt;
-            &lt;div className="inline-block"&gt;
-              &lt;div className="w-8 h-8 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin" /&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        )}
-      &lt;/div&gt;
-&nbsp;
-      {/* Load More Button */}
-      {!loading &amp;&amp; posts.length &lt; total &amp;&amp; (
-        &lt;div className="p-4 border-t border-slate-800 dark:border-slate-700 text-center"&gt;
-          &lt;button
-            onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setOffset(offset + 20)}</span>
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          &gt;
-            Load More
-          &lt;/button&gt;
-        &lt;/div&gt;
-      )}
-&nbsp;
-      {/* Export Modal */}
-      &lt;ExportModal
-        isOpen={showExportModal}
-        onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShowExportModal(false)}</span>
-      /&gt;
-    &lt;/main&gt;
-  );
+/**
+ * Check sync status and trigger sync if needed
+ */
+export async function <span class="fstat-no" title="function not covered" >checkAndSync(</span>) {
+  const isOnline = <span class="cstat-no" title="statement not covered" >getOnlineStatus();</span>
+<span class="cstat-no" title="statement not covered" >  if (isOnline) {</span>
+<span class="cstat-no" title="statement not covered" >    await syncPendingPosts();</span>
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -553,16 +661,16 @@ export default function <span class="fstat-no" title="function not covered" >Fee
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T17:37:44.439Z
+                at 2026-03-31T17:31:49.155Z
             </div>
-        <script src="../../prettify.js"></script>
+        <script src="prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../sorter.js"></script>
-        <script src="../../block-navigation.js"></script>
+        <script src="sorter.js"></script>
+        <script src="block-navigation.js"></script>
     </body>
 </html>
     

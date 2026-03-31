@@ -301,11 +301,11 @@
 import { diagnosePod } from '../utils/api';
 &nbsp;
 const STATUS_CONFIG = {
-  Running: { color: 'bg-green-500', text: 'text-green-700', label: 'Running' },
-  Pending: { color: 'bg-yellow-400', text: 'text-yellow-700', label: 'Pending' },
-  Failed: { color: 'bg-red-500', text: 'text-red-700', label: 'Failed' },
-  Succeeded: { color: 'bg-blue-400', text: 'text-blue-700', label: 'Succeeded' },
-  Unknown: { color: 'bg-gray-400', text: 'text-gray-700', label: 'Unknown' },
+  Running: { color: 'bg-green-500', text: 'text-green-300', label: 'Running' },
+  Pending: { color: 'bg-yellow-400', text: 'text-yellow-300', label: 'Pending' },
+  Failed: { color: 'bg-red-500', text: 'text-red-300', label: 'Failed' },
+  Succeeded: { color: 'bg-blue-400', text: 'text-blue-300', label: 'Succeeded' },
+  Unknown: { color: 'bg-slate-500', text: 'text-slate-300', label: 'Unknown' },
 };
 &nbsp;
 function StatusBadge({ status }) {
@@ -335,7 +335,7 @@ export default function PodList({ pods, loading, error, onDiagnoseResult }) {
 &nbsp;
   if (loading) {
     return (
-      &lt;div className="flex items-center justify-center h-48 text-gray-400"&gt;
+      &lt;div className="flex items-center justify-center h-48 text-slate-400"&gt;
         &lt;svg className="animate-spin h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"&gt;
           &lt;circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /&gt;
           &lt;path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /&gt;
@@ -347,7 +347,7 @@ export default function PodList({ pods, loading, error, onDiagnoseResult }) {
 &nbsp;
   if (error) {
     return (
-      &lt;div className="rounded-lg bg-red-50 border border-red-200 p-4 text-red-700 text-sm"&gt;
+      &lt;div className="rounded-lg bg-red-900/30 border border-red-700 p-4 text-red-300 text-sm"&gt;
         ⚠️ {error}
       &lt;/div&gt;
     );
@@ -360,14 +360,14 @@ export default function PodList({ pods, loading, error, onDiagnoseResult }) {
     &lt;div className="space-y-4"&gt;
       {unhealthy.length &gt; 0 &amp;&amp; (
         &lt;section&gt;
-          &lt;h3 className="text-sm font-semibold text-red-600 mb-2"&gt;
+          &lt;h3 className="text-sm font-semibold text-red-400 mb-2"&gt;
             ⚠️ Unhealthy Pods ({unhealthy.length})
           &lt;/h3&gt;
           &lt;PodTable pods={unhealthy} diagnosing={diagnosing} onDiagnose={handleDiagnose} highlight /&gt;
         &lt;/section&gt;
       )}
       &lt;section&gt;
-        &lt;h3 className="text-sm font-semibold text-gray-500 mb-2"&gt;
+        &lt;h3 className="text-sm font-semibold text-slate-400 mb-2"&gt;
           All Pods ({pods.length})
         &lt;/h3&gt;
         &lt;PodTable pods={pods} diagnosing={diagnosing} onDiagnose={handleDiagnose} /&gt;
@@ -377,27 +377,27 @@ export default function PodList({ pods, loading, error, onDiagnoseResult }) {
 }
 &nbsp;
 function PodTable({ pods, diagnosing, onDiagnose, highlight }) {
-  if (pods.length === 0) return &lt;p className="text-sm text-gray-400"&gt;No pods to display.&lt;/p&gt;;
+  if (pods.length === 0) return &lt;p className="text-sm text-slate-400"&gt;No pods to display.&lt;/p&gt;;
 &nbsp;
   return (
-    &lt;div className="overflow-x-auto rounded-lg border border-gray-200"&gt;
-      &lt;table className="min-w-full divide-y divide-gray-200 text-sm"&gt;
-        &lt;thead className="bg-gray-50"&gt;
+    &lt;div className="overflow-x-auto rounded-lg border border-slate-700"&gt;
+      &lt;table className="min-w-full divide-y divide-slate-700 text-sm"&gt;
+        &lt;thead className="bg-slate-800"&gt;
           &lt;tr&gt;
             {['Name', 'Namespace', 'Status', 'IP', 'Actions'].map((h) =&gt; (
-              &lt;th key={h} className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;
+              &lt;th key={h} className="px-4 py-2 text-left text-xs font-medium text-slate-400 uppercase tracking-wider"&gt;
                 {h}
               &lt;/th&gt;
             ))}
           &lt;/tr&gt;
         &lt;/thead&gt;
-        &lt;tbody className="bg-white divide-y divide-gray-100"&gt;
+        &lt;tbody className="bg-slate-800 divide-y divide-slate-700"&gt;
           {pods.map((pod) =&gt; (
-            &lt;tr key={`${pod.namespace}/${pod.name}`} className={highlight &amp;&amp; pod.status !== 'Running' ? 'bg-red-50' : ''}&gt;
-              &lt;td className="px-4 py-2 font-mono text-xs"&gt;{pod.name}&lt;/td&gt;
-              &lt;td className="px-4 py-2 text-gray-500"&gt;{pod.namespace}&lt;/td&gt;
+            &lt;tr key={`${pod.namespace}/${pod.name}`} className={highlight &amp;&amp; pod.status !== 'Running' ? 'bg-red-900/20' : ''}&gt;
+              &lt;td className="px-4 py-2 font-mono text-xs text-slate-100"&gt;{pod.name}&lt;/td&gt;
+              &lt;td className="px-4 py-2 text-slate-400"&gt;{pod.namespace}&lt;/td&gt;
               &lt;td className="px-4 py-2"&gt;&lt;StatusBadge status={pod.status} /&gt;&lt;/td&gt;
-              &lt;td className="px-4 py-2 font-mono text-xs text-gray-400"&gt;{pod.ip || '—'}&lt;/td&gt;
+              &lt;td className="px-4 py-2 font-mono text-xs text-slate-500"&gt;{pod.ip || '—'}&lt;/td&gt;
               &lt;td className="px-4 py-2"&gt;
                 &lt;button
                   onClick={() =&gt; onDiagnose(pod)}
@@ -421,7 +421,7 @@ function PodTable({ pods, diagnosing, onDiagnose, highlight }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T16:06:07.844Z
+                at 2026-03-31T17:37:44.439Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

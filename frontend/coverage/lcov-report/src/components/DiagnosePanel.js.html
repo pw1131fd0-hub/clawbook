@@ -242,18 +242,18 @@ export default function DiagnosePanel({ result, onClose }) {
   const hasError = Boolean(result.error);
 &nbsp;
   return (
-    &lt;aside className="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl border-l border-gray-200 flex flex-col z-50"&gt;
+    &lt;aside className="fixed right-0 top-0 h-full w-96 bg-slate-900 shadow-2xl border-l border-slate-700 flex flex-col z-50"&gt;
       {/* Header */}
-      &lt;div className="flex items-center justify-between px-5 py-4 border-b bg-gray-50"&gt;
+      &lt;div className="flex items-center justify-between px-5 py-4 border-b border-slate-700 bg-slate-800"&gt;
         &lt;div&gt;
-          &lt;h2 className="text-base font-semibold text-gray-800"&gt;🦞 Lobster Diagnosis Report&lt;/h2&gt;
+          &lt;h2 className="text-base font-semibold text-slate-100"&gt;🦞 Lobster Diagnosis Report&lt;/h2&gt;
           {result.pod_name &amp;&amp; (
-            &lt;p className="text-xs text-gray-500 mt-0.5 font-mono"&gt;{result.pod_name}&lt;/p&gt;
+            &lt;p className="text-xs text-slate-400 mt-0.5 font-mono"&gt;{result.pod_name}&lt;/p&gt;
           )}
         &lt;/div&gt;
         &lt;button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-slate-500 hover:text-slate-300 transition-colors"
           aria-label="Close panel"
         &gt;
           &lt;svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
@@ -265,7 +265,7 @@ export default function DiagnosePanel({ result, onClose }) {
       {/* Body */}
       &lt;div className="flex-1 overflow-y-auto px-5 py-4 space-y-5"&gt;
         {hasError ? (
-          &lt;div className="rounded bg-red-50 border border-red-200 p-3 text-red-700 text-sm"&gt;
+          &lt;div className="rounded bg-red-900/30 border border-red-700 p-3 text-red-300 text-sm"&gt;
             ⚠️ {result.error}
           &lt;/div&gt;
         ) : (
@@ -273,8 +273,8 @@ export default function DiagnosePanel({ result, onClose }) {
             {/* Error type badge */}
             {result.error_type &amp;&amp; (
               &lt;div className="flex items-center gap-2"&gt;
-                &lt;span className="text-xs font-medium text-gray-500"&gt;Error Type:&lt;/span&gt;
-                &lt;span className="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-mono"&gt;
+                &lt;span className="text-xs font-medium text-slate-400"&gt;Error Type:&lt;/span&gt;
+                &lt;span className="px-2 py-0.5 rounded bg-red-900/40 text-red-300 text-xs font-mono border border-red-700"&gt;
                   {result.error_type}
                 &lt;/span&gt;
               &lt;/div&gt;
@@ -282,15 +282,15 @@ export default function DiagnosePanel({ result, onClose }) {
 &nbsp;
             {/* Root cause */}
             &lt;section&gt;
-              &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;🔍 Root Cause&lt;/h3&gt;
-              &lt;p className="text-sm text-gray-600 leading-relaxed"&gt;{result.root_cause}&lt;/p&gt;
+              &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;🔍 Root Cause&lt;/h3&gt;
+              &lt;p className="text-sm text-slate-400 leading-relaxed"&gt;{result.root_cause}&lt;/p&gt;
             &lt;/section&gt;
 &nbsp;
             {/* Full analysis */}
             {result.raw_analysis &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;📋 Analysis&lt;/h3&gt;
-                &lt;div className="prose prose-sm max-w-none text-gray-600"&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;📋 Analysis&lt;/h3&gt;
+                &lt;div className="prose prose-sm max-w-none text-slate-400"&gt;
                   &lt;ReactMarkdown&gt;{result.raw_analysis}&lt;/ReactMarkdown&gt;
                 &lt;/div&gt;
               &lt;/section&gt;
@@ -299,8 +299,8 @@ export default function DiagnosePanel({ result, onClose }) {
             {/* Remediation */}
             {result.remediation &amp;&amp; (
               &lt;section&gt;
-                &lt;h3 className="text-sm font-semibold text-gray-700 mb-1"&gt;🛠️ Remediation&lt;/h3&gt;
-                &lt;div className="prose prose-sm max-w-none"&gt;
+                &lt;h3 className="text-sm font-semibold text-slate-300 mb-1"&gt;🛠️ Remediation&lt;/h3&gt;
+                &lt;div className="prose prose-sm max-w-none text-slate-400"&gt;
                   &lt;ReactMarkdown&gt;{result.remediation}&lt;/ReactMarkdown&gt;
                 &lt;/div&gt;
               &lt;/section&gt;
@@ -308,7 +308,7 @@ export default function DiagnosePanel({ result, onClose }) {
 &nbsp;
             {/* Model used */}
             {result.model_used &amp;&amp; (
-              &lt;p className="text-xs text-gray-400 pt-2 border-t"&gt;
+              &lt;p className="text-xs text-slate-500 pt-2 border-t border-slate-700"&gt;
                 Analyzed by: &lt;span className="font-mono"&gt;{result.model_used}&lt;/span&gt;
               &lt;/p&gt;
             )}
@@ -325,7 +325,7 @@ export default function DiagnosePanel({ result, onClose }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T16:06:07.844Z
+                at 2026-03-31T17:37:44.439Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

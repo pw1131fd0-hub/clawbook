@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">68.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/12</span>
+                <span class='fraction'>11/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">73.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/11</span>
+                <span class='fraction'>11/15</span>
             </div>
         
             
@@ -110,7 +110,21 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,6 +138,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -140,6 +163,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,9 +185,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import OfflineIndicator from './components/OfflineIndicator';
 import Feed from './pages/Feed';
 import PostDetail from './pages/PostDetail';
 import Trends from './pages/Trends';
+import { initOfflineSupport } from './utils/pwa';
 import './App.css';
 &nbsp;
 export default function App() {
@@ -172,6 +198,15 @@ export default function App() {
     const saved = localStorage.getItem('clawbook-theme');
     return saved || 'dark';
   });
+&nbsp;
+  useEffect(() =&gt; {
+    // Initialize PWA offline support (skip in test environment)
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.NODE_ENV !== 'test') {
+<span class="cstat-no" title="statement not covered" >      initOfflineSupport().catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        console.error('Failed to initialize offline support:', error);</span>
+      });
+    }
+  }, []);
 &nbsp;
   useEffect(() =&gt; {
     localStorage.setItem('clawbook-theme', theme);
@@ -190,6 +225,7 @@ export default function App() {
     &lt;BrowserRouter&gt;
       &lt;div className={`${theme === 'dark' ? 'dark bg-slate-950 text-slate-100' : <span class="branch-1 cbranch-no" title="branch not covered" >'bg-white text-slate-900'}</span> min-h-screen transition-colors duration-300`}&gt;
         &lt;Header theme={theme} onThemeToggle={toggleTheme} /&gt;
+        &lt;OfflineIndicator /&gt;
 &nbsp;
         &lt;div className="flex max-w-7xl mx-auto"&gt;
           &lt;Sidebar /&gt;
@@ -211,7 +247,7 @@ export default function App() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T16:06:07.844Z
+                at 2026-03-31T17:37:44.439Z
             </div>
         <script src="../prettify.js"></script>
         <script>
