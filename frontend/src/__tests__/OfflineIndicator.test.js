@@ -20,7 +20,7 @@ describe('OfflineIndicator', () => {
   it('should not render when online and no pending posts', async () => {
     const { container } = render(<OfflineIndicator />);
     await waitFor(() => {
-      expect(container.firstChild).toBeEmptyDOMElement();
+      expect(container.firstChild).toBeNull();
     });
   });
 
@@ -98,15 +98,17 @@ describe('OfflineIndicator', () => {
     });
   });
 
-  it('should use dark mode classes', () => {
+  it('should use dark mode classes', async () => {
     dbModule.getPendingPosts.mockResolvedValueOnce([
       { id: 1, data: {}, status: 'pending' },
     ]);
 
     const { container } = render(<OfflineIndicator />);
 
-    const indicator = container.querySelector('[class*="bg-blue"]');
-    expect(indicator).toHaveClass('bg-blue-600');
-    expect(indicator).toHaveClass('text-white');
+    await waitFor(() => {
+      const indicator = container.querySelector('[class*="bg-blue"]');
+      expect(indicator).toHaveClass('bg-blue-600');
+      expect(indicator).toHaveClass('text-white');
+    });
   });
 });
