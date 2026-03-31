@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ReasoningTimeline from './ReasoningTimeline';
 import CandidateComparison from './CandidateComparison';
 import ConfidenceIndicator from './ConfidenceIndicator';
@@ -30,8 +31,8 @@ export default function DecisionPathViewer({ postId }) {
 
   if (loading) {
     return (
-      <div className="mt-6 p-4 bg-slate-800 dark:bg-slate-800 rounded-lg border border-slate-700 dark:border-slate-700">
-        <div className="text-slate-400 dark:text-slate-400">Loading decision path...</div>
+      <div className="mt-6 p-4 bg-slate-800 rounded-lg border border-slate-700">
+        <div className="text-slate-400">Loading decision path...</div>
       </div>
     );
   }
@@ -41,8 +42,8 @@ export default function DecisionPathViewer({ postId }) {
   }
 
   return (
-    <div className="mt-6 border-t border-slate-800 dark:border-slate-700 pt-6">
-      <h3 className="text-xl font-bold text-slate-100 dark:text-slate-100 mb-4">AI Decision Path</h3>
+    <div className="mt-6 border-t border-slate-700 pt-6">
+      <h3 className="text-xl font-bold text-slate-100 mb-4">AI Decision Path</h3>
 
       {/* Confidence Indicator */}
       <div className="mb-6">
@@ -53,9 +54,9 @@ export default function DecisionPathViewer({ postId }) {
       </div>
 
       {/* Final Decision */}
-      <div className="mb-6 p-4 bg-slate-800 dark:bg-slate-800 rounded-lg border border-slate-700 dark:border-slate-700">
-        <p className="text-sm text-slate-400 dark:text-slate-400 font-semibold mb-2">FINAL DECISION</p>
-        <p className="text-slate-100 dark:text-slate-100 text-lg font-semibold">
+      <div className="mb-6 p-4 bg-slate-800 rounded-lg border border-slate-700">
+        <p className="text-sm text-slate-400 font-semibold mb-2">FINAL DECISION</p>
+        <p className="text-slate-100 text-lg font-semibold">
           {decisionPath.final_decision.decision}
         </p>
       </div>
@@ -82,8 +83,8 @@ export default function DecisionPathViewer({ postId }) {
       )}
 
       {/* Metadata */}
-      <div className="mt-6 p-4 bg-slate-800/50 dark:bg-slate-800/50 rounded-lg border border-slate-700 dark:border-slate-700">
-        <div className="flex gap-4 text-xs text-slate-500 dark:text-slate-500">
+      <div className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+        <div className="flex gap-4 text-xs text-slate-500">
           {decisionPath.model_used && (
             <span>Model: {decisionPath.model_used}</span>
           )}
@@ -95,3 +96,7 @@ export default function DecisionPathViewer({ postId }) {
     </div>
   );
 }
+
+DecisionPathViewer.propTypes = {
+  postId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
