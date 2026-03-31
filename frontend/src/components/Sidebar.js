@@ -67,6 +67,12 @@ export default function Sidebar() {
         >
           📊 Trends
         </Link>
+        <Link
+          to="/decision-paths"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          🧠 Decision Paths
+        </Link>
       </div>
 
       <div className="border-t border-slate-700 dark:border-slate-700 my-4"></div>

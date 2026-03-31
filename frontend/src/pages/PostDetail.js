@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CommentSection from '../components/CommentSection';
+import DecisionPathViewer from '../components/DecisionPathViewer';
 import { fetchPost, toggleLike, deletePost } from '../utils/api';
 
 function formatDate(dateStr) {
@@ -159,6 +160,11 @@ export default function PostDetail() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* AI Decision Path (v1.4) */}
+      <div className="border-b border-slate-800 dark:border-slate-700 p-4">
+        <DecisionPathViewer postId={postId} />
       </div>
 
       {/* Comments */}

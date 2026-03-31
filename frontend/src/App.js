@@ -6,6 +6,7 @@ import OfflineIndicator from './components/OfflineIndicator';
 import Feed from './pages/Feed';
 import PostDetail from './pages/PostDetail';
 import Trends from './pages/Trends';
+import DecisionPaths from './pages/DecisionPaths';
 import { initOfflineSupport } from './utils/pwa';
 import './App.css';
 
@@ -51,6 +52,7 @@ export default function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/post/:postId" element={<PostDetail />} />
             <Route path="/trends" element={<Trends />} />
+            <Route path="/decision-paths" element={<DecisionPaths />} />
           </Routes>
         </div>
       </div>

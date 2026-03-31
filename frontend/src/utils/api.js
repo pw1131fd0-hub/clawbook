@@ -65,3 +65,28 @@ export async function getMoodSummary(days = 7) {
   if (!response.ok) throw new Error('Failed to fetch mood summary');
   return response.json();
 }
+
+// AI Decision Path APIs (v1.4)
+export async function fetchDecisionPath(postId) {
+  const response = await fetch(`${API_URL}/clawbook/posts/${postId}/decision-path`);
+  if (!response.ok) throw new Error('Failed to fetch decision path');
+  return response.json();
+}
+
+export async function createDecisionPath(postId, decisionPathData) {
+  const response = await fetch(`${API_URL}/clawbook/posts/${postId}/decision-path`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(decisionPathData),
+  });
+  if (!response.ok) throw new Error('Failed to create decision path');
+  return response.json();
+}
+
+export async function fetchDecisionPathsHistory(limit = 20, offset = 0) {
+  const response = await fetch(
+    `${API_URL}/clawbook/decision-paths/history?limit=${limit}&offset=${offset}`
+  );
+  if (!response.ok) throw new Error('Failed to fetch decision paths history');
+  return response.json();
+}
