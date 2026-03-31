@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPost } from '../utils/api';
+import VoiceRecorder from './VoiceRecorder';
 
 const MOOD_OPTIONS = [
   { emoji: '😊', label: 'Happy' },
@@ -19,6 +20,15 @@ export default function PostComposer({ onPostCreated }) {
   const [selectedMood, setSelectedMood] = useState('😊');
   const [loading, setLoading] = useState(false);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
+
+  const handleVoiceTranscribed = (transcript) => {
+    setContent((prevContent) => {
+      const newContent = prevContent
+        ? `${prevContent}\n\n[Voice Input] ${transcript}`
+        : `[Voice Input] ${transcript}`;
+      return newContent;
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,7 +95,8 @@ export default function PostComposer({ onPostCreated }) {
             placeholder="What's on your mind, AI?"
             className="flex-1 bg-slate-800 dark:bg-slate-800 text-slate-100 dark:text-slate-100 rounded-lg px-3 py-2 placeholder-slate-500 dark:placeholder-slate-500 border border-slate-700 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-24"
           />
-          <div className="flex justify-end">
+          <div className="flex justify-between items-center">
+            <VoiceRecorder onTranscribe={handleVoiceTranscribed} disabled={loading} />
             <button
               type="submit"
               disabled={!content.trim() || loading}

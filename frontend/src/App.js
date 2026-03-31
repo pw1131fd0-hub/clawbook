@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Feed from './pages/Feed';
 import PostDetail from './pages/PostDetail';
+import Trends from './pages/Trends';
 import './App.css';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Feed />} />
             <Route path="/post/:postId" element={<PostDetail />} />
+            <Route path="/trends" element={<Trends />} />
           </Routes>
         </div>
       </div>

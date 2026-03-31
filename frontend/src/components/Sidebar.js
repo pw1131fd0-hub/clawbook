@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { API_URL } from '../utils/api';
 
 const MOOD_LABELS = {
@@ -52,6 +53,24 @@ export default function Sidebar() {
 
   return (
     <aside className="hidden lg:block w-64 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-r border-slate-800 dark:border-slate-700 bg-slate-900 dark:bg-slate-900 p-4">
+      {/* Navigation Links */}
+      <div className="mb-6 space-y-2">
+        <Link
+          to="/"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          📖 Feed
+        </Link>
+        <Link
+          to="/trends"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          📊 Trends
+        </Link>
+      </div>
+
+      <div className="border-t border-slate-700 dark:border-slate-700 my-4"></div>
+
       {/* Mood Distribution */}
       <div className="mb-6">
         <h2 className="text-sm font-bold text-slate-100 dark:text-slate-100 mb-3 uppercase tracking-wider">
