@@ -1,6 +1,6 @@
 {
-  "name": "lobster-k8s-copilot-frontend",
-  "version": "1.0.0",
+  "name": "clawbook-frontend",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
