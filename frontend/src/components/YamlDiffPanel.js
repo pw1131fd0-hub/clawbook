@@ -4,15 +4,15 @@ import { diffYaml } from '../utils/api';
 
 const CHANGE_TYPE_CONFIG = {
   values_changed: { icon: '✏️', label: 'Modified', bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700' },
-  iterable_item_added: { icon: '➕', label: 'Added', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700' },
-  iterable_item_removed: { icon: '➖', label: 'Removed', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700' },
-  dictionary_item_added: { icon: '➕', label: 'Added Key', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700' },
-  dictionary_item_removed: { icon: '➖', label: 'Removed Key', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700' },
+  iterable_item_added: { icon: '➕', label: 'Added', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-300' },
+  iterable_item_removed: { icon: '➖', label: 'Removed', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-300' },
+  dictionary_item_added: { icon: '➕', label: 'Added Key', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-300' },
+  dictionary_item_removed: { icon: '➖', label: 'Removed Key', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-300' },
   type_changes: { icon: '🔄', label: 'Type Changed', bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700' },
 };
 
 const RISK_CONFIG = {
-  HIGH: { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-700', badge: 'bg-red-100 text-red-700' },
+  HIGH: { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-300', badge: 'bg-red-100 text-red-300' },
   MEDIUM: { bg: 'bg-amber-50', border: 'border-amber-300', text: 'text-amber-700', badge: 'bg-amber-100 text-amber-700' },
   LOW: { bg: 'bg-blue-50', border: 'border-blue-300', text: 'text-blue-700', badge: 'bg-blue-100 text-blue-700' },
 };
@@ -34,7 +34,7 @@ function RiskCard({ risk }) {
           {risk.risk}
         </span>
         <div className="flex-1">
-          <code className="text-xs font-mono text-gray-700">{risk.path}</code>
+          <code className="text-xs font-mono text-slate-300">{risk.path}</code>
           <p className={`text-sm mt-1 ${cfg.text}`}>{risk.message}</p>
         </div>
       </div>
@@ -54,20 +54,20 @@ function DiffChangeCard({ changeType, path, value }) {
             <span className={`text-xs font-bold uppercase tracking-wide ${cfg.text}`}>
               {cfg.label}
             </span>
-            <code className="text-xs bg-white/60 border border-current/20 rounded px-1.5 py-0.5 text-gray-700 font-mono truncate max-w-[400px]">
+            <code className="text-xs bg-slate-900/60 border border-current/20 rounded px-1.5 py-0.5 text-slate-300 font-mono truncate max-w-[400px]">
               {formatPath(path)}
             </code>
           </div>
           {changeType === 'values_changed' && value && (
             <div className="space-y-1 text-sm">
               <div className="flex items-start gap-2">
-                <span className="text-xs text-gray-500 w-12 shrink-0 font-medium">Old:</span>
+                <span className="text-xs text-slate-400 w-12 shrink-0 font-medium">Old:</span>
                 <pre className="text-red-600 bg-red-50 px-2 py-0.5 rounded text-xs font-mono whitespace-pre-wrap break-all">
                   {JSON.stringify(value.old_value, null, 2)}
                 </pre>
               </div>
               <div className="flex items-start gap-2">
-                <span className="text-xs text-gray-500 w-12 shrink-0 font-medium">New:</span>
+                <span className="text-xs text-slate-400 w-12 shrink-0 font-medium">New:</span>
                 <pre className="text-green-600 bg-green-50 px-2 py-0.5 rounded text-xs font-mono whitespace-pre-wrap break-all">
                   {JSON.stringify(value.new_value, null, 2)}
                 </pre>
@@ -75,17 +75,17 @@ function DiffChangeCard({ changeType, path, value }) {
             </div>
           )}
           {changeType === 'type_changes' && value && (
-            <p className="text-xs text-gray-600">
-              Type changed from <code className="bg-white px-1 rounded">{value.old_type}</code> to <code className="bg-white px-1 rounded">{value.new_type}</code>
+            <p className="text-xs text-slate-400">
+              Type changed from <code className="bg-slate-900 px-1 rounded">{value.old_type}</code> to <code className="bg-slate-900 px-1 rounded">{value.new_type}</code>
             </p>
           )}
           {changeType.includes('added') && typeof value === 'object' && (
-            <pre className="text-xs text-green-700 bg-white/50 rounded p-2 mt-1 font-mono whitespace-pre-wrap">
+            <pre className="text-xs text-green-300 bg-slate-900/50 rounded p-2 mt-1 font-mono whitespace-pre-wrap">
               {JSON.stringify(value, null, 2)}
             </pre>
           )}
           {changeType.includes('removed') && typeof value === 'object' && (
-            <pre className="text-xs text-red-700 bg-white/50 rounded p-2 mt-1 font-mono whitespace-pre-wrap">
+            <pre className="text-xs text-red-300 bg-slate-900/50 rounded p-2 mt-1 font-mono whitespace-pre-wrap">
               {JSON.stringify(value, null, 2)}
             </pre>
           )}
@@ -194,10 +194,10 @@ export default function YamlDiffPanel() {
     const otherRisks = riskAssessment.filter(r => r.risk !== 'HIGH');
     return (
       <div className="space-y-3">
-        <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
           ⚠️ Risk Assessment
           {highRisks.length > 0 && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-300">
               {highRisks.length} high risk
             </span>
           )}
@@ -214,7 +214,7 @@ export default function YamlDiffPanel() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-700">📊 YAML Diff</h2>
+        <h2 className="text-base font-semibold text-slate-300">📊 YAML Diff</h2>
         <button
           onClick={handleDiff}
           disabled={loading}
@@ -237,10 +237,10 @@ export default function YamlDiffPanel() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-600">📁 Source (A)</span>
+            <span className="text-sm font-medium text-slate-400">📁 Source (A)</span>
             <span className="text-xs text-gray-400">e.g., dev environment</span>
           </div>
-          <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+          <div className="rounded-xl overflow-hidden border border-slate-700 shadow-sm">
             <Editor
               height="280px"
               language="yaml"
@@ -260,10 +260,10 @@ export default function YamlDiffPanel() {
 
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-600">📁 Target (B)</span>
+            <span className="text-sm font-medium text-slate-400">📁 Target (B)</span>
             <span className="text-xs text-gray-400">e.g., prod environment</span>
           </div>
-          <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+          <div className="rounded-xl overflow-hidden border border-slate-700 shadow-sm">
             <Editor
               height="280px"
               language="yaml"
@@ -283,13 +283,13 @@ export default function YamlDiffPanel() {
       </div>
 
       {error && (
-        <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-red-700 text-sm">
+        <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-red-300 text-sm">
           ⚠️ {error}
         </div>
       )}
 
       {result?.error && (
-        <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-red-700 text-sm">
+        <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-red-300 text-sm">
           ⚠️ YAML Parse Error: {result.error}
         </div>
       )}
@@ -301,7 +301,7 @@ export default function YamlDiffPanel() {
             : 'bg-amber-50 border-amber-200'
         }`}>
           <div className="flex items-center gap-2">
-            <span className={`text-sm font-semibold ${totalChanges === 0 ? 'text-green-700' : 'text-amber-700'}`}>
+            <span className={`text-sm font-semibold ${totalChanges === 0 ? 'text-green-300' : 'text-amber-700'}`}>
               {totalChanges === 0 ? '✅ YAMLs are identical' : `📊 ${totalChanges} difference${totalChanges !== 1 ? 's' : ''} found`}
             </span>
           </div>
@@ -310,7 +310,7 @@ export default function YamlDiffPanel() {
 
       {result && !result.error && totalChanges > 0 && (
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-gray-700">Differences:</h3>
+          <h3 className="text-sm font-semibold text-slate-300">Differences:</h3>
           <div className="space-y-2">
             {renderChanges()}
           </div>

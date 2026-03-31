@@ -23,26 +23,26 @@ function parseAnalysis(aiAnalysis) {
 
 function HistoryCard({ record, onSelect, isSelected }) {
   const errorTypeClass = record.error_type && record.error_type !== 'Unknown'
-    ? 'bg-red-100 text-red-700'
-    : 'bg-gray-100 text-gray-600';
+    ? 'bg-red-900/40 text-red-300 border border-red-700'
+    : 'bg-slate-700 text-slate-300';
 
   return (
     <div
       onClick={() => onSelect(record)}
       className={`cursor-pointer rounded-xl border p-4 transition-all hover:shadow-md ${
-        isSelected ? 'border-indigo-400 ring-2 ring-indigo-200 bg-indigo-50/50' : 'border-gray-200 bg-white'
+        isSelected ? 'border-indigo-500 ring-2 ring-indigo-500/30 bg-slate-800' : 'border-slate-700 bg-slate-800'
       }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
-          <p className="font-mono text-sm font-medium text-gray-800 truncate">{record.pod_name}</p>
-          <p className="text-xs text-gray-500 mt-0.5">{record.namespace}</p>
+          <p className="font-mono text-sm font-medium text-slate-100 truncate">{record.pod_name}</p>
+          <p className="text-xs text-slate-400 mt-0.5">{record.namespace}</p>
         </div>
         <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${errorTypeClass}`}>
           {record.error_type || 'N/A'}
         </span>
       </div>
-      <p className="text-xs text-gray-400 mt-2">{formatDate(record.created_at)}</p>
+      <p className="text-xs text-slate-500 mt-2">{formatDate(record.created_at)}</p>
     </div>
   );
 }
@@ -51,15 +51,15 @@ function DetailPanel({ record, onClose }) {
   const analysis = parseAnalysis(record.ai_analysis);
 
   return (
-    <aside className="fixed right-0 top-0 h-full w-[28rem] bg-white shadow-2xl border-l border-gray-200 flex flex-col z-50">
-      <div className="flex items-center justify-between px-5 py-4 border-b bg-gray-50">
+    <aside className="fixed right-0 top-0 h-full w-[28rem] bg-slate-900 shadow-2xl border-l border-slate-700 flex flex-col z-50">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700 bg-slate-800">
         <div>
-          <h2 className="text-base font-semibold text-gray-800">📜 Diagnosis Record</h2>
-          <p className="text-xs text-gray-500 mt-0.5 font-mono truncate max-w-[280px]">{record.pod_name}</p>
+          <h2 className="text-base font-semibold text-slate-100">📜 Diagnosis Record</h2>
+          <p className="text-xs text-slate-400 mt-0.5 font-mono truncate max-w-[280px]">{record.pod_name}</p>
         </div>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-slate-500 hover:text-slate-300 transition-colors"
           aria-label="Close panel"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,16 +71,16 @@ function DetailPanel({ record, onClose }) {
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
-            <span className="text-xs text-gray-500 uppercase tracking-wide">Namespace</span>
-            <p className="font-medium text-gray-800">{record.namespace}</p>
+            <span className="text-xs text-slate-400 uppercase tracking-wide">Namespace</span>
+            <p className="font-medium text-slate-100">{record.namespace}</p>
           </div>
           <div>
-            <span className="text-xs text-gray-500 uppercase tracking-wide">Error Type</span>
-            <p className="font-mono text-sm text-red-600">{record.error_type || 'Unknown'}</p>
+            <span className="text-xs text-slate-400 uppercase tracking-wide">Error Type</span>
+            <p className="font-mono text-sm text-red-300">{record.error_type || 'Unknown'}</p>
           </div>
           <div className="col-span-2">
-            <span className="text-xs text-gray-500 uppercase tracking-wide">Diagnosed At</span>
-            <p className="text-gray-700">{new Date(record.created_at).toLocaleString()}</p>
+            <span className="text-xs text-slate-400 uppercase tracking-wide">Diagnosed At</span>
+            <p className="text-slate-300">{new Date(record.created_at).toLocaleString()}</p>
           </div>
         </div>
 
@@ -88,30 +88,30 @@ function DetailPanel({ record, onClose }) {
           <>
             {analysis.root_cause && (
               <section>
-                <h3 className="text-sm font-semibold text-gray-700 mb-1">🔍 Root Cause</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{analysis.root_cause}</p>
+                <h3 className="text-sm font-semibold text-slate-300 mb-1">🔍 Root Cause</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{analysis.root_cause}</p>
               </section>
             )}
             {analysis.detailed_analysis && (
               <section>
-                <h3 className="text-sm font-semibold text-gray-700 mb-1">📋 Detailed Analysis</h3>
-                <div className="prose prose-sm max-w-none text-gray-600">
+                <h3 className="text-sm font-semibold text-slate-300 mb-1">📋 Detailed Analysis</h3>
+                <div className="prose prose-sm max-w-none text-slate-400">
                   <ReactMarkdown>{analysis.detailed_analysis}</ReactMarkdown>
                 </div>
               </section>
             )}
             {analysis.remediation && (
               <section>
-                <h3 className="text-sm font-semibold text-gray-700 mb-1">🛠️ Remediation</h3>
-                <div className="prose prose-sm max-w-none">
+                <h3 className="text-sm font-semibold text-slate-300 mb-1">🛠️ Remediation</h3>
+                <div className="prose prose-sm max-w-none text-slate-400">
                   <ReactMarkdown>{analysis.remediation}</ReactMarkdown>
                 </div>
               </section>
             )}
             {analysis.raw && (
               <section>
-                <h3 className="text-sm font-semibold text-gray-700 mb-1">📄 Raw Output</h3>
-                <pre className="text-xs bg-gray-50 border rounded p-3 overflow-auto max-h-64 whitespace-pre-wrap">
+                <h3 className="text-sm font-semibold text-slate-300 mb-1">📄 Raw Output</h3>
+                <pre className="text-xs bg-slate-800 border border-slate-700 rounded p-3 overflow-auto max-h-64 whitespace-pre-wrap text-slate-400">
                   {analysis.raw}
                 </pre>
               </section>
@@ -120,7 +120,7 @@ function DetailPanel({ record, onClose }) {
         )}
 
         {!analysis && (
-          <p className="text-sm text-gray-400 italic">No analysis data available.</p>
+          <p className="text-sm text-slate-500 italic">No analysis data available.</p>
         )}
       </div>
     </aside>

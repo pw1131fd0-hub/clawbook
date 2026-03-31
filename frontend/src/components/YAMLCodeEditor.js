@@ -95,7 +95,7 @@ export default function YAMLCodeEditor() {
     <div className="flex flex-col gap-4">
       {/* Toolbar */}
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-700">📝 YAML Editor</h2>
+        <h2 className="text-base font-semibold text-slate-300">📝 YAML Editor</h2>
         <button
           onClick={handleScan}
           disabled={scanning}
@@ -116,7 +116,7 @@ export default function YAMLCodeEditor() {
       </div>
 
       {/* Monaco Editor */}
-      <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+      <div className="rounded-xl overflow-hidden border border-slate-700 shadow-sm">
         <Editor
           height="360px"
           language="yaml"
@@ -156,7 +156,7 @@ export default function YAMLCodeEditor() {
             <span className={`text-sm font-semibold ${result.has_errors ? 'text-red-700' : 'text-green-700'}`}>
               {result.has_errors ? '❌ Issues found' : '✅ No critical issues'}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-400">
               {result.total_issues} issue{result.total_issues !== 1 ? 's' : ''} detected
             </span>
             {/* Per-severity count chips */}
@@ -193,7 +193,7 @@ export default function YAMLCodeEditor() {
                     ? cfg
                       ? `${cfg.badge} border-current`
                       : 'bg-indigo-600 text-white border-indigo-600'
-                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-600'
                 }`}
               >
                 {f === 'ALL' ? `All (${count})` : `${cfg.label}s (${count})`}
@@ -217,7 +217,7 @@ export default function YAMLCodeEditor() {
                       <span className={`text-xs font-bold uppercase tracking-wide ${cfg.text}`}>
                         {issue.severity}
                       </span>
-                      <span className="text-xs font-mono bg-white/60 border border-current/20 rounded px-1.5 py-0.5 text-gray-600">
+                      <span className="text-xs font-mono bg-slate-900/60 border border-current/20 rounded px-1.5 py-0.5 text-slate-400">
                         {issue.rule}
                       </span>
                       {issue.line && (
