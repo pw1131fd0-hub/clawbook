@@ -42,7 +42,7 @@ describe('SlackConfigModal', () => {
     render(<SlackConfigModal isOpen={true} onClose={jest.fn()} />);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/v1/slack/config');
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/slack/config');
     });
   });
 
@@ -55,21 +55,32 @@ describe('SlackConfigModal', () => {
     render(<SlackConfigModal isOpen={true} onClose={jest.fn()} />);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/v1/slack/config');
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/slack/config');
     });
   });
 
   test('saves configuration successfully', async () => {
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        id: '123',
-        webhook_url: 'https://hooks.slack.com/services/T00000000/B00000000/XXXX',
-      }),
-    });
+    // First fetch for loading config on mount
+    fetch
+      .mockResolvedValueOnce({
+        ok: false, // No existing config
+      })
+      // Second fetch for saving config
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          id: '123',
+          webhook_url: 'https://hooks.slack.com/services/T00000000/B00000000/XXXX',
+        }),
+      });
 
     const onSuccess = jest.fn();
     render(<SlackConfigModal isOpen={true} onClose={jest.fn()} onSuccess={onSuccess} />);
+
+    // Wait for config load
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/slack/config');
+    });
 
     const webhookInput = screen.getByPlaceholderText(/hooks.slack.com/i);
     fireEvent.change(webhookInput, {
@@ -85,12 +96,23 @@ describe('SlackConfigModal', () => {
   });
 
   test('displays error message on save failure', async () => {
-    fetch.mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ detail: 'Invalid webhook URL' }),
-    });
+    fetch
+      // First fetch for loading config on mount
+      .mockResolvedValueOnce({
+        ok: false, // No existing config
+      })
+      // Second fetch for save error
+      .mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ detail: 'Invalid webhook URL' }),
+      });
 
     render(<SlackConfigModal isOpen={true} onClose={jest.fn()} />);
+
+    // Wait for config load
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/slack/config');
+    });
 
     const webhookInput = screen.getByPlaceholderText(/hooks.slack.com/i);
     fireEvent.change(webhookInput, {
@@ -123,14 +145,19 @@ describe('SlackConfigModal', () => {
 
     render(<SlackConfigModal isOpen={true} onClose={jest.fn()} />);
 
+    // Wait for initial config load and webhook URL to be displayed
     await waitFor(() => {
-      const testButton = screen.getByText(/Test Webhook/i);
-      fireEvent.click(testButton);
+      const webhookInput = screen.getByDisplayValue(/hooks.slack.com/i);
+      expect(webhookInput).toBeInTheDocument();
     });
 
+    const testButton = screen.getByText(/Test Webhook/i);
+    fireEvent.click(testButton);
+
+    // Wait for webhook test call
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        '/api/v1/slack/test',
+        'http://localhost:8000/api/v1/slack/test',
         expect.objectContaining({
           method: 'POST',
         })
@@ -210,7 +237,7 @@ describe('SlackConfigModal', () => {
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        '/api/v1/slack/config',
+        'http://localhost:8000/api/v1/slack/config',
         expect.objectContaining({
           method: 'DELETE',
         })

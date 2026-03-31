@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostComposer from '../components/PostComposer';
-import * as apiModule from '../utils/api';
+import * as offlineApiModule from '../utils/offlineApi';
 
-// Mock the API module
-jest.mock('../utils/api', () => ({
-  createPost: jest.fn(),
+// Mock the offline API module
+jest.mock('../utils/offlineApi', () => ({
+  createPostOfflineFirst: jest.fn(),
 }));
 
 // Mock VoiceRecorder to avoid complex dependencies
@@ -29,7 +29,7 @@ describe('PostComposer Component', () => {
 
   beforeEach(() => {
     mockOnPostCreated = jest.fn();
-    apiModule.createPost.mockClear();
+    offlineApiModule.createPostOfflineFirst.mockClear();
   });
 
   test('renders composer form with textarea', () => {
@@ -101,7 +101,7 @@ describe('PostComposer Component', () => {
 
   test('submits post with content and mood', async () => {
     const mockPost = { id: '1', content: 'Test post', mood: '😊' };
-    apiModule.createPost.mockResolvedValueOnce(mockPost);
+    offlineApiModule.createPostOfflineFirst.mockResolvedValueOnce(mockPost);
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -112,7 +112,7 @@ describe('PostComposer Component', () => {
     fireEvent.click(shareButton);
 
     await waitFor(() => {
-      expect(apiModule.createPost).toHaveBeenCalledWith({
+      expect(offlineApiModule.createPostOfflineFirst).toHaveBeenCalledWith({
         mood: '😊',
         content: 'Test post content',
         author: 'AI Assistant',
@@ -125,7 +125,7 @@ describe('PostComposer Component', () => {
 
   test('clears form after successful post creation', async () => {
     const mockPost = { id: '1' };
-    apiModule.createPost.mockResolvedValueOnce(mockPost);
+    offlineApiModule.createPostOfflineFirst.mockResolvedValueOnce(mockPost);
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -142,7 +142,7 @@ describe('PostComposer Component', () => {
 
   test('shows loading state during post creation', async () => {
     // Make the promise never resolve to keep loading state
-    apiModule.createPost.mockImplementation(() => new Promise(() => {}));
+    offlineApiModule.createPostOfflineFirst.mockImplementation(() => new Promise(() => {}));
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -161,7 +161,7 @@ describe('PostComposer Component', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-    apiModule.createPost.mockRejectedValueOnce(new Error('API Error'));
+    offlineApiModule.createPostOfflineFirst.mockRejectedValueOnce(new Error('API Error'));
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -172,7 +172,7 @@ describe('PostComposer Component', () => {
     fireEvent.click(shareButton);
 
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith('Failed to create post');
+      expect(alertSpy).toHaveBeenCalledWith('Failed to create post: API Error');
     });
 
     consoleSpy.mockRestore();
@@ -211,7 +211,7 @@ describe('PostComposer Component', () => {
   });
 
   test('disables voice recorder during post submission', async () => {
-    apiModule.createPost.mockImplementation(() => new Promise(() => {}));
+    offlineApiModule.createPostOfflineFirst.mockImplementation(() => new Promise(() => {}));
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -229,7 +229,7 @@ describe('PostComposer Component', () => {
 
   test('trims whitespace from content before submission', async () => {
     const mockPost = { id: '1' };
-    apiModule.createPost.mockResolvedValueOnce(mockPost);
+    offlineApiModule.createPostOfflineFirst.mockResolvedValueOnce(mockPost);
 
     render(<PostComposer onPostCreated={mockOnPostCreated} />);
 
@@ -240,7 +240,7 @@ describe('PostComposer Component', () => {
     fireEvent.click(shareButton);
 
     await waitFor(() => {
-      expect(apiModule.createPost).toHaveBeenCalledWith(
+      expect(offlineApiModule.createPostOfflineFirst).toHaveBeenCalledWith(
         expect.objectContaining({
           content: 'Test content with spaces',
         })
@@ -257,7 +257,7 @@ describe('PostComposer Component', () => {
     await userEvent.type(textarea, '   ');
 
     expect(shareButton).toBeDisabled();
-    expect(apiModule.createPost).not.toHaveBeenCalled();
+    expect(offlineApiModule.createPostOfflineFirst).not.toHaveBeenCalled();
   });
 
   test('default mood is happy', () => {
@@ -268,7 +268,7 @@ describe('PostComposer Component', () => {
 
   test('resets mood to happy after post creation', async () => {
     const mockPost = { id: '1' };
-    apiModule.createPost.mockResolvedValueOnce(mockPost);
+    offlineApiModule.createPostOfflineFirst.mockResolvedValueOnce(mockPost);
 
     const { container } = render(<PostComposer onPostCreated={mockOnPostCreated} />);
 

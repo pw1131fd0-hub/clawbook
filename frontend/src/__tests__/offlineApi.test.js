@@ -100,16 +100,17 @@ describe('Offline-aware API', () => {
     it('should create post on server when online', async () => {
       pwaModule.getOnlineStatus.mockReturnValue(true);
 
-      const mockResponse = { id: 123, ...mockPostData };
+      const serverResponse = { id: 123, ...mockPostData };
+      const expectedResult = { ...serverResponse, isOffline: false };
 
       fetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: async () => serverResponse,
       });
 
       const result = await createPostOfflineFirst(mockPostData);
 
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(expectedResult);
       expect(result.isOffline).toBeFalsy();
       expect(fetch).toHaveBeenCalledWith(
         'http://localhost:8000/api/v1/clawbook/posts',

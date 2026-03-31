@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
+import { API_URL } from '../utils/api';
 
 export default function SlackConfigModal({ isOpen, onClose, onSuccess }) {
   const [webhookUrl, setWebhookUrl] = useState('');
@@ -25,7 +25,7 @@ export default function SlackConfigModal({ isOpen, onClose, onSuccess }) {
 
   const loadConfig = async () => {
     try {
-      const response = await fetch(`${api.baseURL}/slack/config`);
+      const response = await fetch(`${API_URL}/slack/config`);
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -53,7 +53,7 @@ export default function SlackConfigModal({ isOpen, onClose, onSuccess }) {
     setSuccess('');
 
     try {
-      const response = await fetch(`${api.baseURL}/slack/test`, {
+      const response = await fetch(`${API_URL}/slack/test`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default function SlackConfigModal({ isOpen, onClose, onSuccess }) {
       };
 
       const method = hasConfig ? 'PUT' : 'POST';
-      const response = await fetch(`${api.baseURL}/slack/config`, {
+      const response = await fetch(`${API_URL}/slack/config`, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export default function SlackConfigModal({ isOpen, onClose, onSuccess }) {
     setSuccess('');
 
     try {
-      const response = await fetch(`${api.baseURL}/slack/config`, {
+      const response = await fetch(`${API_URL}/slack/config`, {
         method: 'DELETE',
       });
 
