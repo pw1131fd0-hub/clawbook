@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1774982047463" clover="3.2.0">
-  <project timestamp="1774982047463" name="All files">
-    <metrics statements="953" coveredstatements="587" conditionals="645" coveredconditionals="433" methods="257" coveredmethods="155" elements="1855" coveredelements="1175" complexity="0" loc="953" ncloc="953" packages="5" files="26" classes="26"/>
+<coverage generated="1774982191300" clover="3.2.0">
+  <project timestamp="1774982191300" name="All files">
+    <metrics statements="953" coveredstatements="618" conditionals="645" coveredconditionals="440" methods="257" coveredmethods="160" elements="1855" coveredelements="1218" complexity="0" loc="953" ncloc="953" packages="5" files="26" classes="26"/>
     <package name="src">
       <metrics statements="17" coveredstatements="11" conditionals="10" coveredconditionals="5" methods="7" coveredmethods="4"/>
       <file name="App.js" path="/home/crawd_user/project/clawbook/frontend/src/App.js">
@@ -768,7 +768,7 @@
       </file>
     </package>
     <package name="src.utils">
-      <metrics statements="266" coveredstatements="86" conditionals="98" coveredconditionals="32" methods="66" coveredmethods="19"/>
+      <metrics statements="266" coveredstatements="117" conditionals="98" coveredconditionals="39" methods="66" coveredmethods="24"/>
       <file name="api.js" path="/home/crawd_user/project/clawbook/frontend/src/utils/api.js">
         <metrics statements="25" coveredstatements="25" conditionals="21" coveredconditionals="14" methods="8" coveredmethods="8"/>
         <line num="2" count="6" type="cond" truecount="2" falsecount="0"/>
@@ -798,28 +798,28 @@
         <line num="66" count="2" type="stmt"/>
       </file>
       <file name="db.js" path="/home/crawd_user/project/clawbook/frontend/src/utils/db.js">
-        <metrics statements="103" coveredstatements="7" conditionals="28" coveredconditionals="1" methods="38" coveredmethods="3"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="14" count="7" type="stmt"/>
-        <line num="15" count="7" type="stmt"/>
-        <line num="17" count="7" type="stmt"/>
+        <metrics statements="103" coveredstatements="20" conditionals="28" coveredconditionals="4" methods="38" coveredmethods="5"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="15" count="9" type="stmt"/>
+        <line num="17" count="9" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="32" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="36" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="53" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="55" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
@@ -974,22 +974,22 @@
         <line num="195" count="0" type="stmt"/>
       </file>
       <file name="pwa.js" path="/home/crawd_user/project/clawbook/frontend/src/utils/pwa.js">
-        <metrics statements="71" coveredstatements="2" conditionals="18" coveredconditionals="0" methods="10" coveredmethods="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <metrics statements="71" coveredstatements="20" conditionals="18" coveredconditionals="4" methods="10" coveredmethods="3"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="19" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="33" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
         <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="55" count="0" type="stmt"/>
@@ -1006,7 +1006,7 @@
         <line num="98" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
         <line num="100" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
         <line num="114" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="115" count="0" type="stmt"/>
         <line num="116" count="0" type="stmt"/>
@@ -1030,10 +1030,10 @@
         <line num="156" count="0" type="stmt"/>
         <line num="165" count="0" type="stmt"/>
         <line num="167" count="0" type="stmt"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="176" count="0" type="stmt"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="179" count="0" type="stmt"/>
+        <line num="175" count="3" type="stmt"/>
+        <line num="176" count="3" type="stmt"/>
+        <line num="177" count="2" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
         <line num="187" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="188" count="0" type="stmt"/>
         <line num="189" count="0" type="stmt"/>
