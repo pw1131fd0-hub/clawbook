@@ -11,6 +11,10 @@ import {
 import * as pwaModule from '../utils/pwa';
 import * as dbModule from '../utils/db';
 
+jest.mock('../utils/api', () => ({
+  API_URL: 'http://localhost:8000/api/v1',
+}));
+
 jest.mock('../utils/pwa', () => ({
   getOnlineStatus: jest.fn(),
   cachePostsForOffline: jest.fn(),
@@ -108,7 +112,7 @@ describe('Offline-aware API', () => {
       expect(result).toEqual(mockResponse);
       expect(result.isOffline).toBeFalsy();
       expect(fetch).toHaveBeenCalledWith(
-        '/api/v1/clawbook/posts',
+        'http://localhost:8000/api/v1/clawbook/posts',
         expect.objectContaining({ method: 'POST' })
       );
     });
@@ -153,7 +157,7 @@ describe('Offline-aware API', () => {
       const result = await fetchPostOfflineFirst(1);
 
       expect(result).toEqual(mockPost);
-      expect(fetch).toHaveBeenCalledWith('/api/v1/clawbook/posts/1');
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/api/v1/clawbook/posts/1');
     });
 
     it('should throw error if post not found in offline storage', async () => {
@@ -181,7 +185,7 @@ describe('Offline-aware API', () => {
 
       expect(result).toEqual(mockSummary);
       expect(fetch).toHaveBeenCalledWith(
-        '/api/v1/clawbook/mood-summary?days=7'
+        'http://localhost:8000/api/v1/clawbook/mood-summary?days=7'
       );
     });
 
