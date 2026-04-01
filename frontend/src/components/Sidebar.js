@@ -82,6 +82,12 @@ export default function Sidebar() {
           🌟 {t('navigation.personality', 'Personality')}
         </Link>
         <Link
+          to="/growth"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          🎯 {t('navigation.growth', 'Growth')}
+        </Link>
+        <Link
           to="/decision-paths"
           className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
         >
