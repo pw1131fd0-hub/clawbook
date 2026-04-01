@@ -39,5 +39,14 @@ def init_db() -> None:
         ClawBookImage,
         SlackConfig,
         AIDecisionPath,
+        User,
+        Share,
+        Group,
+        GroupMember,
+        CollaborationComment,
+        ActivityLog,
+        PsychologyProfile,
+        Goal,
+        Achievement,
     )
     Base.metadata.create_all(bind=engine)

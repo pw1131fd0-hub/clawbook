@@ -421,3 +421,80 @@ class PsychologyProfile(Base):  # pylint: disable=too-few-public-methods
     __table_args__ = (
         Index("ix_psychology_profiles_created_at", "created_at"),
     )
+
+
+# ============================================================================
+# ClawBook v1.7 Growth Tracking Features - Models
+# ============================================================================
+
+
+class Goal(Base):  # pylint: disable=too-few-public-methods
+    """ORM model for growth goals - v1.7 Phase 3 feature."""
+
+    __tablename__ = "goals"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    category: Mapped[str] = mapped_column(String(50), nullable=False)  # "personal", "professional", "health", "learning"
+
+    # Goal target and progress
+    target_value: Mapped[float] = mapped_column(Integer, nullable=False)  # Target amount
+    current_value: Mapped[float] = mapped_column(Integer, default=0)  # Current progress
+    unit: Mapped[str] = mapped_column(String(50), nullable=True)  # e.g., "pages", "hours", "miles"
+
+    # Goal status and dates
+    status: Mapped[str] = mapped_column(String(20), default="active")  # "active", "completed", "paused", "abandoned"
+    start_date: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
+    target_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    completed_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    # Timestamps
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )
+
+    # Relationships
+    achievements: Mapped[list["Achievement"]] = relationship(
+        "Achievement", back_populates="goal", cascade="all, delete-orphan"
+    )
+
+    __table_args__ = (
+        Index("ix_goals_category", "category"),
+        Index("ix_goals_status", "status"),
+        Index("ix_goals_created_at", "created_at"),
+    )
+
+
+class Achievement(Base):  # pylint: disable=too-few-public-methods
+    """ORM model for goal achievements and milestones - v1.7 Phase 3 feature."""
+
+    __tablename__ = "achievements"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    goal_id: Mapped[str] = mapped_column(String, ForeignKey("goals.id"), nullable=False, index=True)
+
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    progress_value: Mapped[float] = mapped_column(Integer, nullable=False)  # Milestone progress
+
+    # Achievement metadata
+    achievement_type: Mapped[str] = mapped_column(String(50), default="milestone")  # "milestone", "completion"
+    celebration_sent: Mapped[bool] = mapped_column(Boolean, default=False)  # Whether celebration was sent
+
+    achieved_date: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+
+    # Relationships
+    goal: Mapped["Goal"] = relationship("Goal", back_populates="achievements")
+
+    __table_args__ = (
+        Index("ix_achievements_goal_date", "goal_id", "achieved_date"),
+    )

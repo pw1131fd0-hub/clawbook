@@ -2,7 +2,7 @@
 import os
 import tempfile
 import pytest
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.testclient import TestClient
 
@@ -31,7 +31,13 @@ def db_engine():
         cursor.execute("PRAGMA foreign_keys=ON")
         cursor.close()
 
-    # Create all tables
+    # Drop all tables and recreate them (for test isolation)
+    # Disable foreign key checks for SQLite during drop
+    with engine.begin() as conn:
+        conn.execute(text("PRAGMA foreign_keys = OFF"))
+        Base.metadata.drop_all(engine)
+        conn.execute(text("PRAGMA foreign_keys = ON"))
+
     Base.metadata.create_all(engine)
 
     yield engine

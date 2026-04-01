@@ -505,3 +505,82 @@ class PsychologyProfileResponse(BaseModel):
     updated_at: str
 
     model_config = {"from_attributes": True}
+
+
+# ============================================================================
+# Growth Tracking Schemas (v1.7 Phase 3)
+# ============================================================================
+
+
+class GoalCreate(BaseModel):
+    """Schema for creating a new growth goal."""
+    title: str
+    description: str | None = None
+    category: str  # "personal", "professional", "health", "learning"
+    target_value: int
+    unit: str | None = None
+    target_date: datetime | None = None
+
+
+class GoalUpdate(BaseModel):
+    """Schema for updating a growth goal."""
+    title: str | None = None
+    description: str | None = None
+    target_value: int | None = None
+    unit: str | None = None
+    status: str | None = None  # "active", "completed", "paused", "abandoned"
+    target_date: datetime | None = None
+
+
+class GoalResponse(BaseModel):
+    """Response schema for a growth goal."""
+    id: str
+    title: str
+    description: str | None
+    category: str
+    target_value: int
+    current_value: int
+    unit: str | None
+    status: str
+    start_date: str
+    target_date: str | None
+    completed_date: str | None
+    created_at: str
+    updated_at: str
+
+    model_config = {"from_attributes": True}
+
+
+class ProgressLogRequest(BaseModel):
+    """Schema for logging progress towards a goal."""
+    progress: int
+    title: str | None = None
+    description: str | None = None
+
+
+class AchievementResponse(BaseModel):
+    """Response schema for a goal achievement."""
+    id: str
+    goal_id: str
+    title: str
+    description: str | None
+    progress_value: int
+    achievement_type: str  # "milestone", "completion"
+    celebration_sent: bool
+    achieved_date: str
+    created_at: str
+
+    model_config = {"from_attributes": True}
+
+
+class GrowthInsightsResponse(BaseModel):
+    """Response schema for growth insights and analytics."""
+    total_goals: int
+    completed_goals: int
+    active_goals: int
+    completion_rate: float
+    total_achievements: int
+    milestone_count: int
+    completion_count: int
+    category_breakdown: dict[str, dict[str, int]]
+    recommended_next_actions: list[str]
