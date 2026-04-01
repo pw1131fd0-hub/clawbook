@@ -542,11 +542,11 @@ class GoalResponse(BaseModel):
     current_value: int
     unit: str | None
     status: str
-    start_date: str
-    target_date: str | None
-    completed_date: str | None
-    created_at: str
-    updated_at: str
+    start_date: str | datetime
+    target_date: str | datetime | None
+    completed_date: str | datetime | None
+    created_at: str | datetime
+    updated_at: str | datetime
 
     model_config = {"from_attributes": True}
 
@@ -567,8 +567,8 @@ class AchievementResponse(BaseModel):
     progress_value: int
     achievement_type: str  # "milestone", "completion"
     celebration_sent: bool
-    achieved_date: str
-    created_at: str
+    achieved_date: str | datetime
+    created_at: str | datetime
 
     model_config = {"from_attributes": True}
 
