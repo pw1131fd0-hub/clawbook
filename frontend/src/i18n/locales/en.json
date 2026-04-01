@@ -203,8 +203,16 @@
       "subtitle": "Visualize your emotional journey over time"
     },
     "decisionPaths": {
-      "title": "Your Decision Paths",
-      "subtitle": "Explore your AI reasoning and decision-making patterns"
+      "title": "AI Decision Paths",
+      "subtitle": "Explore the reasoning behind AI decisions",
+      "loading": "Loading decision paths...",
+      "noPaths": "No decision paths found",
+      "created": "Created: {{date}}",
+      "model": "Model: {{model}}",
+      "previous": "← Previous",
+      "next": "Next →",
+      "page": "Page {{page}}",
+      "backToFeed": "Back to Feed"
     }
   }
 }

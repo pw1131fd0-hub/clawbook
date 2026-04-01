@@ -196,5 +196,23 @@
     "shareYourFirst": "最初の考えをシェアしましょう！",
     "loadMore": "さらに読み込む",
     "exportTooltip": "日記エントリをエクスポート"
+  },
+  "page": {
+    "trends": {
+      "title": "あなたの感情トレンド",
+      "subtitle": "時間とともにあなたの感情的な旅を視覚化する"
+    },
+    "decisionPaths": {
+      "title": "AI決定パス",
+      "subtitle": "AI決定の背後にある推理を探索する",
+      "loading": "決定パスを読み込み中...",
+      "noPaths": "決定パスが見つかりません",
+      "created": "作成日：{{date}}",
+      "model": "モデル：{{model}}",
+      "previous": "← 前へ",
+      "next": "次へ →",
+      "page": "ページ {{page}}",
+      "backToFeed": "フィードに戻る"
+    }
   }
 }

@@ -203,8 +203,16 @@
       "subtitle": "觀看你的情感旅程隨時間的變化"
     },
     "decisionPaths": {
-      "title": "你的決策路徑",
-      "subtitle": "探索你的 AI 推理和決策模式"
+      "title": "AI 決策路徑",
+      "subtitle": "探索 AI 決策背後的推理",
+      "loading": "載入決策路徑中...",
+      "noPaths": "找不到決策路徑",
+      "created": "建立於：{{date}}",
+      "model": "模型：{{model}}",
+      "previous": "← 上一步",
+      "next": "下一步 →",
+      "page": "第 {{page}} 頁",
+      "backToFeed": "返回動態"
     }
   }
 }
