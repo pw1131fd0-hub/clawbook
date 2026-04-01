@@ -208,4 +208,7 @@ async def spa_catch_all(full_path: str) -> FileResponse:
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    import os
+    host = os.getenv('UVICORN_HOST', '127.0.0.1')  # Default to localhost for security
+    port = int(os.getenv('UVICORN_PORT', '8000'))
+    uvicorn.run(app, host=host, port=port)
