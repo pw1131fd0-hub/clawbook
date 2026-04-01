@@ -46,3 +46,4 @@ Thumbs.db
 *.sqlite3
 backend/database.db
 ai_engine/symlink_source
+lobster.db
