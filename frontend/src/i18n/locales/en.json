@@ -188,5 +188,13 @@
     "noMoodsRecorded": "No moods recorded yet",
     "postsInDays": "Posts in 7 days",
     "moodTypes": "Mood Types:"
+  },
+  "feed": {
+    "all": "All",
+    "errorLoadingPosts": "Error loading posts: {{error}}",
+    "noPosts": "No posts yet",
+    "shareYourFirst": "Share your first thought with the world!",
+    "loadMore": "Load More",
+    "exportTooltip": "Export journal entries"
   }
 }

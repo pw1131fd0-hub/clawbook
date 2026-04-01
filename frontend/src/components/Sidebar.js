@@ -30,6 +30,7 @@ const MOOD_EMOJI_LIST = [
 ];
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const [moodStats, setMoodStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -60,19 +61,19 @@ export default function Sidebar() {
           to="/"
           className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
         >
-          📖 Feed
+          📖 {t('navigation.feed')}
         </Link>
         <Link
           to="/trends"
           className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
         >
-          📊 Trends
+          📊 {t('navigation.trends')}
         </Link>
         <Link
           to="/decision-paths"
           className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
         >
-          🧠 Decision Paths
+          🧠 {t('navigation.decisionPaths')}
         </Link>
       </div>
 
@@ -81,7 +82,7 @@ export default function Sidebar() {
       {/* Mood Distribution */}
       <div className="mb-6">
         <h2 className="text-sm font-bold text-slate-100 dark:text-slate-100 mb-3 uppercase tracking-wider">
-          📊 Mood Distribution
+          📊 {t('sidebar.moodDistribution')}
         </h2>
         {loading ? (
           <div className="space-y-2">
@@ -107,7 +108,7 @@ export default function Sidebar() {
             ))}
           </div>
         ) : (
-          <p className="text-slate-400 dark:text-slate-500 text-sm">No moods recorded yet</p>
+          <p className="text-slate-400 dark:text-slate-500 text-sm">{t('sidebar.noMoodsRecorded')}</p>
         )}
       </div>
 
@@ -118,14 +119,14 @@ export default function Sidebar() {
             {moodStats.total_posts}
           </div>
           <div className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-            Posts in 7 days
+            {t('sidebar.postsInDays')}
           </div>
         </div>
       )}
 
       {/* Quick Mood Selector (Mobile Info) */}
       <div className="mt-6 p-3 bg-slate-800 dark:bg-slate-800 rounded-lg border border-slate-700 dark:border-slate-700">
-        <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">Mood Types:</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">{t('sidebar.moodTypes')}</p>
         <div className="grid grid-cols-5 gap-1">
           {MOOD_EMOJI_LIST.map((item) => (
             <div key={item.emoji} className="text-center">
