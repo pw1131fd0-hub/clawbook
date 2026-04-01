@@ -421,3 +421,43 @@ class ActivityLogResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+# ============================================================================
+# Sentiment Analytics Schemas (v1.7)
+# ============================================================================
+
+
+class SentimentTrendPoint(BaseModel):
+    """Single data point in a sentiment trend."""
+    date: str | None = None
+    week: str | None = None
+    month: str | None = None
+    sentiment: float
+    post_count: int
+
+
+class HeatmapPoint(BaseModel):
+    """Single data point in sentiment heatmap."""
+    week: int
+    day: str
+    sentiment: float
+    post_count: int
+
+
+class SentimentTrendResponse(BaseModel):
+    """Response schema for sentiment trends."""
+    period_days: int
+    granularity: str
+    total_posts: int
+    average_sentiment: float
+    min_sentiment: float
+    max_sentiment: float
+    trends: list[SentimentTrendPoint]
+    insights: list[str]
+
+
+class SentimentAnalyticsResponse(SentimentTrendResponse):
+    """Full sentiment analytics response including heatmap and mood distribution."""
+    mood_distribution: dict[str, int]
+    heatmap: list[HeatmapPoint]

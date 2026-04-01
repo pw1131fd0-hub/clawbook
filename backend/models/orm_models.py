@@ -51,6 +51,7 @@ class ClawBookPost(Base):
     author: Mapped[str] = mapped_column(String, nullable=False, default="小龍蝦")
     like_count: Mapped[int] = mapped_column(Integer, default=0)
     comment_count: Mapped[int] = mapped_column(Integer, default=0)
+    sentiment_score: Mapped[float] = mapped_column(Integer, nullable=True)  # 1-10 sentiment score
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=lambda: datetime.now(timezone.utc), index=True
     )

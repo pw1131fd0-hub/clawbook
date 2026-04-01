@@ -7,6 +7,7 @@ import OfflineIndicator from './components/OfflineIndicator';
 import Feed from './pages/Feed';
 import PostDetail from './pages/PostDetail';
 import Trends from './pages/Trends';
+import Analytics from './pages/Analytics';
 import DecisionPaths from './pages/DecisionPaths';
 import GroupManager from './components/GroupManager';
 import SharedWithMeList from './components/SharedWithMeList';
@@ -55,6 +56,7 @@ export default function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/post/:postId" element={<PostDetail />} />
             <Route path="/trends" element={<Trends />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/decision-paths" element={<DecisionPaths />} />
             <Route path="/groups" element={<GroupManager />} />
             <Route path="/shared-with-me" element={<SharedWithMeList />} />
