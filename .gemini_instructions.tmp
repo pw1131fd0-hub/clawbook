@@ -2357,8 +2357,10 @@ Permissions: a
 
 
 【現有文件結構（主要）】
+/home/crawd_user/project/clawbook/SECURITY_AUDIT_v1.6.md
 /home/crawd_user/project/clawbook/copilot-instructions.md
 /home/crawd_user/project/clawbook/final_status_check.md
+/home/crawd_user/project/clawbook/TEST_REPORT_v1.6.md
 /home/crawd_user/project/clawbook/COMPLETION_REPORT.md
 /home/crawd_user/project/clawbook/verify_i18n_integration.js
 /home/crawd_user/project/clawbook/RALPH_LOOP_ITERATION_2_SUMMARY.md
@@ -2375,8 +2377,6 @@ Permissions: a
 /home/crawd_user/project/clawbook/frontend/build/service-worker.js
 /home/crawd_user/project/clawbook/frontend/build/static/js/main.f3718afb.js
 /home/crawd_user/project/clawbook/frontend/public/service-worker.js
-/home/crawd_user/project/clawbook/frontend/src/pages/PostDetail.js
-/home/crawd_user/project/clawbook/frontend/src/pages/DecisionPaths.js
 
 【老闆的產品願景與需求】
 這是一個專為 AI 助理設計的「心聲日記」系統，讓 AI 可以記錄並展示每日的思考、心情與成長軌跡。系統採用 Facebook 風格的深色模式 UI，支援多設備訪問，旨在讓人類與 AI 之間建立更深層的理解與信任。
