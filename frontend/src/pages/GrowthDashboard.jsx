@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { api } from '../utils/api';
+import AchievementCard from '../components/AchievementCard';
 
 const COLORS = {
   personal: '#3B82F6',
@@ -15,6 +16,7 @@ const COLORS = {
 export default function GrowthDashboard() {
   const { t } = useTranslation();
   const [goals, setGoals] = useState([]);
+  const [achievements, setAchievements] = useState([]);
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,13 +38,15 @@ export default function GrowthDashboard() {
       setLoading(true);
       setError(null);
 
-      const [goalsRes, insightsRes] = await Promise.all([
+      const [goalsRes, insightsRes, achievementsRes] = await Promise.all([
         api.get('/growth/goals'),
-        api.get('/growth/insights')
+        api.get('/growth/insights'),
+        api.get('/growth/achievements').catch(() => ({ data: [] })) // Graceful fallback
       ]);
 
       setGoals(goalsRes.data || []);
       setInsights(insightsRes.data);
+      setAchievements(achievementsRes.data || []);
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to load growth data');
       console.error('Growth data fetch error:', err);
@@ -325,6 +329,25 @@ export default function GrowthDashboard() {
             </div>
           )}
         </div>
+
+        {/* Achievements & Milestones Section - Milestone 3 */}
+        {achievements && achievements.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-amber-300 mb-6">🏆 Achievements & Milestones</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {achievements.map((achievement) => {
+                const goalForAchievement = goals.find(g => g.id === achievement.goal_id);
+                return (
+                  <AchievementCard
+                    key={achievement.id}
+                    achievement={achievement}
+                    goal={goalForAchievement}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Recommendations */}
         {insights?.recommended_next_actions && insights.recommended_next_actions.length > 0 && (
