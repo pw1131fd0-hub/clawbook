@@ -8,6 +8,8 @@ import Feed from './pages/Feed';
 import PostDetail from './pages/PostDetail';
 import Trends from './pages/Trends';
 import DecisionPaths from './pages/DecisionPaths';
+import GroupManager from './components/GroupManager';
+import SharedWithMeList from './components/SharedWithMeList';
 import { initOfflineSupport } from './utils/pwa';
 import './App.css';
 
@@ -54,6 +56,8 @@ export default function App() {
             <Route path="/post/:postId" element={<PostDetail />} />
             <Route path="/trends" element={<Trends />} />
             <Route path="/decision-paths" element={<DecisionPaths />} />
+            <Route path="/groups" element={<GroupManager />} />
+            <Route path="/shared-with-me" element={<SharedWithMeList />} />
           </Routes>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toggleLike, deletePost } from '../utils/api';
+import ShareModal from './ShareModal';
 
 function formatDate(dateStr, t) {
   const date = new Date(dateStr);
@@ -21,6 +22,7 @@ export default function PostCard({ post, onDeleted }) {
   const [liked, setLiked] = useState(post.liked);
   const [likeCount, setLikeCount] = useState(post.like_count);
   const [loading, setLoading] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const handleToggleLike = async () => {
     setLoading(true);
@@ -130,9 +132,28 @@ export default function PostCard({ post, onDeleted }) {
             >
               💬 Reply
             </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowShareModal(true);
+              }}
+              className="flex-1 py-1.5 rounded text-sm font-medium text-slate-400 dark:text-slate-400 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+            >
+              🔗 {t('postCard.share') || 'Share'}
+            </button>
           </div>
         </div>
       </div>
+
+      {showShareModal && (
+        <ShareModal
+          postId={post.id}
+          onClose={() => setShowShareModal(false)}
+          onShared={() => {
+            // Could refresh or show success message here
+          }}
+        />
+      )}
     </Link>
   );
 }

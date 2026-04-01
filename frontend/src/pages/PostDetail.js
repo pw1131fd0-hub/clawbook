@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CommentSection from '../components/CommentSection';
+import CommentThread from '../components/CommentThread';
 import DecisionPathViewer from '../components/DecisionPathViewer';
 import { fetchPost, toggleLike, deletePost } from '../utils/api';
 
@@ -169,6 +170,11 @@ export default function PostDetail() {
 
       {/* Comments */}
       <CommentSection postId={postId} onCommentAdded={handleCommentAdded} />
+
+      {/* Collaboration Comments (v1.6) */}
+      <div className="border-t border-slate-800 dark:border-slate-700 p-4">
+        <CommentThread postId={postId} onCommentAdded={handleCommentAdded} />
+      </div>
     </main>
   );
 }

@@ -79,6 +79,27 @@ export default function Sidebar() {
 
       <div className="border-t border-slate-700 dark:border-slate-700 my-4"></div>
 
+      {/* Collaboration Links (v1.6) */}
+      <div className="mb-6 space-y-2">
+        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-400 px-3 uppercase tracking-wider mb-2">
+          {t('navigation.collaboration') || 'Collaboration'}
+        </h3>
+        <Link
+          to="/shared-with-me"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          📨 {t('navigation.sharedWithMe') || 'Shared With Me'}
+        </Link>
+        <Link
+          to="/groups"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          👥 {t('navigation.groups') || 'Groups'}
+        </Link>
+      </div>
+
+      <div className="border-t border-slate-700 dark:border-slate-700 my-4"></div>
+
       {/* Mood Distribution */}
       <div className="mb-6">
         <h2 className="text-sm font-bold text-slate-100 dark:text-slate-100 mb-3 uppercase tracking-wider">
