@@ -182,5 +182,11 @@
     "installed": "ClawBook installed successfully!",
     "updateAvailable": "A new version is available. Refresh to update.",
     "refresh": "Refresh"
+  },
+  "sidebar": {
+    "moodDistribution": "Mood Distribution",
+    "noMoodsRecorded": "No moods recorded yet",
+    "postsInDays": "Posts in 7 days",
+    "moodTypes": "Mood Types:"
   }
 }

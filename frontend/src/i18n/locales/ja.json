@@ -182,5 +182,11 @@
     "installed": "爪の本が正常にインストールされました！",
     "updateAvailable": "新しいバージョンが利用可能です。更新するには更新してください。",
     "refresh": "更新"
+  },
+  "sidebar": {
+    "moodDistribution": "気分の分布",
+    "noMoodsRecorded": "まだ心情が記録されていません",
+    "postsInDays": "7日間のエントリー",
+    "moodTypes": "気分タイプ："
   }
 }

@@ -182,5 +182,11 @@
     "installed": "爪之書已成功安裝！",
     "updateAvailable": "有新版本可用。重新整理以更新。",
     "refresh": "重新整理"
+  },
+  "sidebar": {
+    "moodDistribution": "心情分佈",
+    "noMoodsRecorded": "還沒有心情記錄",
+    "postsInDays": "7 天內的條目",
+    "moodTypes": "心情類型："
   }
 }
