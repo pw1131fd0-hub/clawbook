@@ -2,70 +2,77 @@
   "iterations": [
     {
       "iteration": 1,
-      "startedAt": "2026-04-01T20:00:15.908Z",
-      "endedAt": "2026-04-01T20:00:52.443Z",
-      "durationMs": 35830,
+      "startedAt": "2026-04-01T20:30:15.379Z",
+      "endedAt": "2026-04-01T20:37:45.059Z",
+      "durationMs": 448944,
       "agent": "claude-code",
       "model": "",
       "toolsUsed": {
-        "Read": 6,
-        "Bash": 4,
-        "Glob": 2
+        "Read": 38,
+        "Bash": 82,
+        "AI": 1,
+        "TodoWrite": 14,
+        "Edit": 16,
+        "Write": 13,
+        "Alembic": 2,
+        "LLM": 2,
+        "Recharts": 2
       },
       "filesModified": [
-        ".gemini_instructions.tmp",
-        "archive/v1/ai_engine"
-      ],
-      "exitCode": 0,
-      "completionDetected": false,
-      "errors": [
-        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01UVwMKkwkMbnuHqtKwjeHYJ\",\"type\":\"tool_result\",\"content\":\"npm error code ENOENT\\nnpm error syscall open\\nnpm error path /home/c",
-        "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"thinking_delta\",\"thinking\":\"The npm test fails\"}},\"session_id\":\"75b9b723-7d38-41bb-8f9b-ed4d04691885\",\"parent_to",
-        "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_019cpV5sFQR59FE8jrLMjb8U\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"The npm test fails "
-      ]
-    },
-    {
-      "iteration": 2,
-      "startedAt": "2026-04-01T20:00:54.135Z",
-      "endedAt": "2026-04-01T20:03:13.999Z",
-      "durationMs": 139179,
-      "agent": "claude-code",
-      "model": "",
-      "toolsUsed": {
-        "Read": 16,
-        "Glob": 4,
-        "Bash": 40,
-        "absolute": 2,
-        "Write": 2
-      },
-      "filesModified": [
+        "frontend/coverage/clover.xml",
+        "frontend/coverage/coverage-final.json",
+        "frontend/coverage/lcov-report/index.html",
+        "frontend/coverage/lcov-report/src/App.js.html",
+        "frontend/coverage/lcov-report/src/components/Sidebar.js.html",
+        "frontend/coverage/lcov-report/src/components/index.html",
+        "frontend/coverage/lcov-report/src/index.html",
+        "frontend/coverage/lcov-report/src/pages/index.html",
+        "frontend/coverage/lcov.info",
+        "lobster.db",
+        "frontend/coverage/lcov-report/src/pages/Analytics.jsx.html",
         "archive/v1/ai_engine",
-        "docs/.dev_status.json"
+        "backend/api/v1/router.py",
+        "backend/controllers/__init__.py",
+        "backend/controllers/analytics_controller.py",
+        "backend/migrations/versions/20260401_2000_v17_add_sentiment_score.py",
+        "backend/models/orm_models.py",
+        "backend/models/schemas.py",
+        "backend/services/sentiment_analysis_service.py",
+        "docs/.dev_status.json",
+        "frontend/src/App.js",
+        "frontend/src/components/Sidebar.js",
+        "frontend/src/pages/Analytics.jsx",
+        "tests/test_sentiment_analysis.py"
       ],
       "exitCode": 0,
       "completionDetected": false,
       "errors": [
-        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"File content (36698 tokens) exceeds maximum allowed tokens (10000). Use offset and limit parameters to read specific",
-        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01VKST46i4KMyyVTjWmZgWv1\",\"type\":\"tool_result\",\"content\":\"npm error code ENOENT\\nnpm error syscall open\\nnpm error path /home/c",
-        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01Q8xQr32JyfLuL4z6U1fKUr\",\"type\":\"tool_result\",\"content\":\"============================= test session starts ===================",
-        "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"thinking_delta\",\"thinking\":\" is a known Python import issue. \\n\\nLooking at the test import error:\\n```\\nfrom we",
-        "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"thinking_delta\",\"thinking\":\"\\nE   ImportError: cannot import name 'WebSocket' from 'websocket' (/home\"}},\"sessio",
-        "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_018BMqcMUHok7unois77T1sY\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"The issue is that t",
-        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_015HWkpAWch27HdHpXQHkuQT\",\"type\":\"tool_result\",\"content\":\"1\\t\\\"\\\"\\\"Integration tests for Slack controller endpoints.\\\"\\\"\\\"\\n2\\t"
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"EISDIR: illegal operation on a directory, read '/home/crawd_user/project/clawbook'\",\"is_error\":true,\"tool_use_id\":\"t",
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"Exit code 1\\n/bin/bash: line 1: cd: backend: No such file or directory\",\"is_error\":true,\"tool_use_id\":\"toolu_01SRVhN",
+        "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_012cDj9WE6gSJLtWgTmmm77K\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01HJbUAmyfvhoY18o2f",
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"File content (35499 tokens) exceeds maximum allowed tokens (10000). Use offset and limit parameters to read specific",
+        "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_01FAcMkuFZheCeavbHUdHPgo\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01SpiLR5CzJhuYkTofN",
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01SpiLR5CzJhuYkTofNAKBhF\",\"type\":\"tool_result\",\"content\":\"File created successfully at: /home/crawd_user/project/clawbook/backe",
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01SfXuFc9RoroveGLJoHJCW3\",\"type\":\"tool_result\",\"content\":\"============================= test session starts ===================",
+        "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"error:', e\"}},\"session_id\":\"77e9f52e-7029-481d-97fa-00137b73282e\",\"parent_tool",
+        "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_01EUEtpajG2qCmDUpyv2qwpQ\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_013ucMEsBhXmzJz3hBf",
+        "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_013ucMEsBhXmzJz3hBfoyt12\",\"type\":\"tool_result\",\"content\":\"File created successfully at: /home/crawd_user/project/clawbook/front"
       ]
     }
   ],
-  "totalDurationMs": 175009,
+  "totalDurationMs": 448944,
   "struggleIndicators": {
     "repeatedErrors": {
-      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01UVwMKkwkMbnuHqtKwjeHYJ\",\"": 1,
-      "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"thinking_del": 3,
-      "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_019cpV5sFQR59FE8jrLMjb8": 1,
-      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"File content (36": 1,
-      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01VKST46i4KMyyVTjWmZgWv1\",\"": 1,
-      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01Q8xQr32JyfLuL4z6U1fKUr\",\"": 1,
-      "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_018BMqcMUHok7unois77T1s": 1,
-      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_015HWkpAWch27HdHpXQHkuQT\",\"": 1
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"EISDIR: illegal ": 1,
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"Exit code 1\\n/bi": 1,
+      "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_012cDj9WE6gSJLtWgTmmm77": 1,
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"File content (35": 1,
+      "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_01FAcMkuFZheCeavbHUdHPg": 1,
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01SpiLR5CzJhuYkTofNAKBhF\",\"": 1,
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_01SfXuFc9RoroveGLJoHJCW3\",\"": 1,
+      "{\"type\":\"stream_event\",\"event\":{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_d": 1,
+      "{\"type\":\"assistant\",\"message\":{\"model\":\"claude-haiku-4-5-20251001\",\"id\":\"msg_01EUEtpajG2qCmDUpyv2qwp": 1,
+      "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"toolu_013ucMEsBhXmzJz3hBfoyt12\",\"": 1
     },
     "noProgressIterations": 0,
     "shortIterations": 0
