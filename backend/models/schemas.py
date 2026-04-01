@@ -488,7 +488,7 @@ class PersonalityProfile(BaseModel):
 class PsychologyAssessmentResponse(BaseModel):
     """Response schema for psychology assessment request."""
     success: bool
-    assessment: PersonalityProfile | None = None
+    assessment: "PersonalityProfile | None" = None  # Can be PersonalityProfile or PsychologyProfileResponse (both compatible)
     error: str | None = None
     posts_available: int | None = None
 

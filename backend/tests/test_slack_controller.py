@@ -1,46 +1,31 @@
 """Integration tests for Slack controller endpoints."""
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
 from backend.main import app
-from backend.database import SessionLocal, Base, engine
+from backend.database import get_db
 from backend.models.orm_models import SlackConfig
 import uuid
 
 
-client = TestClient(app)
-
-
-@pytest.fixture(autouse=True, scope='function')
-def cleanup_slack_config():
+@pytest.fixture
+def cleanup_slack_config(db: Session):
     """Clean up Slack configs before and after tests."""
-    # Ensure all tables are created
-    Base.metadata.create_all(bind=engine)
+    # Clean up before test
+    db.query(SlackConfig).delete()
+    db.commit()
 
-    db = SessionLocal()
-    try:
-        db.query(SlackConfig).delete()
-        db.commit()
-    except Exception:
-        db.rollback()
-    finally:
-        db.close()
+    yield db
 
-    yield
-
-    db = SessionLocal()
-    try:
-        db.query(SlackConfig).delete()
-        db.commit()
-    except Exception:
-        db.rollback()
-    finally:
-        db.close()
+    # Clean up after test
+    db.query(SlackConfig).delete()
+    db.commit()
 
 
 class TestSlackConfigEndpoints:
     """Tests for Slack configuration endpoints."""
 
-    def test_create_slack_config(self):
+    def test_create_slack_config(self, client, cleanup_slack_config):
         """Test creating a new Slack configuration."""
         payload = {
             "webhook_url": "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX",
@@ -59,7 +44,7 @@ class TestSlackConfigEndpoints:
         assert data["webhook_url"] == payload["webhook_url"]
         assert data["enabled"] is True
 
-    def test_create_slack_config_invalid_webhook(self):
+    def test_create_slack_config_invalid_webhook(self, client, cleanup_slack_config):
         """Test creating config with invalid webhook URL."""
         payload = {
             "webhook_url": "https://example.com/invalid",
@@ -70,7 +55,7 @@ class TestSlackConfigEndpoints:
         assert response.status_code == 400
         assert "Invalid Slack webhook URL" in response.json()["detail"]
 
-    def test_create_slack_config_duplicate(self):
+    def test_create_slack_config_duplicate(self, client, cleanup_slack_config):
         """Test creating config when one already exists."""
         payload = {
             "webhook_url": "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX",
@@ -86,7 +71,7 @@ class TestSlackConfigEndpoints:
         assert response2.status_code == 409
         assert "already exists" in response2.json()["detail"]
 
-    def test_get_slack_config(self):
+    def test_get_slack_config(self, client, cleanup_slack_config):
         """Test getting Slack configuration."""
         # Create config first
         payload = {
@@ -103,13 +88,13 @@ class TestSlackConfigEndpoints:
         assert data["webhook_url"] == payload["webhook_url"]
         assert data["summary_time"] == "10:00"
 
-    def test_get_slack_config_not_found(self):
+    def test_get_slack_config_not_found(self, client, cleanup_slack_config):
         """Test getting config when none exists."""
         response = client.get("/api/v1/clawbook/slack/config")
         assert response.status_code == 200
         assert response.json() is None
 
-    def test_update_slack_config(self):
+    def test_update_slack_config(self, client, cleanup_slack_config):
         """Test updating Slack configuration."""
         # Create config first
         create_payload = {
@@ -131,14 +116,14 @@ class TestSlackConfigEndpoints:
         assert data["enabled"] is False
         assert data["webhook_url"] == create_payload["webhook_url"]  # Unchanged
 
-    def test_update_slack_config_not_found(self):
+    def test_update_slack_config_not_found(self, client, cleanup_slack_config):
         """Test updating when config doesn't exist."""
         payload = {"summary_time": "14:00"}
         response = client.put("/api/v1/clawbook/slack/config", json=payload)
         assert response.status_code == 404
         assert "not found" in response.json()["detail"]
 
-    def test_delete_slack_config(self):
+    def test_delete_slack_config(self, client, cleanup_slack_config):
         """Test deleting Slack configuration."""
         # Create config first
         payload = {
@@ -154,7 +139,7 @@ class TestSlackConfigEndpoints:
         response = client.get("/api/v1/clawbook/slack/config")
         assert response.json() is None
 
-    def test_delete_slack_config_not_found(self):
+    def test_delete_slack_config_not_found(self, client, cleanup_slack_config):
         """Test deleting when config doesn't exist."""
         response = client.delete("/api/v1/clawbook/slack/config")
         assert response.status_code == 404
@@ -163,12 +148,12 @@ class TestSlackConfigEndpoints:
 class TestSlackWebhookTest:
     """Tests for webhook testing endpoint."""
 
-    def test_test_webhook_not_found(self):
+    def test_test_webhook_not_found(self, client, cleanup_slack_config):
         """Test webhook test when config doesn't exist."""
         response = client.post("/api/v1/clawbook/slack/test")
         assert response.status_code == 404
 
-    def test_test_webhook_failure(self, monkeypatch):
+    def test_test_webhook_failure(self, client, cleanup_slack_config, monkeypatch):
         """Test webhook test with failed connection."""
         # Create config first
         payload = {

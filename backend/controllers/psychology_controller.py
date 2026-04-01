@@ -9,6 +9,7 @@ from backend.models.orm_models import PsychologyProfile
 from backend.models.schemas import (
     PsychologyAssessmentResponse,
     PsychologyProfileResponse,
+    PersonalityProfile,
 )
 
 router = APIRouter(prefix="/psychology", tags=["psychology"])
@@ -44,15 +45,13 @@ async def assess_personality(
             if latest:
                 return PsychologyAssessmentResponse(
                     success=True,
-                    assessment=PsychologyProfileResponse(
-                        id=latest.id,
+                    assessment=PersonalityProfile(
                         traits=__parse_json_field(latest.traits_data),
                         archetype=latest.archetype,
-                        confidence_score=latest.confidence_score,
+                        confidence=latest.confidence_score,
                         insights=__parse_json_field(latest.insights_data, default=[]),
-                        posts_analyzed_count=latest.posts_analyzed_count,
-                        created_at=latest.created_at.isoformat(),
-                        updated_at=latest.updated_at.isoformat(),
+                        posts_analyzed=latest.posts_analyzed_count,
+                        assessment_date=latest.created_at.isoformat(),
                     ),
                 )
 
@@ -83,15 +82,13 @@ async def assess_personality(
         # Return response
         return PsychologyAssessmentResponse(
             success=True,
-            assessment=PsychologyProfileResponse(
-                id=profile.id,
+            assessment=PersonalityProfile(
                 traits=assessment_data["traits"],
                 archetype=assessment_data["archetype"],
-                confidence_score=assessment_data["confidence"],
+                confidence=assessment_data["confidence"],
                 insights=assessment_data["insights"],
-                posts_analyzed_count=assessment_data["posts_analyzed"],
-                created_at=profile.created_at.isoformat(),
-                updated_at=profile.updated_at.isoformat(),
+                posts_analyzed=assessment_data["posts_analyzed"],
+                assessment_date=profile.created_at.isoformat(),
             ),
         )
 

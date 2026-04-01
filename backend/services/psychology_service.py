@@ -285,5 +285,10 @@ class PsychologyService:
         if not latest:
             return True
 
-        age = datetime.now(timezone.utc) - latest.created_at
+        # Ensure created_at is timezone-aware for comparison
+        created_at = latest.created_at
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+
+        age = datetime.now(timezone.utc) - created_at
         return age > timedelta(hours=hours)
