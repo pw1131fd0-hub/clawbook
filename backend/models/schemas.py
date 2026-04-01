@@ -320,3 +320,104 @@ class AIDecisionPathHistoryResponse(BaseModel):
     """Schema for decision path history listing."""
     total: int
     paths: list[AIDecisionPathSummary]
+
+
+# ============================================================================
+# Collaboration Schemas (v1.6)
+# ============================================================================
+
+
+class UserResponse(BaseModel):
+    """Schema for user response."""
+    id: str
+    username: str
+    email: str | None = None
+    display_name: str | None = None
+    avatar_url: str | None = None
+    is_active: bool = True
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ShareCreateRequest(BaseModel):
+    """Request schema for creating a share."""
+    shared_with_ids: list[str] | None = None
+    group_ids: list[str] | None = None
+    permission: str = "read"  # "read", "comment", "edit"
+    expires_at: datetime | None = None
+
+
+class ShareResponse(BaseModel):
+    """Response schema for share."""
+    id: str
+    post_id: str
+    owner_id: str
+    shared_with_id: str | None = None
+    group_id: str | None = None
+    permission: str
+    status: str  # "pending", "accepted", "rejected"
+    created_at: datetime
+    accepted_at: datetime | None = None
+    expires_at: datetime | None = None
+
+    model_config = {"from_attributes": True}
+
+
+class GroupCreateRequest(BaseModel):
+    """Request schema for creating a group."""
+    name: str
+    description: str | None = None
+    visibility: str = "private"  # "private", "team", "public"
+    icon: str | None = None
+
+
+class GroupResponse(BaseModel):
+    """Response schema for group."""
+    id: str
+    name: str
+    description: str | None = None
+    creator_id: str
+    visibility: str
+    icon: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    members: list[UserResponse] = []
+
+    model_config = {"from_attributes": True}
+
+
+class CommentCreateRequest(BaseModel):
+    """Request schema for creating a comment."""
+    content: str
+    is_suggestion: bool = False
+    parent_id: str | None = None
+
+
+class CommentResponse(BaseModel):
+    """Response schema for comment."""
+    id: str
+    post_id: str
+    user_id: str
+    content: str
+    is_suggestion: bool = False
+    status: str  # "open", "accepted", "rejected", "resolved"
+    parent_id: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ActivityLogResponse(BaseModel):
+    """Response schema for activity log."""
+    id: str
+    group_id: str | None = None
+    actor_id: str
+    action: str
+    target_type: str
+    target_id: str
+    activity_data: dict | None = None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}

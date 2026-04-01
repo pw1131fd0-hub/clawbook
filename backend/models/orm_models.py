@@ -177,3 +177,211 @@ class AIDecisionPath(Base):
 
     # Relationships
     post: Mapped["ClawBookPost"] = relationship("ClawBookPost")
+
+
+# ============================================================================
+# ClawBook v1.6 Collaboration Features - Models
+# ============================================================================
+
+
+class User(Base):
+    """ORM model for user management - v1.6 feature."""
+
+    __tablename__ = "users"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    username: Mapped[str] = mapped_column(String(255), nullable=False, unique=True, index=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=True, unique=True)
+    display_name: Mapped[str] = mapped_column(String(255), nullable=True)
+    avatar_url: Mapped[str] = mapped_column(String, nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )
+
+    # Relationships
+    shares: Mapped[list["Share"]] = relationship("Share", back_populates="owner", foreign_keys="Share.owner_id")
+    shares_with_me: Mapped[list["Share"]] = relationship(
+        "Share", back_populates="shared_with_user", foreign_keys="Share.shared_with_id"
+    )
+    groups: Mapped[list["Group"]] = relationship(
+        "Group", secondary="group_members", back_populates="members"
+    )
+    comments: Mapped[list["CollaborationComment"]] = relationship(
+        "CollaborationComment", back_populates="author"
+    )
+    activity_logs: Mapped[list["ActivityLog"]] = relationship(
+        "ActivityLog", back_populates="actor"
+    )
+
+
+class Share(Base):
+    """ORM model for post sharing - v1.6 feature."""
+
+    __tablename__ = "shares"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    post_id: Mapped[str] = mapped_column(String, ForeignKey("clawbook_posts.id"), nullable=False, index=True)
+    owner_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), nullable=False, index=True)
+    shared_with_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), nullable=True, index=True)
+    group_id: Mapped[str] = mapped_column(String, ForeignKey("groups.id"), nullable=True, index=True)
+
+    permission: Mapped[str] = mapped_column(String(20), default="read")  # "read", "comment", "edit"
+    status: Mapped[str] = mapped_column(String(20), default="pending")  # "pending", "accepted", "rejected"
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    accepted_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    # Relationships
+    post: Mapped["ClawBookPost"] = relationship("ClawBookPost")
+    owner: Mapped["User"] = relationship("User", back_populates="shares", foreign_keys=[owner_id])
+    shared_with_user: Mapped["User"] = relationship(
+        "User", back_populates="shares_with_me", foreign_keys=[shared_with_id]
+    )
+    group: Mapped["Group"] = relationship("Group", back_populates="shares")
+
+    __table_args__ = (
+        Index("ix_shares_post_owner", "post_id", "owner_id"),
+        Index("ix_shares_shared_with", "shared_with_id"),
+        Index("ix_shares_group", "group_id"),
+    )
+
+
+class Group(Base):
+    """ORM model for collaboration groups - v1.6 feature."""
+
+    __tablename__ = "groups"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    creator_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), nullable=False)
+
+    visibility: Mapped[str] = mapped_column(String(20), default="private")  # "private", "team", "public"
+    icon: Mapped[str] = mapped_column(String(100), nullable=True)  # emoji or icon name
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )
+
+    # Relationships
+    members: Mapped[list["User"]] = relationship(
+        "User", secondary="group_members", back_populates="groups"
+    )
+    shares: Mapped[list["Share"]] = relationship("Share", back_populates="group")
+    activity_logs: Mapped[list["ActivityLog"]] = relationship("ActivityLog", back_populates="group")
+
+
+class GroupMember(Base):
+    """ORM model for group membership - v1.6 feature."""
+
+    __tablename__ = "group_members"
+
+    group_id: Mapped[str] = mapped_column(String, ForeignKey("groups.id"), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), primary_key=True)
+
+    role: Mapped[str] = mapped_column(String(20), default="member")  # "admin", "member"
+    joined_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
+
+    __table_args__ = (
+        Index("ix_group_members", "group_id", "user_id"),
+    )
+
+
+class CollaborationComment(Base):
+    """ORM model for collaboration comments - v1.6 feature."""
+
+    __tablename__ = "collaboration_comments"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    post_id: Mapped[str] = mapped_column(String, ForeignKey("clawbook_posts.id"), nullable=False, index=True)
+    user_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), nullable=False)
+
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    is_suggestion: Mapped[bool] = mapped_column(Boolean, default=False)  # "建議編輯" vs "評論"
+    status: Mapped[str] = mapped_column(String(20), default="open")  # "open", "accepted", "rejected", "resolved"
+
+    parent_id: Mapped[str] = mapped_column(String, ForeignKey("collaboration_comments.id"), nullable=True)  # 回覆關係
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )
+
+    # Relationships
+    post: Mapped["ClawBookPost"] = relationship("ClawBookPost")
+    author: Mapped["User"] = relationship("User", back_populates="comments")
+    parent: Mapped["CollaborationComment"] = relationship(
+        "CollaborationComment", remote_side=[id], backref="replies"
+    )
+
+    __table_args__ = (
+        Index("ix_collaboration_comments_post", "post_id"),
+        Index("ix_collaboration_comments_user", "user_id"),
+    )
+
+
+class ActivityLog(Base):
+    """ORM model for collaboration activity logging - v1.6 feature."""
+
+    __tablename__ = "activity_logs"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    group_id: Mapped[str] = mapped_column(String, ForeignKey("groups.id"), nullable=True, index=True)
+    actor_id: Mapped[str] = mapped_column(String, ForeignKey("users.id"), nullable=False)
+
+    action: Mapped[str] = mapped_column(String(50), nullable=False)  # "share_post", "comment", "accept_share", "create_group"
+    target_type: Mapped[str] = mapped_column(String(50), nullable=False)  # "post", "comment", "user"
+    target_id: Mapped[str] = mapped_column(String(36), nullable=False)
+
+    activity_data: Mapped[dict] = mapped_column(JSON, nullable=True)  # Additional context
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), index=True
+    )
+
+    # Relationships
+    group: Mapped["Group"] = relationship("Group", back_populates="activity_logs")
+    actor: Mapped["User"] = relationship("User", back_populates="activity_logs")
+
+    __table_args__ = (
+        Index("ix_activity_group", "group_id", "created_at"),
+    )
+
+    @staticmethod
+    def create_log(
+        db,
+        actor_id: str,
+        action: str,
+        target_type: str,
+        target_id: str,
+        group_id: str = None,
+        metadata: dict = None,
+    ) -> "ActivityLog":
+        """Create an activity log entry."""
+        log = ActivityLog(
+            id=str(uuid.uuid4()),
+            group_id=group_id,
+            actor_id=actor_id,
+            action=action,
+            target_type=target_type,
+            target_id=target_id,
+            activity_data=metadata,
+        )
+        db.add(log)
+        db.commit()
+        return log

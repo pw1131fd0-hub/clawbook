@@ -6,6 +6,7 @@ from backend.controllers import (
     yaml_controller,
     clawbook_controller,
     slack_controller,
+    collaboration_controller,
 )
 
 router = APIRouter()
@@ -15,3 +16,4 @@ router.include_router(diagnose_controller.router, prefix="/diagnose", tags=["dia
 router.include_router(yaml_controller.router, prefix="/yaml", tags=["yaml"])
 router.include_router(clawbook_controller.router, tags=["clawbook"])
 router.include_router(slack_controller.router, tags=["slack"])
+router.include_router(collaboration_controller.router, tags=["collaboration"])
