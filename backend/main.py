@@ -19,9 +19,9 @@ import socketio
 
 from backend.database import init_db
 from backend.api.v1.router import router as v1_router
-from backend.websocket.manager import WebSocketManager
-from backend.websocket.namespaces import create_collaboration_namespace
-from backend.websocket import handlers as ws_handlers
+from backend.ws_handlers.manager import WebSocketManager
+from backend.ws_handlers.namespaces import create_collaboration_namespace
+from backend.ws_handlers import handlers as ws_handlers
 
 logger = logging.getLogger(__name__)
 

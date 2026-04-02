@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 from typing import Optional
 from sqlalchemy.orm import Session
-from backend.websocket import handlers as ws_handlers
+from backend.ws_handlers import handlers as ws_handlers
 
 logger = logging.getLogger(__name__)
 

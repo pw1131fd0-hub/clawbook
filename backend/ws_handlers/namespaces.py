@@ -2,8 +2,8 @@
 import logging
 from typing import Optional
 from socketio import AsyncNamespace
-from backend.websocket.manager import WebSocketManager
-from backend.websocket.events import EventType, UserPresencePayload
+from backend.ws_handlers.manager import WebSocketManager
+from backend.ws_handlers.events import EventType, UserPresencePayload
 
 logger = logging.getLogger(__name__)
 

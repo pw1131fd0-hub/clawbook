@@ -1,9 +1,9 @@
 """Tests for WebSocket functionality and real-time features."""
 import pytest
 from unittest.mock import Mock, AsyncMock, patch, MagicMock
-from backend.websocket.manager import WebSocketManager
-from backend.websocket.events import EventType, create_event, CommentEventPayload
-from backend.websocket.handlers import (
+from backend.ws_handlers.manager import WebSocketManager
+from backend.ws_handlers.events import EventType, create_event, CommentEventPayload
+from backend.ws_handlers.handlers import (
     emit_comment_new,
     emit_comment_deleted,
     broadcast_user_online,
