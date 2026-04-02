@@ -12,6 +12,8 @@ from backend.controllers import (
     growth_controller,
     habit_controller,
     performance_controller,
+    insights_controller,
+    recommendations_controller,
 )
 
 router = APIRouter()
@@ -27,3 +29,5 @@ router.include_router(psychology_controller.router, tags=["psychology"])
 router.include_router(growth_controller.router, tags=["growth"])
 router.include_router(habit_controller.router, tags=["habits"])
 router.include_router(performance_controller.router, prefix="/performance", tags=["performance"])
+router.include_router(insights_controller.router, tags=["insights"])
+router.include_router(recommendations_controller.router, tags=["recommendations"])
