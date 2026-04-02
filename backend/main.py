@@ -3,6 +3,7 @@ import logging
 import os
 import pathlib
 import secrets
+import time
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
@@ -22,6 +23,7 @@ from backend.api.v1.router import router as v1_router
 from backend.ws_handlers.manager import WebSocketManager
 from backend.ws_handlers.namespaces import create_collaboration_namespace
 from backend.ws_handlers import handlers as ws_handlers
+from backend.services.performance_service import get_performance_monitor
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,42 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         if request.url.scheme == "https":
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         return response
+
+
+class PerformanceMonitoringMiddleware(BaseHTTPMiddleware):
+    """Middleware to track API performance metrics."""
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        # Skip metrics for non-API routes
+        if not request.url.path.startswith("/api/"):
+            return await call_next(request)
+
+        start_time = time.time()
+        try:
+            response = await call_next(request)
+            duration_ms = (time.time() - start_time) * 1000
+
+            # Record the metric
+            monitor = get_performance_monitor()
+            monitor.record_metric(
+                endpoint=request.url.path,
+                method=request.method,
+                status_code=response.status_code,
+                duration_ms=duration_ms
+            )
+
+            return response
+        except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            # Record error metric
+            monitor = get_performance_monitor()
+            monitor.record_metric(
+                endpoint=request.url.path,
+                method=request.method,
+                status_code=500,
+                duration_ms=duration_ms
+            )
+            raise
 
 
 class APIKeyAuthMiddleware(BaseHTTPMiddleware):
@@ -127,6 +165,9 @@ app.add_middleware(
 
 # Add security headers middleware
 app.add_middleware(SecurityHeadersMiddleware)
+
+# Add performance monitoring middleware
+app.add_middleware(PerformanceMonitoringMiddleware)
 
 # Add optional API key authentication (enabled via LOBSTER_API_KEY env var)
 _api_key = os.getenv("LOBSTER_API_KEY")

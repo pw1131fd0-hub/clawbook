@@ -1,7 +1,7 @@
 """WebSocket connection manager for ClawBook real-time features."""
 import logging
 from typing import Dict, Set, Optional
-from datetime import datetime
+from datetime import datetime, UTC
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class WebSocketManager:
         """Register a new WebSocket connection."""
         self.active_connections[sid] = {
             "user_id": user_id,
-            "connected_at": datetime.utcnow(),
+            "connected_at": datetime.now(UTC),
             "rooms": set(),
         }
         if user_id not in self.user_connections:

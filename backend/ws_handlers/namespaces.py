@@ -1,6 +1,7 @@
 """Socket.IO namespace handlers for ClawBook collaboration."""
 import logging
 from typing import Optional
+from datetime import datetime, UTC
 from socketio import AsyncNamespace
 from backend.ws_handlers.manager import WebSocketManager
 from backend.ws_handlers.events import EventType, UserPresencePayload
@@ -43,7 +44,7 @@ class CollaborationNamespace(AsyncNamespace):
                     await self.emit("user:offline", {
                         "user_id": user_id,
                         "group_id": group_id,
-                        "timestamp": datetime.utcnow().isoformat()
+                        "timestamp": datetime.now(UTC).isoformat()
                     }, to=f"group:{group_id}")
 
     async def on_join_group(self, sid: str, data: dict):
@@ -66,7 +67,7 @@ class CollaborationNamespace(AsyncNamespace):
             "user_id": user_id,
             "group_id": group_id,
             "online_users": group_members,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(UTC).isoformat()
         }, to=f"group:{group_id}")
 
         logger.debug(f"User {user_id} joined group {group_id}")
@@ -90,7 +91,7 @@ class CollaborationNamespace(AsyncNamespace):
             "user_id": user_id,
             "group_id": group_id,
             "remaining_users": group_members,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(UTC).isoformat()
         }, to=f"group:{group_id}")
 
         logger.debug(f"User {user_id} left group {group_id}")
@@ -125,7 +126,7 @@ class CollaborationNamespace(AsyncNamespace):
 
     async def on_ping(self, sid: str):
         """Handle ping from client."""
-        await self.emit("pong", {"timestamp": datetime.utcnow().isoformat()}, to=sid)
+        await self.emit("pong", {"timestamp": datetime.now(UTC).isoformat()}, to=sid)
 
     async def on_error(self, sid: str, data):
         """Handle errors from client."""

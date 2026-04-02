@@ -1,7 +1,7 @@
 """WebSocket event definitions for ClawBook real-time features."""
 from enum import Enum
 from typing import Any, Optional
-from datetime import datetime
+from datetime import datetime, UTC
 from pydantic import BaseModel
 
 
@@ -40,7 +40,7 @@ class BaseEvent(BaseModel):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
 
 class CommentEventPayload(BaseEvent):
@@ -69,7 +69,7 @@ class UserPresencePayload(BaseEvent):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
     class Config:
         use_enum_values = True
@@ -89,7 +89,7 @@ class ShareNotificationPayload(BaseEvent):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
     class Config:
         use_enum_values = True
@@ -109,7 +109,7 @@ class ActivityLogPayload(BaseEvent):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
     class Config:
         use_enum_values = True
@@ -125,7 +125,7 @@ class ConnectionAckPayload(BaseEvent):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
     class Config:
         use_enum_values = True
@@ -140,7 +140,7 @@ class PingPongPayload(BaseEvent):
     def __init__(self, **data):
         super().__init__(**data)
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(UTC)
 
     class Config:
         use_enum_values = True
@@ -167,4 +167,4 @@ def create_event(event_type: EventType, **kwargs) -> dict:
         raise ValueError(f"Unknown event type: {event_type}")
 
     payload = payload_class(event_type=event_type, **kwargs)
-    return payload.dict()
+    return payload.model_dump()
