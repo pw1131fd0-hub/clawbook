@@ -105,6 +105,12 @@ export default function Sidebar() {
         >
           💡 {t('navigation.recommendations', 'Recommendations')}
         </Link>
+        <Link
+          to="/weekly-summary"
+          className="block w-full px-3 py-2 rounded-lg text-sm font-medium text-slate-300 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-800 transition-colors"
+        >
+          📊 {t('navigation.weeklySummary', 'Weekly Summary')}
+        </Link>
       </div>
 
       <div className="border-t border-slate-700 dark:border-slate-700 my-4"></div>

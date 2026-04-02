@@ -13,6 +13,7 @@ import DecisionPaths from './pages/DecisionPaths';
 import GrowthDashboard from './pages/GrowthDashboard';
 import Insights from './pages/Insights';
 import Recommendations from './pages/Recommendations';
+import WeeklySummary from './pages/WeeklySummary';
 import GroupManager from './components/GroupManager';
 import SharedWithMeList from './components/SharedWithMeList';
 import { initOfflineSupport } from './utils/pwa';
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="/growth" element={<GrowthDashboard />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/recommendations" element={<Recommendations />} />
+            <Route path="/weekly-summary" element={<WeeklySummary />} />
             <Route path="/groups" element={<GroupManager />} />
             <Route path="/shared-with-me" element={<SharedWithMeList />} />
           </Routes>
