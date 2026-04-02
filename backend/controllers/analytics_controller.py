@@ -17,7 +17,7 @@ router = APIRouter(prefix="/analytics", tags=["analytics"])
 async def get_sentiment_analytics(
     db: Annotated[Session, Depends(get_db)],
     days: int = Query(30, ge=30, le=90, description="Days to analyze (30, 60, or 90)"),
-    granularity: str = Query("daily", regex="^(daily|weekly|monthly)$"),
+    granularity: str = Query("daily", pattern="^(daily|weekly|monthly)$"),
 ) -> SentimentAnalyticsResponse:
     """
     Get sentiment trend analysis for the specified period.

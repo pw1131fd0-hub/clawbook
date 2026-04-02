@@ -2,7 +2,7 @@
 from enum import Enum
 from typing import Any, Optional
 from datetime import datetime, UTC
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class EventType(str, Enum):
@@ -54,8 +54,7 @@ class CommentEventPayload(BaseEvent):
     status: Optional[str] = None  # For resolved comments
     updated_at: Optional[datetime] = None
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class UserPresencePayload(BaseEvent):
@@ -71,8 +70,7 @@ class UserPresencePayload(BaseEvent):
         if self.timestamp is None:
             self.timestamp = datetime.now(UTC)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class ShareNotificationPayload(BaseEvent):
@@ -91,8 +89,7 @@ class ShareNotificationPayload(BaseEvent):
         if self.timestamp is None:
             self.timestamp = datetime.now(UTC)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class ActivityLogPayload(BaseEvent):
@@ -111,8 +108,7 @@ class ActivityLogPayload(BaseEvent):
         if self.timestamp is None:
             self.timestamp = datetime.now(UTC)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class ConnectionAckPayload(BaseEvent):
@@ -127,8 +123,7 @@ class ConnectionAckPayload(BaseEvent):
         if self.timestamp is None:
             self.timestamp = datetime.now(UTC)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class PingPongPayload(BaseEvent):
@@ -142,8 +137,7 @@ class PingPongPayload(BaseEvent):
         if self.timestamp is None:
             self.timestamp = datetime.now(UTC)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 def create_event(event_type: EventType, **kwargs) -> dict:
