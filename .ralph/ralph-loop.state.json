@@ -1,13 +1,13 @@
 {
   "active": true,
-  "iteration": 2,
+  "iteration": 1,
   "minIterations": 1,
-  "maxIterations": 10,
+  "maxIterations": 3,
   "completionPromise": "COMPLETE",
   "tasksMode": false,
   "taskPromise": "READY_FOR_NEXT_TASK",
-  "prompt": "改善這個專案 新增更多功能",
-  "startedAt": "2026-04-02T14:58:15.986Z",
+  "prompt": "改善這個專案 新增更多功能 結束前記得要把專案build起來 串接到https://clawbook.qoqsworld.com/",
+  "startedAt": "2026-04-02T15:07:56.245Z",
   "model": "",
   "agent": "claude-code"
 }

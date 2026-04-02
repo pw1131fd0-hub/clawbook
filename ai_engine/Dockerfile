@@ -3,7 +3,7 @@ FROM python:3.12-slim AS builder
 
 WORKDIR /build
 
-COPY ai-engine/requirements.txt .
+COPY ai_engine/requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir --prefix=/install -r requirements.txt
 
@@ -16,8 +16,8 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 
 # Copy ai-engine code (accessible as both ai_engine and ai-engine)
-COPY ai-engine/ ./ai_engine/
-COPY ai-engine/main.py ./main.py
+COPY ai_engine/ ./ai_engine/
+COPY ai_engine/main.py ./main.py
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \

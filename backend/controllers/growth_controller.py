@@ -1,10 +1,12 @@
 """Growth tracking module API controller for goal management (v1.7 Phase 3)."""
 from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
 from backend.services.growth_service import GrowthService
+from backend.services.pdf_export_service import PDFExportService
 from backend.models.schemas import (
     GoalCreate,
     GoalUpdate,
@@ -225,3 +227,29 @@ async def get_growth_insights(
     """
     insights = GrowthService.get_growth_insights(db)
     return GrowthInsightsResponse(**insights)
+
+
+@router.get("/export/pdf")
+async def export_growth_report(
+    db: Annotated[Session, Depends(get_db)],
+) -> StreamingResponse:
+    """
+    Export growth tracking data to PDF format.
+
+    Returns:
+        PDF file containing growth goals, progress, and statistics
+
+    Raises:
+        500: Error generating PDF
+    """
+    try:
+        goals = GrowthService.list_goals(db)
+        pdf_buffer = PDFExportService.export_growth_report(goals)
+
+        return StreamingResponse(
+            iter([pdf_buffer.getvalue()]),
+            media_type="application/pdf",
+            headers={"Content-Disposition": "attachment; filename=growth_report.pdf"}
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating PDF: {str(e)}")

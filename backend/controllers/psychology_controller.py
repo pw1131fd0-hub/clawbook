@@ -1,10 +1,12 @@
 """Psychology module API controller for AI personality assessment (v1.7)."""
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
 from backend.services.psychology_service import PsychologyService
+from backend.services.pdf_export_service import PDFExportService
 from backend.models.orm_models import PsychologyProfile
 from backend.models.schemas import (
     PsychologyAssessmentResponse,
@@ -135,6 +137,51 @@ async def get_personality_profile(
             status_code=500,
             detail=f"Failed to retrieve personality profile: {str(e)}",
         )
+
+
+@router.get("/export/pdf")
+async def export_personality_report(
+    db: Annotated[Session, Depends(get_db)],
+) -> StreamingResponse:
+    """
+    Export personality profile to PDF format.
+
+    Returns:
+        PDF file containing personality traits, archetype, and insights
+
+    Raises:
+        404: No personality profile found
+        500: Error generating PDF
+    """
+    try:
+        latest = PsychologyService.get_latest_profile(db)
+
+        if not latest:
+            raise HTTPException(
+                status_code=404,
+                detail="No personality profile found. Trigger /assess first.",
+            )
+
+        personality_data = {
+            "archetype": {
+                "name": latest.archetype,
+                "confidence": latest.confidence_score,
+                "description": f"Personality archetype: {latest.archetype}"
+            },
+            "traits": __parse_json_field(latest.traits_data, default=[]),
+        }
+
+        pdf_buffer = PDFExportService.export_personality_report(personality_data)
+
+        return StreamingResponse(
+            iter([pdf_buffer.getvalue()]),
+            media_type="application/pdf",
+            headers={"Content-Disposition": "attachment; filename=personality_profile.pdf"}
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating PDF: {str(e)}")
 
 
 # ============================================================================
