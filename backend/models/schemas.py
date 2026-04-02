@@ -584,3 +584,78 @@ class GrowthInsightsResponse(BaseModel):
     completion_count: int
     category_breakdown: dict[str, dict[str, int]]
     recommended_next_actions: list[str]
+
+
+# ============================================================================
+# Habit Tracking Schemas (v1.7 Phase 4)
+# ============================================================================
+
+
+class HabitCreate(BaseModel):
+    """Schema for creating a new habit."""
+    title: str
+    description: str | None = None
+    category: str  # "fitness", "learning", "wellness", "productivity"
+    frequency: str = "daily"  # "daily", "weekly", "monthly"
+    target_times_per_period: int = 1
+
+
+class HabitUpdate(BaseModel):
+    """Schema for updating a habit."""
+    title: str | None = None
+    description: str | None = None
+    frequency: str | None = None
+    target_times_per_period: int | None = None
+    status: str | None = None  # "active", "paused", "abandoned"
+
+
+class HabitLogCreate(BaseModel):
+    """Schema for logging a habit completion."""
+    notes: str | None = None
+    score: int = 100  # Quality score 0-100
+
+
+class HabitLogResponse(BaseModel):
+    """Response schema for a habit log entry."""
+    id: str
+    habit_id: str
+    completed_at: str | datetime
+    notes: str | None
+    score: int
+
+    model_config = {"from_attributes": True}
+
+
+class HabitResponse(BaseModel):
+    """Response schema for a habit."""
+    id: str
+    title: str
+    description: str | None
+    category: str
+    frequency: str
+    target_times_per_period: int
+    current_streak: int
+    longest_streak: int
+    total_completions: int
+    status: str
+    is_active: bool
+    created_at: str | datetime
+    updated_at: str | datetime
+    last_completed_at: str | datetime | None
+    logs: list[HabitLogResponse] = []
+
+    model_config = {"from_attributes": True}
+
+
+class HabitAnalyticsResponse(BaseModel):
+    """Response schema for habit analytics."""
+    total_habits: int
+    active_habits: int
+    paused_habits: int
+    abandoned_habits: int
+    total_completions: int
+    average_streak: float
+    longest_streak: int
+    completion_rate: float
+    by_category: dict[str, dict[str, int]]
+    top_habits: list[dict]

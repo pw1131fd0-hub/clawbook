@@ -498,3 +498,69 @@ class Achievement(Base):  # pylint: disable=too-few-public-methods
     __table_args__ = (
         Index("ix_achievements_goal_date", "goal_id", "achieved_date"),
     )
+
+
+class Habit(Base):  # pylint: disable=too-few-public-methods
+    """ORM model for habit tracking and streaks - v1.7 Phase 4 enhancement."""
+
+    __tablename__ = "habits"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    category: Mapped[str] = mapped_column(String(50), nullable=False)  # "fitness", "learning", "wellness", "productivity"
+
+    # Habit metadata
+    frequency: Mapped[str] = mapped_column(String(50), default="daily")  # "daily", "weekly", "monthly"
+    target_times_per_period: Mapped[int] = mapped_column(Integer, default=1)  # How many times per period
+
+    # Tracking data
+    current_streak: Mapped[int] = mapped_column(Integer, default=0)  # Days/weeks in current streak
+    longest_streak: Mapped[int] = mapped_column(Integer, default=0)  # Historical longest streak
+    total_completions: Mapped[int] = mapped_column(Integer, default=0)  # Total times completed
+
+    # Status and dates
+    status: Mapped[str] = mapped_column(String(50), default="active")  # "active", "paused", "abandoned"
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc)
+    )
+    last_completed_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    # Relationships
+    logs: Mapped[list["HabitLog"]] = relationship(
+        "HabitLog", back_populates="habit", cascade="all, delete-orphan"
+    )
+
+    __table_args__ = (
+        Index("ix_habits_category", "category"),
+        Index("ix_habits_status", "status"),
+        Index("ix_habits_created_at", "created_at"),
+    )
+
+
+class HabitLog(Base):  # pylint: disable=too-few-public-methods
+    """ORM model for individual habit completions - v1.7 Phase 4 enhancement."""
+
+    __tablename__ = "habit_logs"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    habit_id: Mapped[str] = mapped_column(String, ForeignKey("habits.id"), nullable=False, index=True)
+
+    # Log data
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
+    notes: Mapped[str] = mapped_column(Text, nullable=True)  # Optional notes about completion
+    score: Mapped[int] = mapped_column(Integer, default=100)  # Quality score 0-100
+
+    # Relationships
+    habit: Mapped["Habit"] = relationship("Habit", back_populates="logs")
+
+    __table_args__ = (
+        Index("ix_habit_logs_habit_date", "habit_id", "completed_at"),
+    )
