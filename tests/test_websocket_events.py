@@ -1,7 +1,7 @@
 """Tests for WebSocket event definitions and factory functions."""
 import pytest
 from datetime import datetime
-from backend.websocket.events import (
+from backend.ws_handlers.events import (
     EventType,
     BaseEvent,
     CommentEventPayload,

@@ -1,8 +1,8 @@
 """Tests for WebSocket Namespaces."""
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
-from backend.websocket.namespaces import CollaborationNamespace, create_collaboration_namespace
-from backend.websocket.manager import WebSocketManager
+from backend.ws_handlers.namespaces import CollaborationNamespace, create_collaboration_namespace
+from backend.ws_handlers.manager import WebSocketManager
 
 
 class TestCollaborationNamespace:

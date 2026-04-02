@@ -3,7 +3,7 @@ import pytest
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 from datetime import datetime
-from backend.websocket import handlers
+from backend.ws_handlers import handlers
 
 
 class TestWebSocketHandlers:

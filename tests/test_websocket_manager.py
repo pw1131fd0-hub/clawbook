@@ -1,6 +1,6 @@
 """Tests for WebSocket Manager."""
 import pytest
-from backend.websocket.manager import WebSocketManager
+from backend.ws_handlers.manager import WebSocketManager
 
 
 class TestWebSocketManager:
