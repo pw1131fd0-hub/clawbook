@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 3003;
-const DIARY_DIR = __dirname;
+const DIARY_DIR = path.join(__dirname, 'frontend/build');
 const API_TARGET = 'http://localhost:8000';
 
 const mimeTypes = {
@@ -43,8 +43,17 @@ const server = http.createServer((req, res) => {
     fs.readFile(filePath, (err, content) => {
         if (err) {
             if (err.code === 'ENOENT') {
-                res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('404 Not Found');
+                // For React Router - serve index.html for non-file routes
+                const indexPath = path.join(DIARY_DIR, 'index.html');
+                fs.readFile(indexPath, (indexErr, indexContent) => {
+                    if (indexErr) {
+                        res.writeHead(404, { 'Content-Type': 'text/plain' });
+                        res.end('404 Not Found');
+                    } else {
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(indexContent);
+                    }
+                });
             } else {
                 res.writeHead(500);
                 res.end('Server Error');
